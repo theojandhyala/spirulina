@@ -1,0 +1,1605 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="BlueBloom Spirulina Private Limited — an engineering-led spirulina cultivation, harvesting, drying and packaging facility in the Hyderabad region of Telangana, India.">
+<title>BlueBloom Spirulina — grown to a written specification</title>
+<style>
+/* ============================================================
+   BlueBloom Spirulina — single-file static site
+   Palette derives from the organism: phycocyanin blue, biomass
+   green, pond-depth ink on a pale mineral ground.
+   ============================================================ */
+
+:root {
+  --ground:    #ECEFEA;
+  --paper:     #F7F9F5;
+  --panel:     #10322C;
+  --ink:       #06201E;
+  --ink-soft:  #22423C;
+  --muted:     #5D6F69;
+  --phyco:     #1160C4;
+  --phyco-lt:  #57A0F0;
+  --biomass:   #1C4A3E;
+  --line:      rgba(6, 32, 30, .14);
+  --line-soft: rgba(6, 32, 30, .07);
+  --on-panel:      #DCE8E2;
+  --on-panel-mute: #8EA79E;
+  --panel-line:    rgba(220, 232, 226, .16);
+
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, "Times New Roman", serif;
+  --sans:  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono:  ui-monospace, SFMono-Regular, "SF Mono", "Cascadia Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  --fs-xs:   .75rem;
+  --fs-sm:   .8125rem;
+  --fs-md:   .9375rem;
+  --fs-base: 1.0625rem;
+  --fs-lg:   1.1875rem;
+  --fs-xl:   1.4375rem;
+  --fs-2xl:  1.9rem;
+  --fs-3xl:  2.6rem;
+  --fs-hero: clamp(2.5rem, 6.2vw, 4.25rem);
+
+  --rail: 11.5rem;
+  --max:  74rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground:    #071110;
+    --paper:     #0C1A18;
+    --panel:     #0B211E;
+    --ink:       #E4EDE8;
+    --ink-soft:  #C2D2CC;
+    --muted:     #91A69E;
+    --phyco:     #5CA3F5;
+    --phyco-lt:  #8CC2FF;
+    --biomass:   #3E8C73;
+    --line:      rgba(228, 237, 232, .15);
+    --line-soft: rgba(228, 237, 232, .07);
+    --on-panel:      #DCE8E2;
+    --on-panel-mute: #8EA79E;
+    --panel-line:    rgba(220, 232, 226, .16);
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:    #071110;
+  --paper:     #0C1A18;
+  --panel:     #0B211E;
+  --ink:       #E4EDE8;
+  --ink-soft:  #C2D2CC;
+  --muted:     #91A69E;
+  --phyco:     #5CA3F5;
+  --phyco-lt:  #8CC2FF;
+  --biomass:   #3E8C73;
+  --line:      rgba(228, 237, 232, .15);
+  --line-soft: rgba(228, 237, 232, .07);
+}
+
+:root[data-theme="light"] {
+  --ground:    #ECEFEA;
+  --paper:     #F7F9F5;
+  --panel:     #10322C;
+  --ink:       #06201E;
+  --ink-soft:  #22423C;
+  --muted:     #5D6F69;
+  --phyco:     #1160C4;
+  --phyco-lt:  #57A0F0;
+  --biomass:   #1C4A3E;
+  --line:      rgba(6, 32, 30, .14);
+  --line-soft: rgba(6, 32, 30, .07);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--fs-base);
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  text-wrap: balance;
+  margin: 0;
+  letter-spacing: -.012em;
+}
+
+p { margin: 0; }
+
+a { color: inherit; }
+
+::selection { background: var(--phyco); color: #fff; }
+
+:focus-visible {
+  outline: 2px solid var(--phyco);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.wrap {
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+/* --- shared type utilities ------------------------------- */
+
+.mono {
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  letter-spacing: .02em;
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.lede {
+  font-size: var(--fs-lg);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 34em;
+}
+
+.prose { max-width: 36em; }
+.prose + .prose { margin-top: 1.1rem; }
+
+/* --- masthead -------------------------------------------- */
+
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.masthead-inner {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 4.25rem;
+}
+
+.wordmark {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  text-decoration: none;
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  letter-spacing: -.02em;
+  white-space: nowrap;
+}
+
+.wordmark b { font-weight: 600; }
+.wordmark span { color: var(--muted); font-weight: 400; }
+
+.wordmark::before {
+  content: "";
+  width: .62rem;
+  height: .62rem;
+  border-radius: 50%;
+  background: var(--phyco);
+  align-self: center;
+  flex: none;
+}
+
+.nav {
+  display: flex;
+  gap: 1.6rem;
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  letter-spacing: .02em;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--muted);
+  padding-block: .3rem;
+  border-bottom: 1px solid transparent;
+  transition: color .18s, border-color .18s;
+}
+
+.nav a:hover { color: var(--ink); border-bottom-color: var(--phyco); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  letter-spacing: .02em;
+  text-decoration: none;
+  padding: .62rem 1.05rem;
+  border-radius: 2px;
+  border: 1px solid var(--phyco);
+  background: var(--phyco);
+  color: #fff;
+  transition: background .18s, color .18s, transform .18s;
+  white-space: nowrap;
+}
+
+.btn:hover { background: transparent; color: var(--phyco); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn-ghost:hover { background: transparent; color: var(--phyco); border-color: var(--phyco); }
+
+.masthead .btn { margin-left: auto; }
+.nav + .btn { margin-left: 0; }
+
+@media (max-width: 880px) {
+  .nav { display: none; }
+}
+
+@media (max-width: 520px) {
+  .masthead-inner { gap: 1rem; height: 3.75rem; }
+  .wordmark { font-size: 1.1rem; }
+  .wordmark span { display: none; }
+  .masthead .btn { padding: .5rem .75rem; font-size: var(--fs-xs); }
+}
+
+/* --- hero ------------------------------------------------ */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 3.5rem;
+  align-items: center;
+  padding-block: 5rem 4rem;
+}
+
+.eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1.6rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: .28rem .7rem;
+}
+
+.chip::before {
+  content: "";
+  width: .4rem;
+  height: .4rem;
+  border-radius: 50%;
+  background: var(--biomass);
+}
+
+.hero h1 {
+  font-size: var(--fs-hero);
+  line-height: 1.02;
+  letter-spacing: -.028em;
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--phyco);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin-top: 2.2rem;
+}
+
+.spec-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  margin-top: 3.25rem;
+}
+
+.spec-strip div {
+  padding: 1rem 1.1rem 1.1rem 0;
+  border-right: 1px solid var(--line-soft);
+}
+
+.spec-strip div:last-child { border-right: 0; }
+
+.spec-strip dt {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .35rem;
+}
+
+.spec-strip dd {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: var(--fs-lg);
+  font-variant-numeric: tabular-nums;
+}
+
+.spec-strip dd i { font-style: italic; }
+
+/* --- raceway drawing panel ------------------------------- */
+
+.drawing {
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  border-radius: 3px;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+}
+
+.drawing-canvas {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  width: 100%;
+}
+
+.drawing-canvas canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.drawing-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid var(--panel-line);
+  padding-top: .85rem;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem 1.1rem;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .06em;
+  color: var(--on-panel-mute);
+}
+
+.legend span { display: inline-flex; align-items: center; gap: .45rem; }
+
+.legend i {
+  width: .85rem;
+  height: 0;
+  border-top: 2px solid currentColor;
+  display: inline-block;
+}
+
+.legend .k-flow  { color: var(--phyco-lt); }
+.legend .k-wall  { color: var(--on-panel); }
+.legend .k-wheel { color: var(--on-panel); }
+.legend .k-wheel i { height: .7rem; border-top: 0; border-left: 3px solid currentColor; width: 0; }
+
+.titleblock {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .07em;
+  color: var(--on-panel-mute);
+  line-height: 1.5;
+}
+
+.titleblock b {
+  display: block;
+  color: var(--on-panel);
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 940px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+    padding-block: 3rem 2.5rem;
+  }
+  .spec-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .spec-strip div:nth-child(2) { border-right: 0; }
+}
+
+@media (max-width: 460px) {
+  .spec-strip { grid-template-columns: minmax(0, 1fr); }
+  .spec-strip div { border-right: 0; border-bottom: 1px solid var(--line-soft); }
+}
+
+/* --- section scaffold ------------------------------------ */
+
+.section {
+  border-top: 1px solid var(--line);
+  padding-block: 4.5rem;
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+.section-rail {
+  position: sticky;
+  top: 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+.section-rail .num {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--phyco);
+  letter-spacing: .08em;
+}
+
+.section h2 {
+  font-size: var(--fs-2xl);
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+  max-width: 20ch;
+}
+
+@media (max-width: 880px) {
+  .section-grid { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .section-rail { position: static; flex-direction: row; align-items: center; gap: .75rem; }
+  .section { padding-block: 3.25rem; }
+}
+
+/* --- organism -------------------------------------------- */
+
+.composition {
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.composition div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: .72rem 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-family: var(--mono);
+  font-size: var(--fs-md);
+  font-variant-numeric: tabular-nums;
+}
+
+.composition dt { color: var(--muted); letter-spacing: .02em; }
+.composition dd { margin: 0; text-align: right; }
+
+/* --- products -------------------------------------------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: .5rem;
+}
+
+@media (max-width: 620px) {
+  .cards { grid-template-columns: minmax(0, 1fr); }
+}
+
+.card {
+  background: var(--ground);
+  padding: 1.6rem 1.4rem 1.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  transition: background .2s;
+}
+
+.card:hover { background: var(--paper); }
+
+.card h3 {
+  font-size: var(--fs-xl);
+  line-height: 1.2;
+}
+
+.card p { color: var(--ink-soft); font-size: var(--fs-md); }
+
+.card .label { margin-top: auto; padding-top: .9rem; }
+
+.footnote {
+  margin-top: 1.5rem;
+  font-size: var(--fs-md);
+  color: var(--muted);
+  max-width: 46em;
+  border-left: 2px solid var(--phyco);
+  padding-left: 1rem;
+}
+
+/* --- process --------------------------------------------- */
+
+.stages { margin-top: .5rem; }
+
+.stage {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr) minmax(0, 15rem);
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.stage:first-child { border-top: 1px solid var(--line); }
+
+.stage-n {
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  color: var(--phyco);
+  font-variant-numeric: tabular-nums;
+}
+
+.stage h3 {
+  font-size: var(--fs-lg);
+  margin-bottom: .35rem;
+}
+
+.stage p { color: var(--ink-soft); font-size: var(--fs-md); max-width: 42em; }
+
+.stage-note {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .04em;
+  color: var(--muted);
+  text-align: right;
+}
+
+@media (max-width: 780px) {
+  .stage { grid-template-columns: 2.5rem minmax(0, 1fr); gap: 1rem; }
+  .stage-note { grid-column: 2; text-align: left; }
+}
+
+/* --- facility -------------------------------------------- */
+
+.modules {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+}
+
+.module {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr) 8.5rem;
+  gap: 1rem;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.module-bar {
+  height: 1.6rem;
+  border: 1px solid var(--line);
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0 5px,
+    var(--line-soft) 5px 6px
+  );
+  border-radius: 1px;
+}
+
+.module.is-now .module-bar {
+  background: var(--phyco);
+  border-color: var(--phyco);
+}
+
+.module-state { color: var(--muted); letter-spacing: .05em; }
+.module.is-now .module-state { color: var(--phyco); }
+
+@media (max-width: 620px) {
+  .module { grid-template-columns: 4.5rem minmax(0, 1fr); }
+  .module-state { grid-column: 2; }
+}
+
+.datasheet {
+  margin-top: 2.75rem;
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 18rem;
+  font-family: var(--mono);
+  font-size: var(--fs-md);
+  font-variant-numeric: tabular-nums;
+}
+
+caption {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-bottom: .75rem;
+}
+
+th, td {
+  text-align: left;
+  padding: .62rem .75rem .62rem 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+thead th {
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-weight: 400;
+  font-size: var(--fs-xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+td:last-child, th:last-child { text-align: right; padding-right: 0; }
+
+.table-note {
+  margin-top: .9rem;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  max-width: 46em;
+}
+
+/* --- quality --------------------------------------------- */
+
+.checks {
+  margin-top: .5rem;
+  display: grid;
+  gap: 1.4rem;
+}
+
+.check {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  gap: .9rem;
+  align-items: start;
+}
+
+.check-mark {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid var(--phyco);
+  border-radius: 50%;
+  position: relative;
+  margin-top: .15rem;
+}
+
+.check-mark::after {
+  content: "";
+  position: absolute;
+  inset: .38rem;
+  border-radius: 50%;
+  background: var(--phyco);
+}
+
+.check h3 { font-size: var(--fs-lg); margin-bottom: .2rem; }
+.check p { color: var(--ink-soft); font-size: var(--fs-md); max-width: 44em; }
+
+/* --- enquiries ------------------------------------------- */
+
+.enquiry {
+  background: var(--panel);
+  color: var(--on-panel);
+  border-radius: 3px;
+  padding: clamp(1.75rem, 4vw, 3rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 2.5rem 3rem;
+  align-items: start;
+}
+
+.enquiry h2 {
+  font-size: var(--fs-2xl);
+  color: var(--on-panel);
+  margin-bottom: 1rem;
+  max-width: 16ch;
+}
+
+.enquiry p { color: var(--on-panel-mute); max-width: 34em; }
+
+.enquiry .label { color: var(--on-panel-mute); }
+
+.enquiry .btn {
+  margin-top: 1.75rem;
+  background: var(--on-panel);
+  border-color: var(--on-panel);
+  color: var(--panel);
+}
+
+.enquiry .btn:hover { background: transparent; color: var(--on-panel); }
+
+.enquiry-list {
+  list-style: none;
+  margin: .9rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.enquiry-list li {
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  letter-spacing: .02em;
+  padding: .6rem 0;
+  border-bottom: 1px solid var(--panel-line);
+  color: var(--on-panel);
+}
+
+.enquiry-list li:first-child { border-top: 1px solid var(--panel-line); }
+
+.contact-line {
+  margin-top: 1.5rem;
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  color: var(--on-panel-mute);
+  line-height: 1.9;
+}
+
+.contact-line a { color: var(--phyco-lt); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+@media (max-width: 880px) {
+  .enquiry { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+}
+
+/* --- footer ---------------------------------------------- */
+
+.footer {
+  border-top: 1px solid var(--line);
+  margin-top: 4.5rem;
+  padding-block: 2.5rem 3.5rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 2rem;
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  line-height: 1.85;
+}
+
+.footer-grid b {
+  display: block;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-size: var(--fs-xs);
+  margin-bottom: .6rem;
+}
+
+.footer-note {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line-soft);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  max-width: 52em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap masthead-inner">
+    <a class="wordmark" href="#top"><b>BlueBloom</b> <span>Spirulina</span></a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#organism">Organism</a>
+      <a href="#products">Products</a>
+      <a href="#process">Production</a>
+      <a href="#facility">Facility</a>
+      <a href="#quality">Quality</a>
+    </nav>
+    <a class="btn" href="#enquiries">Bulk enquiries</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="wrap hero">
+    <div>
+      <div class="eyebrow">
+        <span class="label">Hyderabad Region · Telangana · India</span>
+        <span class="chip">In engineering · Stage 1</span>
+      </div>
+      <h1>Spirulina, grown to a <em>written specification</em>.</h1>
+      <p class="lede">
+        BlueBloom is building a spirulina cultivation, harvesting, drying and
+        packaging facility outside Hyderabad — designed for food-grade
+        consistency, batch traceability from pond to pack, and orderly growth
+        from one acre to five.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="#enquiries">Talk to us about volume</a>
+        <a class="btn btn-ghost" href="#process">How it is produced</a>
+      </div>
+
+      <dl class="spec-strip">
+        <div>
+          <dt>Stage 1</dt>
+          <dd>1 acre</dd>
+        </div>
+        <div>
+          <dt>Master plan</dt>
+          <dd>5 acres</dd>
+        </div>
+        <div>
+          <dt>Species</dt>
+          <dd><i>A. platensis</i></dd>
+        </div>
+        <div>
+          <dt>Cultivation</dt>
+          <dd>Open raceway</dd>
+        </div>
+      </dl>
+    </div>
+
+    <figure class="drawing">
+      <div class="drawing-canvas">
+        <canvas id="raceway" role="img"
+          aria-label="Animated plan view of a raceway pond: culture circulating around an oval channel past a paddle wheel, divided by a central baffle wall."></canvas>
+      </div>
+      <figcaption class="drawing-foot">
+        <div class="legend">
+          <span class="k-flow"><i></i> Culture flow</span>
+          <span class="k-wheel"><i></i> Paddle wheel</span>
+          <span class="k-wall"><i></i> Baffle wall</span>
+        </div>
+        <div class="titleblock">
+          <b>Raceway pond — plan</b>
+          BB-BLOOM · STAGE 1 · INDICATIVE
+        </div>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="section" id="organism">
+    <div class="wrap section-grid">
+      <div class="section-rail">
+        <span class="num">01</span>
+        <span class="label">The organism</span>
+      </div>
+      <div>
+        <h2>A cyanobacterium that has been food for centuries.</h2>
+        <p class="prose">
+          <em>Arthrospira platensis</em> is not a plant and not quite an algae —
+          it is a filamentous, photosynthetic cyanobacterium that grows in warm,
+          strongly alkaline water. People have been harvesting and eating it for
+          a very long time: as <em>tecuitlatl</em> from Lake Texcoco in Mexico,
+          and as <em>dihé</em> from the shores of Lake Chad, where it is still
+          dried into cakes today.
+        </p>
+        <p class="prose">
+          Its colour is the interesting part. Chlorophyll makes it green;
+          phycocyanin — a blue light-harvesting pigment that gives the company
+          its name — makes it blue. Together they give dried spirulina its
+          dark blue-green cast, and give the extracted pigment its vivid,
+          almost unnatural blue.
+        </p>
+        <p class="prose">
+          The alkalinity matters commercially. Spirulina thrives at a pH that
+          most competing organisms cannot tolerate, so the same water chemistry
+          that grows the crop also does much of the work of keeping the culture
+          clean.
+        </p>
+
+        <dl class="composition">
+          <div><dt>Typical protein, dry weight</dt><dd>55–70 %</dd></div>
+          <div><dt>Essential amino acids</dt><dd>All nine present</dd></div>
+          <div><dt>Characteristic pigment</dt><dd>Phycocyanin</dd></div>
+          <div><dt>Also carries</dt><dd>Iron · B-vitamins · β-carotene</dd></div>
+          <div><dt>Filament length</dt><dd>≈ 100–500 µm</dd></div>
+        </dl>
+        <p class="footnote">
+          Composition figures are typical published ranges for commercial
+          spirulina. Values for BlueBloom material will be stated per batch on
+          the certificate of analysis, not inferred from literature.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="products">
+    <div class="wrap section-grid">
+      <div class="section-rail">
+        <span class="num">02</span>
+        <span class="label">Products</span>
+      </div>
+      <div>
+        <h2>Four forms, one specification behind them.</h2>
+        <p class="lede" style="margin-bottom:2rem">
+          The facility is designed around bulk food-grade supply first, with
+          branded and formulated products drawing on the same released biomass.
+        </p>
+
+        <div class="cards">
+          <article class="card">
+            <h3>Bulk food-grade powder</h3>
+            <p>
+              Dried under controlled conditions, milled and sieved to a specified
+              particle size, packed in bulk cartons with food-grade inner liners.
+              Supplied against an agreed specification with a certificate of
+              analysis per batch.
+            </p>
+            <span class="label">Primary output</span>
+          </article>
+
+          <article class="card">
+            <h3>Branded retail powder</h3>
+            <p>
+              The same biomass, packed for retail in smaller consumer units.
+              Own-label and private-label packing are both within the design
+              intent of the packaging area.
+            </p>
+            <span class="label">Stage 1 packing</span>
+          </article>
+
+          <article class="card">
+            <h3>Tablets</h3>
+            <p>
+              Compressed spirulina tablets produced in-house once the tablet line
+              is installed, so the material never leaves the traceability chain
+              between drying and the finished pack.
+            </p>
+            <span class="label">Line to be installed</span>
+          </article>
+
+          <article class="card">
+            <h3>Nutraceutical supply</h3>
+            <p>
+              Batch-documented material for supplement and formulation
+              manufacturers who need a consistent input, a stated specification
+              and a paper trail that survives an audit.
+            </p>
+            <span class="label">B2B supply</span>
+          </article>
+        </div>
+
+        <p class="footnote">
+          Export-market supply and pharmaceutical-grade production are planned
+          developments that the facility is being engineered to allow. They are
+          not current offerings and are not being sold as such.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="process">
+    <div class="wrap section-grid">
+      <div class="section-rail">
+        <span class="num">03</span>
+        <span class="label">Production</span>
+      </div>
+      <div>
+        <h2>Pond to pack, in six controlled steps.</h2>
+        <p class="lede" style="margin-bottom:2.25rem">
+          Each step below is a real handover point with its own sampling,
+          records and release criteria — which is what makes the batch
+          traceable backwards from a finished pack.
+        </p>
+
+        <div class="stages">
+          <article class="stage">
+            <span class="stage-n">01</span>
+            <div>
+              <h3>Inoculum</h3>
+              <p>
+                Starter cultures are raised in closed tanks and stepped up
+                through nursery ponds before they are ever released into a
+                production raceway. A production pond is never started from an
+                unverified culture.
+              </p>
+            </div>
+            <span class="stage-note">Closed tank → nursery → production</span>
+          </article>
+
+          <article class="stage">
+            <span class="stage-n">02</span>
+            <div>
+              <h3>Cultivation</h3>
+              <p>
+                Open raceway ponds, circulated continuously by paddle wheel so
+                the culture keeps moving, the biomass stays suspended and every
+                filament cycles between light at the surface and shade below.
+                pH, temperature, alkalinity and density are monitored on a
+                schedule.
+              </p>
+            </div>
+            <span class="stage-note">Continuous circulation · monitored daily</span>
+          </article>
+
+          <article class="stage">
+            <span class="stage-n">03</span>
+            <div>
+              <h3>Harvest</h3>
+              <p>
+                Spirulina's filaments are long enough to be caught on fine
+                screens, so harvesting is filtration rather than centrifugation.
+                That is gentler on the cell and considerably cheaper in energy
+                than harvesting single-celled microalgae.
+              </p>
+            </div>
+            <span class="stage-note">Screen filtration · no centrifuge</span>
+          </article>
+
+          <article class="stage">
+            <span class="stage-n">04</span>
+            <div>
+              <h3>Wash and dewater</h3>
+              <p>
+                Harvested biomass is washed to remove residual culture medium,
+                then pressed down to a stable wet cake and held only briefly
+                before it goes to the dryer.
+              </p>
+            </div>
+            <span class="stage-note">Medium removed before drying</span>
+          </article>
+
+          <article class="stage">
+            <span class="stage-n">05</span>
+            <div>
+              <h3>Dry and mill</h3>
+              <p>
+                Controlled drying, then milling and sieving to the specified
+                particle size. Drying is the step where colour, pigment and
+                flavour are won or lost, so it is treated as a controlled
+                process rather than a matter of weather.
+              </p>
+            </div>
+            <span class="stage-note">Controlled drying · milled · sieved</span>
+          </article>
+
+          <article class="stage">
+            <span class="stage-n">06</span>
+            <div>
+              <h3>Test, release and pack</h3>
+              <p>
+                Every batch is sampled and tested against its specification
+                before it is released. Only released material is packed,
+                labelled and dispatched, and the batch number ties the pack back
+                to the pond it came from.
+              </p>
+            </div>
+            <span class="stage-note">Released against spec before packing</span>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="facility">
+    <div class="wrap section-grid">
+      <div class="section-rail">
+        <span class="num">04</span>
+        <span class="label">Facility</span>
+      </div>
+      <div>
+        <h2>One acre now, built to become five.</h2>
+        <p class="prose">
+          Stage 1 is a single acre, but it is laid out as the first module of a
+          five-acre site rather than as a standalone farm. Roads, drainage,
+          incoming power and transformer capacity, water storage, the laboratory
+          and the control architecture are sized ahead of the ponds they will
+          eventually serve.
+        </p>
+        <p class="prose">
+          Underground services and the main pipe corridors are routed so that
+          later modules can be built without excavating the working facility,
+          and the master layout reserves land so that no permanent building ends
+          up standing where a future pond block needs to go.
+        </p>
+
+        <div class="modules">
+          <div class="module is-now">
+            <span>Stage 1</span>
+            <div class="module-bar" style="width:20%"></div>
+            <span class="module-state">1 acre · in engineering</span>
+          </div>
+          <div class="module">
+            <span>Stage 2</span>
+            <div class="module-bar" style="width:40%"></div>
+            <span class="module-state">2 acres · planned</span>
+          </div>
+          <div class="module">
+            <span>Stage 3</span>
+            <div class="module-bar" style="width:60%"></div>
+            <span class="module-state">3 acres · planned</span>
+          </div>
+          <div class="module">
+            <span>Stage 4</span>
+            <div class="module-bar" style="width:100%"></div>
+            <span class="module-state">5 acres · master plan</span>
+          </div>
+        </div>
+
+        <div class="datasheet">
+          <table>
+            <caption>Extract — design envelope</caption>
+            <thead>
+              <tr><th scope="col">Criterion</th><th scope="col">Design basis</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Ambient design range</td><td>8 – 45 °C</td></tr>
+              <tr><td>Typical operating range</td><td>20 – 40 °C</td></tr>
+              <tr><td>Relative humidity</td><td>15 – 95 %</td></tr>
+              <tr><td>Civil structures and buildings</td><td>30 years</td></tr>
+              <tr><td>Raceway pond civil works</td><td>20 years</td></tr>
+              <tr><td>Major process equipment</td><td>15 years</td></tr>
+              <tr><td>Solar-power equipment</td><td>20 – 25 years</td></tr>
+            </tbody>
+          </table>
+          <p class="table-note">
+            Taken from the project design criteria manual, BB-DBR-002 Rev. 0.
+            Climate values are preliminary and are confirmed against site
+            meteorological records during detailed design.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="quality">
+    <div class="wrap section-grid">
+      <div class="section-rail">
+        <span class="num">05</span>
+        <span class="label">Quality</span>
+      </div>
+      <div>
+        <h2>The paperwork is part of the product.</h2>
+        <p class="lede" style="margin-bottom:2.25rem">
+          A buyer of food-grade biomass is buying evidence as much as powder.
+          The facility is designed so that evidence exists by default rather
+          than being reconstructed afterwards.
+        </p>
+
+        <div class="checks">
+          <div class="check">
+            <span class="check-mark" aria-hidden="true"></span>
+            <div>
+              <h3>Traceable from inoculation to pack</h3>
+              <p>
+                Batch identity is carried through pond, harvest, dryer, mill and
+                pack, so a finished unit can be walked back to the culture it
+                came from.
+              </p>
+            </div>
+          </div>
+
+          <div class="check">
+            <span class="check-mark" aria-hidden="true"></span>
+            <div>
+              <h3>Laboratories on site</h3>
+              <p>
+                Quality-control and microbiology laboratories are part of Stage 1,
+                not a later addition — routine testing happens on the site that
+                made the material.
+              </p>
+            </div>
+          </div>
+
+          <div class="check">
+            <span class="check-mark" aria-hidden="true"></span>
+            <div>
+              <h3>Water qualified by analysis</h3>
+              <p>
+                Source water is tested for hardness, salinity, metals, nitrate
+                and microbiological load, and treatment is selected from those
+                results. No water source is approved on the strength of how it
+                looks.
+              </p>
+            </div>
+          </div>
+
+          <div class="check">
+            <span class="check-mark" aria-hidden="true"></span>
+            <div>
+              <h3>Hygienic layout</h3>
+              <p>
+                Product-contact surfaces, drainage falls, personnel routes and
+                the separation of raw material from finished goods are set at
+                design stage, where they are still cheap to get right.
+              </p>
+            </div>
+          </div>
+
+          <div class="check">
+            <span class="check-mark" aria-hidden="true"></span>
+            <div>
+              <h3>Compliance posture</h3>
+              <p>
+                The design is built to support FSSAI requirements and applicable
+                Indian food, environmental and labour regulation, and to leave
+                export certification and higher-grade production open as later
+                steps.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <p class="footnote">
+          BlueBloom holds no food-safety certifications yet — the facility is in
+          engineering. Registrations and certifications will be listed here as
+          they are actually granted, and never before.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="enquiries">
+    <div class="wrap">
+      <div class="enquiry">
+        <div>
+          <span class="label">06 — Enquiries</span>
+          <h2>Early conversations, ahead of Stage 1.</h2>
+          <p>
+            We are talking now with bulk buyers, supplement brands, contract
+            manufacturers and distributors who want supply lined up before the
+            first ponds are running. Early enquiries also shape the
+            specification we build to, which is worth more to both sides than a
+            price list would be at this stage.
+          </p>
+          <a class="btn" href="mailto:enquiries@bluebloomspirulina.in?subject=Bulk%20supply%20enquiry%20%E2%80%94%20BlueBloom%20Spirulina">
+            Send a supply enquiry
+          </a>
+          <div class="contact-line">
+            <a href="mailto:enquiries@bluebloomspirulina.in">enquiries@bluebloomspirulina.in</a><br>
+            Hyderabad Region, Telangana, India
+          </div>
+        </div>
+        <div>
+          <span class="label">Useful to include</span>
+          <ul class="enquiry-list">
+            <li>Volume and how often you need it</li>
+            <li>Form — powder, tablet or formulated</li>
+            <li>Specification and COA requirements</li>
+            <li>Destination market</li>
+            <li>When you would want first delivery</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <b>Company</b>
+        BlueBloom Spirulina<br>
+        Private Limited
+      </div>
+      <div>
+        <b>Site</b>
+        Hyderabad Region<br>
+        Telangana, India
+      </div>
+      <div>
+        <b>Stage</b>
+        Stage 1 — 1 acre<br>
+        Master plan — 5 acres
+      </div>
+      <div>
+        <b>Engineering</b>
+        BB-DBR-002 Rev. 0<br>
+        Design Criteria Manual
+      </div>
+    </div>
+    <p class="footer-note">
+      This facility is in development. Capacity, product availability, pricing
+      and certification status will be updated on this page as Stage 1 is
+      built and commissioned. Nothing here should be read as a claim that
+      material is available for immediate dispatch. Spirulina is a food; no
+      medical or therapeutic claims are made for it.
+    </p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var canvas = document.getElementById('raceway');
+  if (!canvas || !canvas.getContext) return;
+
+  var ctx = canvas.getContext('2d');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  var COLORS = {};
+  function readColors() {
+    var cs = getComputedStyle(document.documentElement);
+    COLORS.phyco = cs.getPropertyValue('--phyco').trim() || '#1160C4';
+    COLORS.phycoLt = cs.getPropertyValue('--phyco-lt').trim() || '#57A0F0';
+    COLORS.wall = cs.getPropertyValue('--on-panel').trim() || '#DCE8E2';
+    COLORS.mute = cs.getPropertyValue('--on-panel-mute').trim() || '#8EA79E';
+  }
+  readColors();
+
+  // --- geometry -------------------------------------------------
+  // A raceway pond is an elongated loop: two straight channels joined
+  // by semicircular ends, split down the long axis by a thin baffle
+  // wall. Culture runs up one side, round the end, and back down the
+  // other. Modelled here as a stadium centreline of radius R, with the
+  // channel occupying +/- CW/2 either side of it.
+  var W = 0, H = 0, R = 0, L = 0, CW = 0, OUT = 0, IN = 0, cx = 0, cy = 0, P = 0;
+
+  function layout() {
+    var rect = canvas.getBoundingClientRect();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = Math.max(rect.width, 1);
+    H = Math.max(rect.height, 1);
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    var pad = Math.max(18, Math.min(W, H) * 0.07);
+    OUT = Math.min((H - 2 * pad) / 2, (W - 2 * pad) / 4.2); // outer half-height
+    IN = Math.max(3, OUT * 0.12);                           // baffle half-thickness
+    R = (OUT + IN) / 2;                                     // channel centreline
+    CW = OUT - IN;                                          // channel width
+    L = Math.max(W - 2 * pad - 2 * OUT, OUT);               // straight length
+    cx = W / 2;
+    cy = H / 2;
+    P = 2 * L + 2 * Math.PI * R;
+  }
+
+  // Position + outward normal at arc length s along the centreline.
+  function at(s, off) {
+    s = ((s % P) + P) % P;
+    var x, y, nx, ny, t;
+    if (s < L) {                                  // top straight, flowing +x
+      x = cx - L / 2 + s; y = cy - R; nx = 0; ny = -1;
+    } else if (s < L + Math.PI * R) {             // right end
+      t = -Math.PI / 2 + (s - L) / R;
+      nx = Math.cos(t); ny = Math.sin(t);
+      x = cx + L / 2 + R * nx; y = cy + R * ny;
+    } else if (s < 2 * L + Math.PI * R) {         // bottom straight, flowing -x
+      var u = s - (L + Math.PI * R);
+      x = cx + L / 2 - u; y = cy + R; nx = 0; ny = 1;
+    } else {                                      // left end
+      var v = s - (2 * L + Math.PI * R);
+      t = Math.PI / 2 + v / R;
+      nx = Math.cos(t); ny = Math.sin(t);
+      x = cx - L / 2 + R * nx; y = cy + R * ny;
+    }
+    return { x: x + nx * off, y: y + ny * off, nx: nx, ny: ny };
+  }
+
+  function stadiumPath(radius) {
+    ctx.beginPath();
+    ctx.moveTo(cx - L / 2, cy - radius);
+    ctx.lineTo(cx + L / 2, cy - radius);
+    ctx.arc(cx + L / 2, cy, radius, -Math.PI / 2, Math.PI / 2);
+    ctx.lineTo(cx - L / 2, cy + radius);
+    ctx.arc(cx - L / 2, cy, radius, Math.PI / 2, -Math.PI / 2);
+    ctx.closePath();
+  }
+
+  // --- particles ------------------------------------------------
+  var parts = [];
+  function seed() {
+    var n = Math.round(Math.min(460, Math.max(160, W * H / 400)));
+    parts = [];
+    for (var i = 0; i < n; i++) {
+      var lateral = (Math.random() - 0.5);            // -0.5 .. 0.5
+      parts.push({
+        s: Math.random() * P,
+        off: lateral * CW * 0.86,
+        drift: (Math.random() - 0.5) * 0.06,
+        // parabolic profile: fastest mid-channel, slowest at the walls
+        v: (0.42 + Math.random() * 0.10) * (1 - Math.pow(lateral * 2, 2) * 0.55),
+        a: 0.25 + Math.random() * 0.6,
+        r: 0.7 + Math.random() * 1.2,
+        bright: Math.random() < 0.16
+      });
+    }
+  }
+
+  var wheelPhase = 0;
+
+  function drawPondBody() {
+    // Water = outer stadium minus the central baffle wall.
+    ctx.save();
+    stadiumPath(OUT);
+    stadiumPath(IN);
+    ctx.fillStyle = COLORS.phyco;
+    ctx.globalAlpha = 0.13;
+    ctx.fill('evenodd');
+    ctx.restore();
+
+    ctx.lineWidth = 1.1;
+    ctx.strokeStyle = COLORS.wall;
+    ctx.globalAlpha = 0.55;
+    stadiumPath(OUT);
+    ctx.stroke();
+
+    // Baffle wall, drawn solid so it reads as structure, not water.
+    ctx.fillStyle = COLORS.wall;
+    stadiumPath(IN);
+    ctx.globalAlpha = 0.14;
+    ctx.fill();
+    ctx.globalAlpha = 0.55;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+
+  function drawParticles(dt) {
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[i];
+      var prev = at(p.s, p.off);
+      if (dt) {
+        p.s += p.v * dt;
+        p.off += p.drift * dt * 0.35;
+        var lim = CW * 0.43;
+        if (p.off > lim || p.off < -lim) { p.drift *= -1; p.off = Math.max(-lim, Math.min(lim, p.off)); }
+      }
+      var pos = at(p.s, p.off);
+      ctx.strokeStyle = p.bright ? COLORS.phycoLt : COLORS.phyco;
+      ctx.globalAlpha = p.bright ? Math.min(1, p.a + 0.3) : p.a;
+      ctx.lineWidth = p.r;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(prev.x, prev.y);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawWheel() {
+    // Paddle wheel spans the top channel at its midpoint.
+    var y0 = cy - OUT, y1 = cy - IN;
+    ctx.save();
+    ctx.strokeStyle = COLORS.wall;
+    ctx.lineCap = 'butt';
+    ctx.globalAlpha = 0.9;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(cx, y0 - 4);
+    ctx.lineTo(cx, y1 + 4);
+    ctx.stroke();
+
+    ctx.lineWidth = 1.4;
+    for (var b = 0; b < 4; b++) {
+      var ph = (wheelPhase + b / 4) % 1;
+      var dx = (ph - 0.5) * 14;
+      var fade = 1 - Math.abs(ph - 0.5) * 1.7;
+      if (fade <= 0) continue;
+      ctx.globalAlpha = 0.55 * fade;
+      ctx.beginPath();
+      ctx.moveTo(cx + dx, y0 + 2);
+      ctx.lineTo(cx + dx, y1 - 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function arrowAt(s, dir) {
+    // Chevron pointing along the flow at arc length s.
+    var a = at(s, 0);
+    var b = at(s + 0.01 * P * dir, 0);
+    var ang = Math.atan2(b.y - a.y, b.x - a.x);
+    var size = Math.max(6, Math.min(CW * 0.3, 11));
+    ctx.save();
+    ctx.translate(a.x, a.y);
+    ctx.rotate(ang);
+    ctx.strokeStyle = COLORS.phycoLt;
+    ctx.globalAlpha = 0.95;
+    ctx.lineWidth = 1.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    ctx.moveTo(-size, -size * 0.72);
+    ctx.lineTo(size * 0.45, 0);
+    ctx.lineTo(-size, size * 0.72);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function frame(dt) {
+    ctx.clearRect(0, 0, W, H);
+    drawPondBody();
+    drawParticles(dt);
+    drawWheel();
+    arrowAt(L * 0.78, 1);                          // top straight, flowing +x
+    arrowAt(L + Math.PI * R + L * 0.22, 1);        // bottom straight, flowing -x
+  }
+
+  var last = 0, running = false;
+  function loop(now) {
+    if (!running) return;
+    var dt = last ? Math.min((now - last), 48) : 16;
+    last = now;
+    wheelPhase = (wheelPhase + dt / 1400) % 1;
+    frame(dt);
+    requestAnimationFrame(loop);
+  }
+
+  function start() {
+    layout();
+    seed();
+    if (reduce.matches) {
+      running = false;
+      frame(0);
+    } else if (!running) {
+      running = true;
+      last = 0;
+      requestAnimationFrame(loop);
+    }
+  }
+
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () { layout(); seed(); if (reduce.matches) frame(0); }, 140);
+  });
+
+  // Pause when the drawing is off screen.
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      var visible = entries[0].isIntersecting;
+      if (!visible) { running = false; }
+      else if (!reduce.matches && !running) { running = true; last = 0; requestAnimationFrame(loop); }
+    }, { threshold: 0 }).observe(canvas);
+  }
+
+  // Follow theme changes (OS preference and the viewer's toggle).
+  if (window.matchMedia) {
+    var dark = window.matchMedia('(prefers-color-scheme: dark)');
+    if (dark.addEventListener) dark.addEventListener('change', function () { readColors(); if (!running) frame(0); });
+  }
+  new MutationObserver(function () { readColors(); if (!running) frame(0); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  if (reduce.addEventListener) reduce.addEventListener('change', start);
+
+  start();
+})();
+</script>
+
+</body>
+</html>
