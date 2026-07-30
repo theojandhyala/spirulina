@@ -19,6 +19,23 @@ Facility, Hyderabad Region, Telangana, India.
 | --- | --- | --- |
 | BB-DBR-002-V2 | Design Criteria Manual – Volume 2, Process Engineering | Not yet issued |
 
+## Website
+
+The public-facing site lives in `site/index.html` — a single self-contained
+static page with no build step or dependencies. Open the file directly, or
+serve the folder with any static server.
+
+It deploys to GitHub Pages via `.github/workflows/pages.yml` on every push to
+the default branch. **Pages must be enabled once by hand** before the first
+deploy succeeds: Settings → Pages → Build and deployment → Source →
+*GitHub Actions*. The workflow token is not permitted to create the Pages site
+itself. Once enabled, the site is served at
+`https://theojandhyala.github.io/spirulina/`.
+
+Site copy deliberately claims only what is true today: the facility is
+described as in engineering, no certifications are asserted, and no capacity
+or health claims are made. Update it as Stage 1 is commissioned.
+
 ## Document Numbering
 
 Documents follow the format defined in BB-DBR-002-V1, Section 18:

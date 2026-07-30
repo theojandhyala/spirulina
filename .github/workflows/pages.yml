@@ -1,10 +1,13 @@
 name: Deploy site to GitHub Pages
 
 # Publishes site/ to GitHub Pages. Pages deployments are only permitted
-# from the repository's default branch, so this runs on pushes to main.
+# from the repository's default branch, so this lists both the eventual
+# main and the branch that is currently default.
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - claude/bluebloom-design-criteria-v1-dgowzx
     paths:
       - "site/**"
       - ".github/workflows/pages.yml"
@@ -28,11 +31,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # enablement: true turns Pages on for the repo if it is not already,
-      # so no manual switch is needed in repository settings.
+      # Pages must be switched on once, by hand, at
+      # Settings > Pages > Build and deployment > Source: GitHub Actions.
+      # The workflow token cannot create the Pages site itself
+      # ("Resource not accessible by integration"), so enablement is not
+      # attempted here. After that one-time toggle this workflow deploys
+      # on every push to the default branch.
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
