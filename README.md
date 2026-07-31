@@ -12,13 +12,32 @@ Facility, Hyderabad Region, Telangana, India.
 | Document number | Title | Revision | Status | File |
 | --- | --- | --- | --- | --- |
 | BB-DBR-002-V1 | Design Criteria Manual – Volume 1, General Design Criteria | Rev. 0 | Initial Design Basis | [docs/BB-DBR-002-V1_Design-Criteria-Manual_Vol1_General-Design-Criteria.md](docs/BB-DBR-002-V1_Design-Criteria-Manual_Vol1_General-Design-Criteria.md) |
-| BB-DBR-002-V2 | Design Criteria Manual – Volume 2, Process Engineering | Rev. 0 | Initial Design Basis | [docs/BB-DBR-002-V2_Design-Criteria-Manual_Vol2_Process-Engineering.md](docs/BB-DBR-002-V2_Design-Criteria-Manual_Vol2_Process-Engineering.md) |
+| BB-DBR-002-V2 | Design Criteria Manual – Volume 2, Process Engineering | Rev. 0 | Initial Design Basis — **open finding, see below** | [docs/BB-DBR-002-V2_Design-Criteria-Manual_Vol2_Process-Engineering.md](docs/BB-DBR-002-V2_Design-Criteria-Manual_Vol2_Process-Engineering.md) |
+| BB-DBR-002-V3 | Design Criteria Manual – Volume 3, Civil, Structural and Layout | Rev. 0 | Initial Design Basis | [docs/BB-DBR-002-V3_Design-Criteria-Manual_Vol3_Civil-Structural-Layout.md](docs/BB-DBR-002-V3_Design-Criteria-Manual_Vol3_Civil-Structural-Layout.md) |
 
 ### Planned
 
 | Document number | Title | Status |
 | --- | --- | --- |
-| BB-DBR-002-V3 | Design Criteria Manual – Volume 3, Civil, Structural and Layout | Not yet issued |
+| BB-DBR-002-V4 | Design Criteria Manual – Volume 4, Mechanical, Electrical, Instrumentation and Control | Not yet issued |
+
+### Open finding — net pond area
+
+**Volume 2 and Volume 3 currently disagree on Stage 1 net pond area, and the
+disagreement is deliberate and recorded rather than resolved silently.**
+
+Volume 2 assumed 2,000 m² (A-01) in order to derive process capacity. The
+Volume 3 layout study (§ 6.4) supports 1,750 m² once buildings, roads, setbacks
+and inter-pond access are budgeted against the 4,047 m² acre. That is a 12.5%
+capacity difference: 4.5 t/year against 3.9 t/year.
+
+Volume 3 § 6.5 sets out the three available resolutions and recommends
+accepting 1,750 m². The finding is to be closed by the project engineering
+authority, and closing it requires **revising Volume 2 to Rev. 1** — not editing
+the figure in one volume alone.
+
+Until it is closed, quote Stage 1 capacity as **approximately 3.9 t/year**, the
+more developed position.
 
 ### Note on the Volume 2 figures
 
