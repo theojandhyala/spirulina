@@ -403,6 +403,13 @@ main{min-width:0;padding-top:2rem}
 .card-go{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--phyco);
   margin-top:auto;padding-top:.5rem}
 
+/* ---- live diagrams ---- */
+figure.diagram{margin:1.75rem 0;padding:0;border:1px solid var(--line);border-radius:3px;
+  overflow:hidden;background:var(--paper)}
+.diagram-canvas{display:block;width:100%;height:clamp(210px,26vw,300px)}
+figure.diagram figcaption{padding:.8rem 1rem;font-size:.86rem;line-height:1.5;
+  color:var(--ink-soft);border-top:1px solid var(--line-soft);background:var(--ground)}
+
 /* ---- enquiries ---- */
 .enq{margin-top:4rem;padding-top:2.5rem;border-top:1px solid var(--line)}
 .enq h2{font-family:var(--serif);font-size:1.9rem;line-height:1.15;margin:0 0 .6rem;
@@ -572,7 +579,8 @@ const page =
     '<div class="results" id="results"></div>' +
     '<div class="searchfoot">↑ ↓ to move · Enter to open · Esc to close</div>' +
   "</div></div>\n" +
-  "<script>\n" + SCRIPT() + "\n</script>\n";
+  "<script>\n" + SCRIPT() + "\n</script>\n" +
+  "<script>\n" + readFileSync(join(ROOT, "tools/diagrams.js"), "utf8") + "\n</script>\n";
 
 function SCRIPT() {
   const NAV = {};
@@ -605,6 +613,7 @@ function SCRIPT() {
     document.querySelectorAll('.sec').forEach(function(s){ s.classList.remove('on'); });
     nav.innerHTML = NAV[id];
     closeSide(); window.scrollTo(0,0);
+    if (window.refreshDiagrams) window.refreshDiagrams();
     if (history.replaceState) history.replaceState(null,'','#'+id);
   }
 
@@ -620,6 +629,7 @@ function SCRIPT() {
     var on = nav.querySelector('.navsec.on');
     if (on && on.scrollIntoView) on.scrollIntoView({block:'nearest'});
     closeSide();
+    if (window.refreshDiagrams) window.refreshDiagrams();
     if (anchor) {
       requestAnimationFrame(function(){ requestAnimationFrame(function(){
         var el = document.getElementById(anchor); if (el) el.scrollIntoView();

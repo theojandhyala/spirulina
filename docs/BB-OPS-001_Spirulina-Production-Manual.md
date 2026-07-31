@@ -97,6 +97,10 @@ Screen filtration costs a fraction of centrifugation in both capital and running
 energy. Everything in Part 5 of this manual depends on the filaments staying
 long and intact, which is why shear damage is treated so seriously.
 
+<figure class="diagram" data-diagram="filament">
+<figcaption>Live: trichomes drifting in culture. Each is a chain of cells in an open helix, 100–500 µm long. Watch one fragment at a necridium into short hormogonia — this is how spirulina multiplies.</figcaption>
+</figure>
+
 ### 1.4 Gas vesicles and buoyancy
 
 Spirulina cells contain **gas vesicles** — protein-walled, gas-filled structures
@@ -345,6 +349,10 @@ Protection comes from the culture protecting itself:
 - **Mixing** — every cell spends a short time in high light and longer in shade.
   This flashing-light effect is more efficient than constant moderate light.
 
+<figure class="diagram" data-diagram="lightdepth">
+<figcaption>Live: cross-section through 200 mm of culture. Light falls away exponentially with depth; cells circulate between the bright surface and the dark floor. Each cell brightens as it rises — the flashing-light effect.</figcaption>
+</figure>
+
 **⚠ A dilute culture in full sun is in danger.** After a harvest that has taken
 density too low, or after rain dilution, the culture has lost its own shading
 and will bleach. That is the moment to consider increasing depth or accepting a
@@ -409,6 +417,10 @@ controlled on the pH signal — pH is a direct, real-time proxy for carbon deman
 **⚠ Inject CO₂ only in daylight.** There is no photosynthesis at night, so
 night-time CO₂ is wasted, and it drives pH down towards the range where
 contaminants thrive.
+
+<figure class="diagram" data-diagram="daycycle">
+<figcaption>Live: one day in a pond. Light drives photosynthesis, carbon is consumed, pH climbs. CO₂ dosing pulses push it back down. At night photosynthesis stops and pH goes flat — which is why dosing stops too.</figcaption>
+</figure>
 
 ### 3.4 Alkalinity and salinity — the contamination barrier
 
@@ -514,6 +526,10 @@ which is why they sit on backup power.
 
 Faster is not better. Above about 0.35 m/s the extra energy buys nothing and the
 shear begins to fragment filaments — which then screen poorly at harvest.
+
+<figure class="diagram" data-diagram="raceway">
+<figcaption>Live: plan view of a raceway pond. The paddle wheel drives culture round the loop past the central baffle. Flow is fastest mid-channel and slowest at the walls — and the bends are where biomass settles if the geometry is wrong.</figcaption>
+</figure>
 
 ## 4. Growth rate and what to expect
 
@@ -927,6 +943,10 @@ filtrate, and the loss is invisible until you reconcile yields at month end.
 Screens must be cleanable without tools; a screen that is awkward to clean will
 not be cleaned.
 
+<figure class="diagram" data-diagram="screening">
+<figcaption>Live: why screening works. Long helical filaments cannot pass a 30–50 µm mesh and are retained; water and anything single-celled goes straight through. This is the whole reason spirulina needs no centrifuge.</figcaption>
+</figure>
+
 ### 11.5 Washing
 
 Harvested biomass carries culture medium with it — mostly sodium bicarbonate,
@@ -1000,6 +1020,10 @@ temperature runs up to air temperature within minutes.**
 
 **⚠ This is where batches are ruined.** Everything looks fine for hours, then the
 last part of the cycle destroys the pigment.
+
+<figure class="diagram" data-diagram="dryingtrap">
+<figcaption>Live: the temperature trap. While free water evaporates it cools the product, holding it far below the air temperature. When the water runs out that cooling vanishes and product temperature climbs through the 60 °C limit within minutes.</figcaption>
+</figure>
 
 | Requirement | Detail |
 | --- | --- |
