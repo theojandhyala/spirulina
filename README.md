@@ -148,3 +148,24 @@ date and contact details, which are marked as placeholders throughout.
 
 Company registration details (CIN, GSTIN, registered address) are placeholders
 in `BB-RFQ-000` and must be filled in before the letters go out.
+
+## Production manual
+
+`docs/BB-OPS-001_Spirulina-Production-Manual.md` is the operating and training
+manual: what spirulina is, how it grows, how to run the ponds, harvest, process,
+test and release, and what to do when a culture starts failing.
+
+It is a different kind of document from BB-DBR-002. The design criteria specify
+**what to build**; this explains **how to run it**. Where the two conflict, the
+design criteria govern.
+
+The viewer build is selective, so the public website carries the production
+manual **without** the design criteria volumes:
+
+```
+npm run docs                                          # all documents (internal)
+node tools/build-docs-viewer.mjs site/manual/index.html ops   # public build
+```
+
+`site/manual/index.html` is committed because GitHub Pages serves it. Rebuild it
+after editing BB-OPS-001.

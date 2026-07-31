@@ -2,7 +2,13 @@
  * Builds a single self-contained HTML reader for the BB-DBR-002 design
  * criteria manual set.
  *
- *   node tools/build-docs-viewer.mjs [outfile]
+ *   node tools/build-docs-viewer.mjs [outfile] [id ...]
+ *
+ * With no ids, every document is included (the internal reader).
+ * With ids, only those are built. The public website build uses this to carry
+ * the production manual WITHOUT the design criteria volumes:
+ *
+ *   node tools/build-docs-viewer.mjs site/manual/index.html ops
  *
  * Reads every volume listed in VOLUMES below, renders it to HTML, and
  * emits one file with the stylesheet and script inlined — no build step,
@@ -20,8 +26,9 @@ import { marked } from "marked";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = process.argv[2] || join(ROOT, "docs-viewer.html");
+const ONLY = process.argv.slice(3);
 
-const VOLUMES = [
+const ALL_VOLUMES = [
   {
     id: "v1",
     tab: "Vol 1",
@@ -42,6 +49,13 @@ const VOLUMES = [
     number: "BB-DBR-002-V3",
     title: "Civil, Structural and Layout",
     file: "docs/BB-DBR-002-V3_Design-Criteria-Manual_Vol3_Civil-Structural-Layout.md",
+  },
+  {
+    id: "ops",
+    tab: "Production Manual",
+    number: "BB-OPS-001",
+    title: "Spirulina Production Manual",
+    file: "docs/BB-OPS-001_Spirulina-Production-Manual.md",
   },
 ];
 
@@ -90,6 +104,19 @@ function renderVolume(vol) {
   return { ...vol, html, toc };
 }
 
+const VOLUMES = ONLY.length
+  ? ALL_VOLUMES.filter((v) => ONLY.includes(v.id))
+  : ALL_VOLUMES;
+
+if (ONLY.length && VOLUMES.length !== ONLY.length) {
+  const missing = ONLY.filter((id) => !ALL_VOLUMES.some((v) => v.id === id));
+  throw new Error("build-docs-viewer: unknown document id(s): " + missing.join(", "));
+}
+
+// A build restricted to specific ids is the public website build: it omits
+// the register page, which carries internal capacity figures and findings.
+const PUBLIC = ONLY.length > 0;
+
 const vols = VOLUMES.map(renderVolume);
 
 /**
@@ -109,7 +136,7 @@ function anchor(volId, startsWith) {
   return hit.id;
 }
 
-const FINDING = anchor("v3", "6.5");
+const FINDING = VOLUMES.some((v) => v.id === "v3") ? anchor("v3", "6.5") : null;
 
 const tocHtml = (v) =>
   v.toc
@@ -119,7 +146,100 @@ const tocHtml = (v) =>
     )
     .join("\n");
 
-const page = `<title>BB-DBR-002 — Design Criteria Manual</title>
+const REGISTER = `
+    <article class="doc reg on" id="doc-reg">
+      <p class="kicker">BlueBloom Spirulina Private Limited · Hyderabad Region, Telangana</p>
+      <h1 class="hero-t" style="font-family:var(--serif);letter-spacing:-.02em;color:var(--ink);font-weight:600">Design Criteria Manual</h1>
+      <p class="hero-s">Master engineering standard for the BlueBloom Spirulina
+      Production Facility — a 1-acre commercial cultivation, harvesting, drying and
+      packaging facility designed to expand to five acres.</p>
+      <p class="hero-s" style="color:var(--muted);font-size:.9rem">Three design volumes plus the
+      production manual. Pick one above, or filter sections from the contents list.</p>
+
+      <dl class="figs">
+        <div class="fig"><dt>Stage 1 site</dt><dd>1 acre</dd><small>4,047 m²</small></div>
+        <div class="fig"><dt>Net pond area</dt><dd>1,750 m²</dd><small>Vol 3 § 6.4</small></div>
+        <div class="fig"><dt>Annual output</dt><dd>≈ 3.9 t</dd><small>dry biomass</small></div>
+        <div class="fig"><dt>Master plan</dt><dd>5 acres</dd><small>≈ 24.5 t/yr</small></div>
+      </dl>
+
+      <h2>Document register</h2>
+      <div class="tw"><table>
+        <thead><tr><th>Number</th><th>Volume</th><th>Rev.</th><th>Status</th></tr></thead>
+        <tbody>
+        ${vols
+          .map(
+            (v) =>
+              `<tr><td><code>${esc(v.number)}</code></td><td>${esc(v.title)}</td><td>${v.id === "v1" || v.id === "ops" ? "Rev. 0" : "Rev. 1"}</td><td>${
+                v.id === "v1"
+                  ? "Initial design basis"
+                  : v.id === "ops"
+                  ? "Working manual — operations and training"
+                  : "Design basis — <strong>finding closed</strong>"
+              }</td></tr>`
+          )
+          .join("\n        ")}
+        <tr><td><code>BB-DBR-002-V4</code></td><td>Mechanical, Electrical, Instrumentation and Control</td><td>—</td><td>Not yet issued</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2>Closed finding — net pond area</h2>
+      <p>Volumes 2 and 3 disagreed on Stage 1 net pond area. Volume 2 Rev. 0
+      assumed 2,000 m² (assumption A-01); the Volume 3 layout study supports
+      1,750 m² once buildings, roads, setbacks and inter-pond access are budgeted
+      against the acre.</p>
+
+      <dl class="open">
+        <div><dt>Volume 2, Rev. 0</dt><dd>2,000 m²</dd></div>
+        <div class="lead"><dt>Adopted, Rev. 1</dt><dd>1,750 m²</dd></div>
+        <div><dt>Capacity difference</dt><dd>12.5 %</dd></div>
+        <div><dt>Annual output</dt><dd>4.48 → 3.92 t</dd></div>
+      </dl>
+
+      <div class="note">
+        <b>Closed at Volume 2 Rev. 1</b>
+        <p>Volume 2 was revised in full against 1,750 m² — every derived capacity,
+        balance and equipment duty recalculated, not just the headline figure.
+        Stage 1 output is <strong>≈ 3.9 t/year</strong>.</p>
+        <p>One deliberate divergence remains, recorded at Volume 2 § 4.5: process
+        equipment is enquired against 24 kg/day, the superseded peak, as roughly
+        14% margin against the unconfirmed productivity assumptions A-03 and
+        A-04. Consumables and utilities are planned against the Rev. 1 figures.</p>
+      </div>
+      <p><a class="jump" href="#" data-goto="v3" data-anchor="${FINDING}">Read Volume 3 § 6.5 →</a></p>
+
+      <h2>How to read this set</h2>
+      <p>Volume 1 is qualitative and governs everything below it. Volume 2 turns it
+      into numbers. Volume 3 fixes the geometry Volume 2 assumed — which is how the
+      finding above surfaced, and was then closed.</p>
+      <p><strong>BB-OPS-001, the Production Manual, is a different kind of document.</strong>
+      The design volumes specify what to build; the production manual explains what
+      spirulina is and how to actually run the facility — cultivation, harvest,
+      processing, quality, and what to do when a culture starts failing. Start there
+      if you want to understand the crop rather than the plant.</p>
+      <p>Every assumed value in Volumes 2 and 3 carries a register reference
+      (A-01 to A-22) naming the trial, survey or analysis that confirms it and the
+      commitment it must precede. See Volume 2 § 24 and Volume 3 § 16.</p>
+
+      <div class="note">
+        <b>Status of the figures</b>
+        <p>These are a preliminary design basis: internally consistent and suitable
+        for sizing, budgeting and procurement enquiry, but derived from assumed
+        values for pond area, areal productivity and operating days.</p>
+        <p>The two highest-value early expenditures identified across the set are a
+        <strong>cultivation trial</strong> and a <strong>source water analysis</strong>.
+        Both should precede any major equipment commitment.</p>
+      </div>
+
+      <p class="foot">
+        BB-DBR-002 · Rev. 0 · Proprietary project document<br>
+        Prepared for BlueBloom Spirulina Private Limited<br>
+        Use your browser's print function to save any volume as a PDF.
+      </p>
+    </article>
+`;
+
+const page = `<title>${PUBLIC ? "Spirulina Production Manual — BlueBloom" : "BB-DBR-002 — Design Criteria Manual"}</title>
 <style>
 :root {
   --ground:#ECEFEA; --paper:#F7F9F5; --panel:#10322C; --ink:#06201E;
@@ -309,10 +429,10 @@ html{scroll-behavior:smooth}
 
 <header class="bar">
   <div class="bar-in">
-    <div class="brand"><b>BB-DBR-002</b> <span>Design Criteria Manual</span></div>
+    <div class="brand"><b>${PUBLIC ? "BlueBloom" : "BB-DBR-002"}</b> <span>${PUBLIC ? "Spirulina Production Manual" : "Design Criteria Manual"}</span></div>
     <nav class="tabs" id="tabs" aria-label="Volumes">
-      <button data-v="reg" aria-current="true">Register</button>
-      ${vols.map((v) => `<button data-v="${v.id}">${esc(v.tab)}</button>`).join("\n      ")}
+      ${PUBLIC ? "" : '<button data-v="reg" aria-current="true">Register</button>'}
+      ${vols.map((v, i) => `<button data-v="${v.id}"${PUBLIC && i === 0 ? ' aria-current="true"' : ""}>${esc(v.tab)}</button>`).join("\n      ")}
     </nav>
     <button class="menu" id="menu" aria-expanded="false">Contents</button>
   </div>
@@ -325,89 +445,7 @@ html{scroll-behavior:smooth}
   </aside>
 
   <main>
-    <article class="doc reg on" id="doc-reg">
-      <p class="kicker">BlueBloom Spirulina Private Limited · Hyderabad Region, Telangana</p>
-      <h1 class="hero-t" style="font-family:var(--serif);letter-spacing:-.02em;color:var(--ink);font-weight:600">Design Criteria Manual</h1>
-      <p class="hero-s">Master engineering standard for the BlueBloom Spirulina
-      Production Facility — a 1-acre commercial cultivation, harvesting, drying and
-      packaging facility designed to expand to five acres.</p>
-      <p class="hero-s" style="color:var(--muted);font-size:.9rem">Three volumes issued at Rev. 0.
-      Pick a volume above, or filter sections from the contents list.</p>
-
-      <dl class="figs">
-        <div class="fig"><dt>Stage 1 site</dt><dd>1 acre</dd><small>4,047 m²</small></div>
-        <div class="fig"><dt>Net pond area</dt><dd>1,750 m²</dd><small>Vol 3 § 6.4</small></div>
-        <div class="fig"><dt>Annual output</dt><dd>≈ 3.9 t</dd><small>dry biomass</small></div>
-        <div class="fig"><dt>Master plan</dt><dd>5 acres</dd><small>≈ 24.5 t/yr</small></div>
-      </dl>
-
-      <h2>Document register</h2>
-      <div class="tw"><table>
-        <thead><tr><th>Number</th><th>Volume</th><th>Rev.</th><th>Status</th></tr></thead>
-        <tbody>
-        ${vols
-          .map(
-            (v) =>
-              `<tr><td><code>${esc(v.number)}</code></td><td>${esc(v.title)}</td><td>${v.id === "v1" ? "Rev. 0" : "Rev. 1"}</td><td>${
-                v.id === "v1"
-                  ? "Initial design basis"
-                  : "Design basis — <strong>finding closed</strong>"
-              }</td></tr>`
-          )
-          .join("\n        ")}
-        <tr><td><code>BB-DBR-002-V4</code></td><td>Mechanical, Electrical, Instrumentation and Control</td><td>—</td><td>Not yet issued</td></tr>
-        </tbody>
-      </table></div>
-
-      <h2>Closed finding — net pond area</h2>
-      <p>Volumes 2 and 3 disagreed on Stage 1 net pond area. Volume 2 Rev. 0
-      assumed 2,000 m² (assumption A-01); the Volume 3 layout study supports
-      1,750 m² once buildings, roads, setbacks and inter-pond access are budgeted
-      against the acre.</p>
-
-      <dl class="open">
-        <div><dt>Volume 2, Rev. 0</dt><dd>2,000 m²</dd></div>
-        <div class="lead"><dt>Adopted, Rev. 1</dt><dd>1,750 m²</dd></div>
-        <div><dt>Capacity difference</dt><dd>12.5 %</dd></div>
-        <div><dt>Annual output</dt><dd>4.48 → 3.92 t</dd></div>
-      </dl>
-
-      <div class="note">
-        <b>Closed at Volume 2 Rev. 1</b>
-        <p>Volume 2 was revised in full against 1,750 m² — every derived capacity,
-        balance and equipment duty recalculated, not just the headline figure.
-        Stage 1 output is <strong>≈ 3.9 t/year</strong>.</p>
-        <p>One deliberate divergence remains, recorded at Volume 2 § 4.5: process
-        equipment is enquired against 24 kg/day, the superseded peak, as roughly
-        14% margin against the unconfirmed productivity assumptions A-03 and
-        A-04. Consumables and utilities are planned against the Rev. 1 figures.</p>
-      </div>
-      <p><a class="jump" href="#" data-goto="v3" data-anchor="${FINDING}">Read Volume 3 § 6.5 →</a></p>
-
-      <h2>How to read this set</h2>
-      <p>Volume 1 is qualitative and governs everything below it. Volume 2 turns it
-      into numbers. Volume 3 fixes the geometry Volume 2 assumed — which is how the
-      finding above surfaced, and was then closed.</p>
-      <p>Every assumed value in Volumes 2 and 3 carries a register reference
-      (A-01 to A-22) naming the trial, survey or analysis that confirms it and the
-      commitment it must precede. See Volume 2 § 24 and Volume 3 § 16.</p>
-
-      <div class="note">
-        <b>Status of the figures</b>
-        <p>These are a preliminary design basis: internally consistent and suitable
-        for sizing, budgeting and procurement enquiry, but derived from assumed
-        values for pond area, areal productivity and operating days.</p>
-        <p>The two highest-value early expenditures identified across the set are a
-        <strong>cultivation trial</strong> and a <strong>source water analysis</strong>.
-        Both should precede any major equipment commitment.</p>
-      </div>
-
-      <p class="foot">
-        BB-DBR-002 · Rev. 0 · Proprietary project document<br>
-        Prepared for BlueBloom Spirulina Private Limited<br>
-        Use your browser's print function to save any volume as a PDF.
-      </p>
-    </article>
+${PUBLIC ? "" : REGISTER}
 
     ${vols.map((v) => `<article class="doc" id="doc-${v.id}">\n${v.html}\n</article>`).join("\n\n")}
   </main>
@@ -544,7 +582,7 @@ html{scroll-behavior:smooth}
     }
   });
 
-  show('reg');
+  show(${PUBLIC ? JSON.stringify(vols[0].id) : "'reg'"});
 })();
 </script>
 `;

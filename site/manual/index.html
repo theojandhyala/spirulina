@@ -1,0 +1,3236 @@
+<title>Spirulina Production Manual — BlueBloom</title>
+<style>
+:root {
+  --ground:#ECEFEA; --paper:#F7F9F5; --panel:#10322C; --ink:#06201E;
+  --ink-soft:#22423C; --muted:#5D6F69; --phyco:#1160C4; --phyco-lt:#57A0F0;
+  --biomass:#1C4A3E; --line:rgba(6,32,30,.14); --line-soft:rgba(6,32,30,.07);
+  --warn-bg:rgba(17,96,196,.07);
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Charter,Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{--ground:#071110;--paper:#0C1A18;--panel:#0B211E;--ink:#E4EDE8;
+    --ink-soft:#C2D2CC;--muted:#91A69E;--phyco:#5CA3F5;--phyco-lt:#8CC2FF;
+    --biomass:#3E8C73;--line:rgba(228,237,232,.15);--line-soft:rgba(228,237,232,.07);
+    --warn-bg:rgba(92,163,245,.09);}
+}
+:root[data-theme="dark"]{--ground:#071110;--paper:#0C1A18;--panel:#0B211E;--ink:#E4EDE8;
+  --ink-soft:#C2D2CC;--muted:#91A69E;--phyco:#5CA3F5;--phyco-lt:#8CC2FF;
+  --biomass:#3E8C73;--line:rgba(228,237,232,.15);--line-soft:rgba(228,237,232,.07);
+  --warn-bg:rgba(92,163,245,.09);}
+:root[data-theme="light"]{--ground:#ECEFEA;--paper:#F7F9F5;--panel:#10322C;--ink:#06201E;
+  --ink-soft:#22423C;--muted:#5D6F69;--phyco:#1160C4;--phyco-lt:#57A0F0;
+  --biomass:#1C4A3E;--line:rgba(6,32,30,.14);--line-soft:rgba(6,32,30,.07);
+  --warn-bg:rgba(17,96,196,.07);}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:1rem;line-height:1.62;-webkit-font-smoothing:antialiased}
+::selection{background:var(--phyco);color:#fff}
+:focus-visible{outline:2px solid var(--phyco);outline-offset:2px;border-radius:2px}
+
+/* ---------- masthead ---------- */
+.bar{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--ground) 90%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar-in{display:flex;align-items:center;gap:1.25rem;height:3.6rem;
+  padding-inline:1.25rem;max-width:96rem;margin-inline:auto}
+.brand{display:flex;align-items:center;gap:.5rem;font-family:var(--serif);
+  font-size:1.05rem;white-space:nowrap;letter-spacing:-.01em}
+.brand::before{content:"";width:.55rem;height:.55rem;border-radius:50%;
+  background:var(--phyco);flex:none}
+.brand b{font-weight:600}
+.brand span{color:var(--muted)}
+.tabs{display:flex;gap:.25rem;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;
+  background:none;border:1px solid transparent;color:var(--muted);cursor:pointer;
+  padding:.4rem .7rem;border-radius:2px;white-space:nowrap;transition:.15s}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-current="true"]{color:#fff;background:var(--phyco);border-color:var(--phyco)}
+.menu{display:none;background:none;border:1px solid var(--line);color:var(--ink);
+  border-radius:2px;padding:.35rem .55rem;cursor:pointer;font-family:var(--mono);font-size:.78rem}
+
+/* ---------- shell ---------- */
+.shell{display:grid;grid-template-columns:17rem minmax(0,1fr);gap:2.5rem;
+  max-width:96rem;margin-inline:auto;padding:0 1.25rem 5rem}
+.side{position:sticky;top:3.6rem;align-self:start;height:calc(100dvh - 3.6rem);
+  overflow-y:auto;padding:1.25rem .5rem 2rem 0;border-right:1px solid var(--line-soft)}
+.find{width:100%;font-family:var(--mono);font-size:.78rem;padding:.5rem .6rem;
+  border:1px solid var(--line);border-radius:2px;background:var(--paper);
+  color:var(--ink);margin-bottom:.9rem}
+.find::placeholder{color:var(--muted)}
+.toc{display:flex;flex-direction:column}
+.toc a{text-decoration:none;color:var(--muted);font-size:.83rem;line-height:1.35;
+  padding:.32rem .5rem;border-left:2px solid transparent;transition:.15s}
+.toc a:hover{color:var(--ink);background:var(--paper)}
+.toc a.t3{padding-left:1.4rem;font-size:.79rem;opacity:.85}
+.toc a.on{color:var(--phyco);border-left-color:var(--phyco);background:var(--paper)}
+.toc a.hide{display:none}
+.toc-empty{color:var(--muted);font-family:var(--mono);font-size:.76rem;padding:.5rem}
+
+/* ---------- document ---------- */
+main{min-width:0;padding-top:2.25rem}
+.doc{display:none}
+.doc.on{display:block}
+.doc>*{max-width:52rem}
+.doc .tw{max-width:100%}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;text-wrap:balance;
+  letter-spacing:-.012em;scroll-margin-top:4.5rem}
+.doc h1{font-size:1.5rem;color:var(--muted);font-weight:400;margin:0 0 .25rem;
+  font-family:var(--mono);letter-spacing:.06em}
+.doc h2{font-size:1.65rem;line-height:1.2;margin:3rem 0 1rem;padding-top:1.5rem;
+  border-top:1px solid var(--line)}
+.doc h2:first-of-type{border-top:0;padding-top:0;margin-top:1rem}
+.doc h3{font-size:1.15rem;margin:2rem 0 .6rem}
+.doc p{margin:0 0 1rem}
+.doc strong{font-weight:600}
+.doc em{font-style:italic}
+.doc ul,.doc ol{margin:0 0 1.15rem;padding-left:1.35rem}
+.doc li{margin-bottom:.3rem}
+.doc hr{border:0;border-top:1px solid var(--line-soft);margin:2.25rem 0}
+.doc a{color:var(--phyco)}
+.doc code{font-family:var(--mono);font-size:.87em;background:var(--paper);
+  padding:.1rem .3rem;border-radius:2px}
+.doc pre{background:var(--paper);border:1px solid var(--line-soft);border-radius:2px;
+  padding:.9rem 1rem;overflow-x:auto}
+.doc pre code{background:none;padding:0}
+
+/* a paragraph that is entirely bold is an emphasis callout in these documents */
+.doc p:has(> strong:only-child){background:var(--warn-bg);border-left:2px solid var(--phyco);
+  padding:.85rem 1rem;margin-bottom:1.25rem}
+.doc p:has(> strong:only-child) strong{font-weight:600}
+
+.tw{overflow-x:auto;margin:0 0 1.5rem;border:1px solid var(--line);border-radius:2px}
+/* min-width so narrow screens scroll the table sideways inside .tw rather
+   than crushing every cell to one word per line */
+table{border-collapse:collapse;width:100%;min-width:30rem;font-size:.86rem;
+  font-variant-numeric:tabular-nums;font-family:var(--sans)}
+th,td{text-align:left;padding:.55rem .8rem;border-bottom:1px solid var(--line-soft);
+  vertical-align:top}
+thead th{background:var(--paper);font-family:var(--mono);font-size:.7rem;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:400;
+  border-bottom:1px solid var(--line);position:sticky;top:0}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--paper)}
+td strong{font-weight:600}
+
+/* ---------- register (home) ---------- */
+.reg h2{font-size:1.3rem;margin:2.5rem 0 1rem;padding-top:1.5rem;border-top:1px solid var(--line)}
+.reg h2:first-of-type{border-top:0;padding-top:0;margin-top:2rem}
+.hero-t{font-size:2.1rem;line-height:1.1;margin:0 0 .75rem;max-width:22ch}
+.hero-s{color:var(--ink-soft);max-width:44em;margin:0 0 .5rem}
+.kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:.9rem}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));
+  gap:1px;background:var(--line);border:1px solid var(--line);margin:1.5rem 0 0}
+.fig{background:var(--ground);padding:.9rem 1rem}
+.fig dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+.fig dd{margin:0;font-family:var(--serif);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.fig small{display:block;font-family:var(--mono);font-size:.68rem;color:var(--muted);
+  margin-top:.15rem;letter-spacing:.03em}
+.note{background:var(--warn-bg);border-left:2px solid var(--phyco);
+  padding:1rem 1.15rem;margin:1.25rem 0;max-width:52rem}
+.note b{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--phyco);margin-bottom:.5rem}
+.note p{margin:0 0 .7rem}
+.note p:last-child{margin-bottom:0}
+.open{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:1rem;
+  margin:1.25rem 0;max-width:52rem}
+.open div{border:1px solid var(--line);padding:.9rem 1rem;border-radius:2px}
+.open dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.open dd{margin:0;font-family:var(--serif);font-size:1.35rem;font-variant-numeric:tabular-nums}
+.open .lead{border-color:var(--phyco)}
+.open .lead dd{color:var(--phyco)}
+.jump{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--mono);
+  font-size:.78rem;text-decoration:none;color:#fff;background:var(--phyco);
+  border:1px solid var(--phyco);padding:.5rem .85rem;border-radius:2px;transition:.15s}
+.jump:hover{background:transparent;color:var(--phyco)}
+.foot{margin-top:3.5rem;padding-top:1.5rem;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.76rem;color:var(--muted);line-height:1.8;max-width:52rem}
+
+/* ---------- responsive ---------- */
+@media (max-width:960px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:0}
+  .side{position:fixed;inset:3.6rem 0 0 auto;width:min(21rem,86vw);z-index:55;
+    background:var(--ground);border-right:0;border-left:1px solid var(--line);
+    padding:1.25rem 1rem 2rem;transform:translateX(100%);transition:transform .2s;
+    box-shadow:-10px 0 30px rgba(0,0,0,.14)}
+  .side.open{transform:translateX(0)}
+  .menu{display:block}
+  main{padding-top:1.5rem}
+}
+@media (max-width:560px){
+  .bar-in{gap:.6rem;padding-inline:.9rem}
+  .brand span{display:none}
+  .shell{padding-inline:.9rem}
+  .hero-t{font-size:1.65rem}
+  .doc h2{font-size:1.35rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;scroll-behavior:auto!important}
+}
+html{scroll-behavior:smooth}
+
+@media print{
+  .bar,.side,.menu,.jump{display:none!important}
+  .shell{display:block;padding:0;max-width:none}
+  main{padding:0}
+  .doc>*{max-width:none}
+  .doc h2{break-after:avoid;page-break-after:avoid}
+  .tw,table,tr{break-inside:avoid;page-break-inside:avoid}
+  thead th{position:static}
+  body{background:#fff;color:#000;font-size:10.5pt}
+}
+</style>
+
+<header class="bar">
+  <div class="bar-in">
+    <div class="brand"><b>BlueBloom</b> <span>Spirulina Production Manual</span></div>
+    <nav class="tabs" id="tabs" aria-label="Volumes">
+      
+      <button data-v="ops" aria-current="true">Production Manual</button>
+    </nav>
+    <button class="menu" id="menu" aria-expanded="false">Contents</button>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="side" id="side">
+    <input class="find" id="find" type="search" placeholder="Filter sections…" aria-label="Filter sections">
+    <nav class="toc" id="toc" aria-label="Table of contents"></nav>
+  </aside>
+
+  <main>
+
+
+    <article class="doc" id="doc-ops">
+<h1 id="ops-bb-ops-001">BB-OPS-001</h1>
+<h2 id="ops-spirulina-production-manual">Spirulina Production Manual</h2>
+<h3 id="ops-a-complete-working-manual-the-organism-cultivation-harvest-p">A complete working manual — the organism, cultivation, harvest, processing, quality and troubleshooting</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Document number</td>
+<td>BB-OPS-001</td>
+</tr>
+<tr>
+<td>Revision</td>
+<td>Rev. 0</td>
+</tr>
+<tr>
+<td>Company</td>
+<td>BlueBloom Spirulina Private Limited</td>
+</tr>
+<tr>
+<td>Location</td>
+<td>Hyderabad Region, Telangana, India</td>
+</tr>
+<tr>
+<td>Purpose</td>
+<td>Operating and training manual for production staff</td>
+</tr>
+<tr>
+<td>Companion documents</td>
+<td>BB-DBR-002 Volumes 1 to 3, Design Criteria Manual</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Working manual</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2 id="ops-how-to-use-this-manual">How to use this manual</h2>
+<p>The design criteria manual (BB-DBR-002) specifies <strong>what to build</strong>. This manual
+explains <strong>how it works and how to run it</strong>.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>If you want to</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Understand the organism</td>
+<td>Part 1</td>
+</tr>
+<tr>
+<td>Grow a culture</td>
+<td>Parts 2 and 3</td>
+</tr>
+<tr>
+<td>Run the ponds day to day</td>
+<td>Part 4</td>
+</tr>
+<tr>
+<td>Harvest and process</td>
+<td>Part 5</td>
+</tr>
+<tr>
+<td>Test and release product</td>
+<td>Part 6</td>
+</tr>
+<tr>
+<td>Fix something that has gone wrong</td>
+<td>Part 7</td>
+</tr>
+<tr>
+<td>Look up a number or a calculation</td>
+<td>Part 8</td>
+</tr>
+</tbody></table></div>
+<p>Anything marked <strong>⚠</strong> is a point where a mistake costs a culture, a batch, or
+somebody&#39;s safety. Read those twice.</p>
+<hr>
+<h1 id="ops-part-1-the-organism">PART 1 — THE ORGANISM</h1>
+<h2 id="ops-1-what-spirulina-actually-is">1. What spirulina actually is</h2>
+<h3 id="ops-11-it-is-a-bacterium-not-a-plant-and-not-an-algae">1.1 It is a bacterium, not a plant and not an algae</h3>
+<p>Spirulina is a <strong>cyanobacterium</strong> — a photosynthetic bacterium. It is a
+prokaryote: it has no nucleus, no chloroplasts, no mitochondria, and none of
+the membrane-bound organelles that define plant and algal cells.</p>
+<p>This is not a technicality. It has three practical consequences that shape
+everything else in this manual:</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Consequence</th>
+<th>Why it matters in production</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>No cellulose cell wall</strong></td>
+<td>The wall is thin peptidoglycan. Spirulina is digestible without any cell disruption step. <em>Chlorella</em>, a true green alga, needs its wall cracked mechanically before humans can absorb it. That processing step is a large capital and energy cost we do not have.</td>
+</tr>
+<tr>
+<td><strong>Prokaryotic simplicity</strong></td>
+<td>Growth is fast and nutrient demand is straightforward. It responds to changes in hours, not days — good when you are correcting a problem, dangerous when you are causing one.</td>
+</tr>
+<tr>
+<td><strong>Bacterial physiology</strong></td>
+<td>It is vulnerable to the same things that suppress bacteria — pH, salinity, ammonia — which is precisely what gives us contamination control without chemicals.</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-12-naming-spirulina-versus-arthrospira">1.2 Naming: <em>Spirulina</em> versus <em>Arthrospira</em></h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em><strong>Arthrospira platensis</strong></em></td>
+<td>The correct scientific name of the commercial organism</td>
+</tr>
+<tr>
+<td><em><strong>Arthrospira maxima</strong></em></td>
+<td>The other commercial species, common in Central American strains</td>
+</tr>
+<tr>
+<td><em>Spirulina</em></td>
+<td>A <strong>separate genus</strong>, not what is sold as spirulina</td>
+</tr>
+<tr>
+<td>&quot;Spirulina&quot;</td>
+<td>The trade and common name, universally used, legally accepted</td>
+</tr>
+</tbody></table></div>
+<p>The organism was originally placed in <em>Spirulina</em>, then moved to <em>Arthrospira</em>
+on the basis of trichome structure. The food trade kept the old name. So the
+product is called spirulina and the organism is <em>Arthrospira</em>. Both are correct
+in their own context. On a certificate of analysis, write <em>Arthrospira
+platensis</em>; on a retail label, write spirulina.</p>
+<h3 id="ops-13-shape-and-structure">1.3 Shape and structure</h3>
+<p>Spirulina grows as a <strong>trichome</strong> — a multicellular filament — coiled into an
+open left-handed helix. It is the helix that gives the organism its name and,
+as it happens, its commercial viability.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Typical value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Trichome width</td>
+<td>6 – 12 µm</td>
+</tr>
+<tr>
+<td>Trichome length</td>
+<td>100 – 500 µm</td>
+</tr>
+<tr>
+<td>Helix diameter</td>
+<td>30 – 70 µm</td>
+</tr>
+<tr>
+<td>Helix pitch</td>
+<td>40 – 80 µm</td>
+</tr>
+<tr>
+<td>Number of cells per trichome</td>
+<td>20 – 100+</td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ The filament length is the single most commercially important physical
+property of this organism.</strong> At 100–500 µm, a spirulina filament can be caught
+on a fine screen. A single-celled alga at 5–10 µm cannot — it needs a centrifuge.
+Screen filtration costs a fraction of centrifugation in both capital and running
+energy. Everything in Part 5 of this manual depends on the filaments staying
+long and intact, which is why shear damage is treated so seriously.</p>
+<h3 id="ops-14-gas-vesicles-and-buoyancy">1.4 Gas vesicles and buoyancy</h3>
+<p>Spirulina cells contain <strong>gas vesicles</strong> — protein-walled, gas-filled structures
+that reduce cell density and provide buoyancy. In a still pond the culture
+floats towards the surface.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Effect</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Buoyancy</td>
+<td>Culture rises when circulation stops; forms a surface scum</td>
+</tr>
+<tr>
+<td>Light exposure</td>
+<td>Buoyant cells sit in the highest light, where they photoinhibit</td>
+</tr>
+<tr>
+<td>Harvest</td>
+<td>Assists flotation-based harvesting where used</td>
+</tr>
+<tr>
+<td>Collapse under pressure</td>
+<td>Vigorous pumping can collapse vesicles, changing buoyancy</td>
+</tr>
+</tbody></table></div>
+<p>This is one reason circulation runs continuously. A pond left unstirred for a
+few hours in daylight concentrates its own biomass into the most damaging light
+at the surface.</p>
+<h3 id="ops-15-the-helix-is-not-fixed">1.5 The helix is not fixed</h3>
+<p>Under stress — temperature extremes, nutrient limitation, some contamination —
+trichomes can <strong>uncoil into a straight or loosely waved form</strong>. This is the
+<em>linear morphotype</em>.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Point</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>It is usually reversible</td>
+<td>Restore conditions and coiling usually returns over several generations</td>
+</tr>
+<tr>
+<td>It is a diagnostic signal</td>
+<td>Uncoiling under the microscope means something is wrong before density falls</td>
+</tr>
+<tr>
+<td>It can become fixed</td>
+<td>Some strains lose coiling permanently after prolonged stress</td>
+</tr>
+<tr>
+<td>It affects harvest</td>
+<td>Straight filaments screen slightly differently; heavy fragmentation screens poorly</td>
+</tr>
+</tbody></table></div>
+<p><strong>Watch the shape, not only the count.</strong> Morphology changes days before yield
+does.</p>
+<h3 id="ops-16-how-it-reproduces">1.6 How it reproduces</h3>
+<p>Spirulina does not have sex, spores, or a complex life cycle. It multiplies by:</p>
+<ol>
+<li><strong>Binary fission</strong> — cells divide across the trichome, lengthening it.</li>
+<li><strong>Fragmentation</strong> — specialised cells called <strong>necridia</strong> die and lyse at
+intervals along the trichome, breaking it into short motile fragments called
+<strong>hormogonia</strong>.</li>
+<li>Each hormogonium grows into a full trichome.</li>
+</ol>
+<p>Practical meaning: a healthy culture contains a <strong>spread of filament lengths</strong>.
+A culture of uniformly very short fragments is either young from a recent
+transfer, or is fragmenting from stress or mechanical damage.</p>
+<h3 id="ops-17-what-it-does-and-does-not-do-metabolically">1.7 What it does and does not do metabolically</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Status</th>
+<th>Why you care</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Oxygenic photosynthesis</td>
+<td>Yes</td>
+<td>It makes oxygen; supersaturation in a stagnant pond is a real inhibition risk</td>
+</tr>
+<tr>
+<td>Carbon from bicarbonate</td>
+<td>Yes, via a carbon-concentrating mechanism</td>
+<td>This is why a bicarbonate-buffered alkaline medium works so well</td>
+</tr>
+<tr>
+<td><strong>Nitrogen fixation</strong></td>
+<td><strong>No</strong></td>
+<td>⚠ A widespread myth. <em>Arthrospira</em> has no heterocysts and cannot fix atmospheric nitrogen. <strong>All nitrogen must be supplied.</strong> A culture starved of nitrogen will bleach and stall — it cannot rescue itself from the air</td>
+</tr>
+<tr>
+<td>Nitrate uptake</td>
+<td>Yes</td>
+<td>The standard nitrogen source</td>
+</tr>
+<tr>
+<td>Ammonium uptake</td>
+<td>Yes, and preferentially</td>
+<td>Cheap, but toxic above threshold at high pH — see § 3.6</td>
+</tr>
+<tr>
+<td>Urea uptake</td>
+<td>Yes, after hydrolysis to ammonium</td>
+<td>Cheapest per kg N, needs careful dosing</td>
+</tr>
+<tr>
+<td>Heterotrophic growth in the dark</td>
+<td>Essentially no</td>
+<td>It will not grow on sugar in a fermenter</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-18-where-it-grows-naturally">1.8 Where it grows naturally</h3>
+<p>Spirulina is native to <strong>alkaline soda lakes</strong> — shallow, warm, highly alkaline
+waters with dissolved carbonate and bicarbonate, high sodium, and pH between
+about 8.5 and 11.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Lake</th>
+<th>Region</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Lake Texcoco</td>
+<td>Valley of Mexico</td>
+<td>Harvested by the Mexica (Aztecs) as <strong>tecuitlatl</strong></td>
+</tr>
+<tr>
+<td>Lake Chad</td>
+<td>Central Africa</td>
+<td>Still harvested and dried into cakes called <strong>dihé</strong> by the Kanembu</td>
+</tr>
+<tr>
+<td>Rift Valley lakes</td>
+<td>Kenya, Ethiopia, Tanzania</td>
+<td>Natural blooms; the food source of lesser flamingos</td>
+</tr>
+</tbody></table></div>
+<p><strong>This natural habitat is the whole basis of open-pond spirulina farming.</strong> Very
+few organisms tolerate pH 10 and 15 g/L of dissolved salts. By reproducing a
+soda lake in a lined pond, we get a growth medium that is close to a selective
+one — the chemistry that suits the crop actively suppresses most competitors.
+No other food crop offers anything comparable.</p>
+<h3 id="ops-19-a-long-history-as-food">1.9 A long history as food</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Period</th>
+<th>Record</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pre-Columbian</td>
+<td>The Mexica harvested tecuitlatl from Lake Texcoco, dried it into cakes and sold it in the market at Tenochtitlan; recorded by chroniclers of the Spanish conquest</td>
+</tr>
+<tr>
+<td>Traditional and current</td>
+<td>The Kanembu people around Lake Chad harvest, sun-dry and eat dihé, typically in a sauce with millet</td>
+</tr>
+<tr>
+<td>1960s–70s</td>
+<td>Rediscovered by European researchers studying Lake Chad; commercial cultivation begins</td>
+</tr>
+<tr>
+<td>1970s–present</td>
+<td>Industrial cultivation in Mexico, USA (California, Hawaii), China, India, Thailand, Chile</td>
+</tr>
+</tbody></table></div>
+<p>Spirulina is not a modern invention. It is one of the oldest documented
+harvested foods still in commercial production.</p>
+<hr>
+<h2 id="ops-2-composition-and-nutrition-stated-honestly">2. Composition and nutrition — stated honestly</h2>
+<h3 id="ops-21-gross-composition">2.1 Gross composition</h3>
+<p>Typical ranges for well-grown, properly washed and dried commercial spirulina,
+on a dry-weight basis:</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Typical range</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Protein</td>
+<td>55 – 70 %</td>
+<td>Among the highest of any whole food; varies with nitrogen availability</td>
+</tr>
+<tr>
+<td>Carbohydrate</td>
+<td>15 – 25 %</td>
+<td>Mostly glycogen and rhamnose polymers; low simple sugar</td>
+</tr>
+<tr>
+<td>Lipid</td>
+<td>5 – 8 %</td>
+<td>Includes gamma-linolenic acid (GLA), typically ~1 % of dry weight</td>
+</tr>
+<tr>
+<td>Ash (minerals)</td>
+<td>6 – 9 %</td>
+<td>⚠ Strongly dependent on washing — poorly washed biomass carries medium salts and fails specification</td>
+</tr>
+<tr>
+<td>Moisture</td>
+<td>≤ 7 %</td>
+<td>Specification limit; product is hygroscopic</td>
+</tr>
+<tr>
+<td>Nucleic acids</td>
+<td>4 – 6 %</td>
+<td>See § 2.5 — this is what limits sensible daily intake</td>
+</tr>
+<tr>
+<td>Fibre</td>
+<td>3 – 6 %</td>
+<td>Low; not a fibre source</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-22-protein-quality">2.2 Protein quality</h3>
+<p>Spirulina contains <strong>all nine essential amino acids</strong>, which makes it a complete
+protein. It is not, however, perfectly balanced.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Amino acid</th>
+<th>Status in spirulina</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Methionine and cysteine</td>
+<td><strong>Limiting</strong> — the sulphur amino acids are the weak point</td>
+</tr>
+<tr>
+<td>Lysine</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>Leucine, isoleucine, valine</td>
+<td>Good</td>
+</tr>
+<tr>
+<td>Tryptophan, threonine, phenylalanine</td>
+<td>Adequate</td>
+</tr>
+</tbody></table></div>
+<p>Protein is conventionally calculated as <strong>nitrogen × 6.25</strong>. Note that this
+overstates true protein in spirulina, because a meaningful fraction of the
+nitrogen sits in nucleic acids and phycocyanin rather than in dietary protein.
+Some references use a factor of 5.95 or lower. <strong>State the factor used on the
+certificate of analysis</strong> — otherwise your figure is not comparable to anyone
+else&#39;s.</p>
+<h3 id="ops-23-the-pigments">2.3 The pigments</h3>
+<p>Spirulina&#39;s colour comes from three pigment groups, and they are commercially
+significant in their own right.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Pigment</th>
+<th>Colour</th>
+<th>Typical % dry wt</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Phycocyanin</strong></td>
+<td>Brilliant blue</td>
+<td>10 – 20 %</td>
+<td>The signature pigment. Water-soluble. Sold as a natural blue food colour at a large multiple of biomass price. <strong>Heat and light labile</strong></td>
+</tr>
+<tr>
+<td>Chlorophyll <em>a</em></td>
+<td>Green</td>
+<td>~1 %</td>
+<td>Fat-soluble</td>
+</tr>
+<tr>
+<td>Carotenoids</td>
+<td>Orange-yellow</td>
+<td>0.3 – 0.5 %</td>
+<td>Beta-carotene, zeaxanthin, others</td>
+</tr>
+</tbody></table></div>
+<p>The blue-green colour is phycocyanin plus chlorophyll together. <strong>Colour is your
+cheapest quality indicator</strong>: strong blue-green means intact phycocyanin, which
+means the culture was healthy and the drying was controlled. Dull, olive, grey or
+brownish powder means pigment has been lost — usually to heat in drying, light in
+storage, or a stressed culture.</p>
+<h3 id="ops-24-vitamins-and-minerals-with-one-important-correction">2.4 Vitamins and minerals — with one important correction</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Nutrient</th>
+<th>Present</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Iron</td>
+<td>Yes, significant</td>
+<td>Relatively bioavailable</td>
+</tr>
+<tr>
+<td>Calcium, magnesium, potassium</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>Zinc, selenium, manganese</td>
+<td>Trace</td>
+<td>Depends on medium and water</td>
+</tr>
+<tr>
+<td>Beta-carotene (provitamin A)</td>
+<td>Yes, significant</td>
+<td></td>
+</tr>
+<tr>
+<td>Vitamin K</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>Vitamin E</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>Thiamine, riboflavin, niacin, B6</td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Vitamin B12</strong></td>
+<td>⚠ <strong>NO — see below</strong></td>
+<td></td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ THE B12 POINT — get this right, it matters legally and ethically.</strong></p>
+<p>Spirulina analyses as rich in vitamin B12 by older microbiological assays. It is
+<strong>not</strong> a usable B12 source for humans. What it contains is largely
+<strong>pseudocobalamin</strong> — a B12 analogue that human physiology cannot use, and
+which may even interfere with absorption of genuine B12.</p>
+<p><strong>Never market spirulina as a source of vitamin B12, and never tell a customer
+— especially a vegan or vegetarian customer — that it will meet their B12
+needs.</strong> Doing so is false, and it could cause real harm to somebody relying on
+it. This is the single most common false claim in the spirulina trade.</p>
+<h3 id="ops-25-why-you-should-not-eat-unlimited-quantities">2.5 Why you should not eat unlimited quantities</h3>
+<p>Spirulina is 4–6 % nucleic acid. Nucleic acids metabolise to <strong>purines</strong>, and
+purines to <strong>uric acid</strong>. High sustained intake of any single-cell protein raises
+uric acid load, which matters for gout and for kidney stone formation.</p>
+<p>The conventional guidance for single-cell protein foods is to keep intake to
+roughly <strong>20 g per day or less</strong> for an adult. Typical spirulina serving sizes of
+3–10 g/day sit comfortably inside that.</p>
+<p>This is a reason to state serving sizes on the label and not to encourage
+unlimited consumption.</p>
+<h3 id="ops-26-what-we-do-not-claim">2.6 What we do not claim</h3>
+<p>Spirulina is a nutritious food. It is not a medicine.</p>
+<p><strong>⚠ Do not make, print, imply, or repeat any claim that spirulina treats, cures,
+prevents or mitigates any disease.</strong> Doing so is unlawful under Indian food law
+and in every export market that matters. It is also unnecessary: the honest
+composition above is a strong enough proposition on its own.</p>
+<p>Specific cautions worth knowing and being able to answer:</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Caution</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Phenylketonuria (PKU)</td>
+<td>Spirulina is high in phenylalanine and is unsuitable</td>
+</tr>
+<tr>
+<td>Autoimmune conditions</td>
+<td>Immune-stimulating effects are reported; advise medical consultation</td>
+</tr>
+<tr>
+<td>Immunosuppressant medication</td>
+<td>Same reason; advise medical consultation</td>
+</tr>
+<tr>
+<td>Pregnancy</td>
+<td>Insufficient evidence for a positive recommendation; advise medical consultation</td>
+</tr>
+<tr>
+<td>Gout / hyperuricaemia</td>
+<td>See § 2.5</td>
+</tr>
+<tr>
+<td>Anyone relying on B12</td>
+<td>See § 2.4</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h1 id="ops-part-2-how-it-grows">PART 2 — HOW IT GROWS</h1>
+<h2 id="ops-3-the-six-things-spirulina-needs">3. The six things spirulina needs</h2>
+<p>Everything in cultivation reduces to keeping six variables inside a window.
+Learn these and you understand the whole crop.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Requirement</th>
+<th>Target</th>
+<th>Failure looks like</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><strong>Light</strong></td>
+<td>150 – 200 µmol/m²/s at the surface</td>
+<td>Too little: pale, slow, thin. Too much: bleached, photoinhibited</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Temperature</strong></td>
+<td>35 – 37 °C</td>
+<td>Below 20: stalls. Above 42: dies</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Carbon</strong></td>
+<td>Bicarbonate 8–16 g/L, CO₂ replenished</td>
+<td>pH climbs, growth stops</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>pH and alkalinity</strong></td>
+<td>pH 9.5 – 10.5</td>
+<td>Below 8.5: contamination. Above 11: inhibition</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Nutrients</strong></td>
+<td>N, P, K, S, Mg, Fe + traces</td>
+<td>Yellowing, stalling, thin culture</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Mixing</strong></td>
+<td>0.25 m/s, continuous</td>
+<td>Settling, stratification, surface scum, oxygen build-up</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-31-light">3.1 Light</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Saturation intensity</td>
+<td>150 – 200 µmol photons/m²/s PAR</td>
+</tr>
+<tr>
+<td>Photoinhibition begins</td>
+<td>Above roughly 500 µmol/m²/s on thin or dilute culture</td>
+</tr>
+<tr>
+<td>Full tropical midday sun</td>
+<td>1,800 – 2,200 µmol/m²/s</td>
+</tr>
+<tr>
+<td>Compensation point</td>
+<td>Low; the culture respires at night and loses a little biomass</td>
+</tr>
+</tbody></table></div>
+<p>Note what those numbers mean together: <strong>midday sun is roughly ten times the
+saturation intensity.</strong> Spirulina is not short of light in Telangana. It is at
+risk of too much.</p>
+<p>Protection comes from the culture protecting itself:</p>
+<ul>
+<li><strong>Density</strong> — a dense culture self-shades. Cells at the surface shade those
+below, and mixing rotates them through.</li>
+<li><strong>Depth</strong> — light falls off exponentially. At 200 mm and working density, the
+bottom of the pond is nearly dark.</li>
+<li><strong>Mixing</strong> — every cell spends a short time in high light and longer in shade.
+This flashing-light effect is more efficient than constant moderate light.</li>
+</ul>
+<p><strong>⚠ A dilute culture in full sun is in danger.</strong> After a harvest that has taken
+density too low, or after rain dilution, the culture has lost its own shading
+and will bleach. That is the moment to consider increasing depth or accepting a
+slower harvest.</p>
+<h3 id="ops-32-temperature">3.2 Temperature</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Below 15 °C</td>
+<td>Effectively dormant; extended cold causes losses</td>
+</tr>
+<tr>
+<td>15 – 20 °C</td>
+<td>Survives, minimal growth</td>
+</tr>
+<tr>
+<td>20 – 25 °C</td>
+<td>Slow growth</td>
+</tr>
+<tr>
+<td>25 – 35 °C</td>
+<td>Good growth</td>
+</tr>
+<tr>
+<td><strong>35 – 37 °C</strong></td>
+<td><strong>Optimum</strong></td>
+</tr>
+<tr>
+<td>38 – 40 °C</td>
+<td>Growth continues but stress begins</td>
+</tr>
+<tr>
+<td>40 – 42 °C</td>
+<td>Damage; sustained exposure is dangerous</td>
+</tr>
+<tr>
+<td>Above 42 – 45 °C</td>
+<td><strong>Death</strong></td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ This is the principal climate risk at this site.</strong> The design ambient
+maximum is 45 °C. A shallow, dark, well-lit pond can sit several degrees above
+ambient air temperature. Mitigations, in order of preference:</p>
+<ol>
+<li><strong>Increase depth</strong> — more water, more thermal mass, slower heating.</li>
+<li><strong>Maintain density</strong> — a dense culture absorbs light near the surface.</li>
+<li><strong>Harvest early</strong> — take the harvest in the morning, not the afternoon.</li>
+<li><strong>Shading</strong> — evaluated at design stage.</li>
+<li><strong>Evaporative loss</strong> helps a little; make-up water is cooler.</li>
+</ol>
+<p>Night cooling is normally sufficient in a dry climate. The dangerous condition is
+a run of consecutive very hot days with warm nights.</p>
+<h3 id="ops-33-carbon-and-the-ph-relationship">3.3 Carbon and the pH relationship</h3>
+<p>This is the least intuitive part of spirulina cultivation and the one most worth
+understanding properly.</p>
+<p>Spirulina takes up carbon from <strong>bicarbonate (HCO₃⁻)</strong> in the medium. As it
+consumes carbon, the carbonate–bicarbonate equilibrium shifts and <strong>the pH
+rises</strong>:</p>
+<pre><code>CO₂ + H₂O  ⇌  H₂CO₃  ⇌  HCO₃⁻ + H⁺  ⇌  CO₃²⁻ + 2H⁺
+</code></pre>
+<p>Remove carbon from the middle of that chain and the system moves towards
+carbonate — and alkaline.</p>
+<p><strong>Therefore: rising pH is the signal that the culture is growing and consuming
+carbon.</strong></p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Observation</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pH climbing steadily through the day</td>
+<td>Healthy, actively photosynthesising culture</td>
+</tr>
+<tr>
+<td>pH flat in full daylight</td>
+<td>⚠ Culture is not growing — investigate immediately</td>
+</tr>
+<tr>
+<td>pH climbing past 11</td>
+<td>Carbon is exhausted; growth will stop</td>
+</tr>
+<tr>
+<td>pH falling</td>
+<td>CO₂ over-dosing, or the culture is dying and respiration dominates</td>
+</tr>
+</tbody></table></div>
+<p>You correct rising pH by <strong>injecting CO₂</strong>, which pushes the equilibrium back
+towards bicarbonate and regenerates the carbon supply. This is why CO₂ dosing is
+controlled on the pH signal — pH is a direct, real-time proxy for carbon demand.</p>
+<p><strong>⚠ Inject CO₂ only in daylight.</strong> There is no photosynthesis at night, so
+night-time CO₂ is wasted, and it drives pH down towards the range where
+contaminants thrive.</p>
+<h3 id="ops-34-alkalinity-and-salinity-the-contamination-barrier">3.4 Alkalinity and salinity — the contamination barrier</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Target</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Total alkalinity as NaHCO₃</td>
+<td>12 g/L</td>
+<td>8 – 16 g/L</td>
+</tr>
+<tr>
+<td>pH</td>
+<td>9.8</td>
+<td>9.5 – 10.5</td>
+</tr>
+<tr>
+<td>Salinity (TDS)</td>
+<td>18 g/L</td>
+<td>12 – 30 g/L</td>
+</tr>
+</tbody></table></div>
+<p><strong>Treat these three as a contamination-control system, not merely as growth
+conditions.</strong></p>
+<p>Almost nothing else that would want to live in a warm, nutrient-rich, brightly
+lit pond can tolerate pH 10 with 12 g/L bicarbonate and 18 g/L dissolved solids.
+That chemistry is doing the job that a pesticide would do in a conventional crop,
+for the cost of sodium bicarbonate.</p>
+<p><strong>⚠ Every proposal to cut bicarbonate cost by running lower alkalinity is a
+proposal to weaken your only contamination barrier.</strong> It will look like a saving
+for several weeks and then cost you a pond. If you must reduce it, do so on one
+pond, watch it under the microscope daily, and be ready to restore.</p>
+<p>Salinity also rises on its own, because evaporation leaves salts behind while the
+water leaves. That is why blowdown exists — see § 12.4.</p>
+<h3 id="ops-35-nutrients">3.5 Nutrients</h3>
+<p>Spirulina biomass has a reasonably consistent elemental composition, so nutrient
+demand can be calculated directly from expected production.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Element</th>
+<th>% of dry biomass</th>
+<th>Supplied as</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Carbon</td>
+<td>46 %</td>
+<td>CO₂ / bicarbonate</td>
+</tr>
+<tr>
+<td>Nitrogen</td>
+<td>10.5 %</td>
+<td>Sodium nitrate or urea</td>
+</tr>
+<tr>
+<td>Phosphorus</td>
+<td>1.1 %</td>
+<td>Di-potassium phosphate</td>
+</tr>
+<tr>
+<td>Potassium</td>
+<td>1.5 %</td>
+<td>Phosphate and sulphate salts</td>
+</tr>
+<tr>
+<td>Sulphur</td>
+<td>0.8 %</td>
+<td>Potassium and magnesium sulphates</td>
+</tr>
+<tr>
+<td>Magnesium</td>
+<td>0.3 %</td>
+<td>Magnesium sulphate</td>
+</tr>
+<tr>
+<td>Iron</td>
+<td>0.1 %</td>
+<td>Ferrous sulphate, chelated</td>
+</tr>
+<tr>
+<td>Calcium</td>
+<td>0.1 – 0.4 %</td>
+<td>Calcium chloride, or from the water</td>
+</tr>
+<tr>
+<td>Micronutrients</td>
+<td>Trace</td>
+<td>B, Mn, Zn, Cu, Mo</td>
+</tr>
+</tbody></table></div>
+<p><strong>To feed a pond, work from what you harvested.</strong> Every kilogram of dry biomass
+removed took roughly 105 g of nitrogen and 11 g of phosphorus out with it. Put
+that back. Worked example in § 25.3.</p>
+<p><strong>⚠ Iron deficiency is the most commonly missed one.</strong> Iron precipitates readily
+at pH 10, which is why it is dosed as a chelate with EDTA. A culture that is
+pale, slow and unresponsive despite adequate nitrogen is very often short of
+available iron.</p>
+<h3 id="ops-36-ammonia-useful-and-dangerous">3.6 Ammonia — useful and dangerous</h3>
+<p>If urea or an ammonium salt is used as the nitrogen source, it enters the culture
+as ammonium (NH₄⁺). At high pH, ammonium converts to <strong>free ammonia (NH₃)</strong>,
+which is toxic to spirulina.</p>
+<p>The equilibrium is strongly pH-dependent:</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>pH</th>
+<th>Approximate fraction as free NH₃ at 30 °C</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>8.0</td>
+<td>~ 5 %</td>
+</tr>
+<tr>
+<td>9.0</td>
+<td>~ 35 %</td>
+</tr>
+<tr>
+<td>10.0</td>
+<td>~ 80 %</td>
+</tr>
+<tr>
+<td>10.5</td>
+<td>~ 92 %</td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ At our operating pH, almost all ammonium is present as free ammonia.</strong> A dose
+of urea that would be harmless at pH 8 can be lethal at pH 10.</p>
+<p>Rules if urea is used:</p>
+<ol>
+<li>Dose <strong>little and often</strong> — daily or more frequently, never a weekly slug.</li>
+<li>Dose into <strong>moving</strong> water, downstream of the paddle wheel, never a static pond.</li>
+<li>Keep free ammonia below about <strong>2 mg/L</strong>.</li>
+<li>Add free ammonia to the routine monitoring schedule.</li>
+<li>Never dose urea to a culture already stressed or at unusually high pH.</li>
+</ol>
+<p>Sodium nitrate avoids this problem entirely, at higher cost. That trade-off is
+the reason § 3.5 of the design criteria leaves the decision to trial results
+rather than to price.</p>
+<h3 id="ops-37-mixing">3.7 Mixing</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Design channel velocity</td>
+<td>0.25 m/s</td>
+</tr>
+<tr>
+<td>Acceptable range</td>
+<td>0.20 – 0.30 m/s</td>
+</tr>
+<tr>
+<td>Minimum to prevent settling</td>
+<td>0.15 m/s</td>
+</tr>
+<tr>
+<td>Operating regime</td>
+<td>Continuous, 24 h</td>
+</tr>
+</tbody></table></div>
+<p>Mixing does five jobs at once:</p>
+<ol>
+<li>Rotates cells between light at the surface and shade below.</li>
+<li>Keeps biomass suspended — spirulina settles and, worse, floats.</li>
+<li>Prevents thermal stratification.</li>
+<li>Strips dissolved oxygen, which inhibits photosynthesis when supersaturated.</li>
+<li>Distributes nutrients and CO₂.</li>
+</ol>
+<p><strong>⚠ Never stop circulation in daylight.</strong> Within an hour the culture floats into
+maximum light and photoinhibits; within a few hours it is settling, stratifying
+and accumulating oxygen. Loss of paddle wheels is the fastest way to lose a pond,
+which is why they sit on backup power.</p>
+<p>Faster is not better. Above about 0.35 m/s the extra energy buys nothing and the
+shear begins to fragment filaments — which then screen poorly at harvest.</p>
+<h2 id="ops-4-growth-rate-and-what-to-expect">4. Growth rate and what to expect</h2>
+<h3 id="ops-41-the-growth-curve">4.1 The growth curve</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>What happens</th>
+<th>Typical duration after inoculation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Lag</strong></td>
+<td>Culture adapts; little visible change</td>
+<td>1 – 3 days</td>
+</tr>
+<tr>
+<td><strong>Exponential</strong></td>
+<td>Rapid doubling; pH climbs strongly</td>
+<td>3 – 10 days</td>
+</tr>
+<tr>
+<td><strong>Linear</strong></td>
+<td>Light-limited by self-shading; steady daily increment</td>
+<td>The normal operating state</td>
+</tr>
+<tr>
+<td><strong>Stationary</strong></td>
+<td>Growth balances losses</td>
+<td>Reached if harvesting stops</td>
+</tr>
+<tr>
+<td><strong>Decline</strong></td>
+<td>Nutrient exhaustion, pH extremes or contamination</td>
+<td>Failure state</td>
+</tr>
+</tbody></table></div>
+<p><strong>A production pond is held in the linear phase.</strong> You harvest daily or every few
+days to keep density in the band where growth per unit area is highest, and you
+never let it reach stationary.</p>
+<h3 id="ops-42-realistic-productivity">4.2 Realistic productivity</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Measure</th>
+<th>Realistic outdoor commercial</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Areal productivity, good day</td>
+<td>10 – 15 g/m²/day</td>
+<td></td>
+</tr>
+<tr>
+<td>Areal productivity, annual mean</td>
+<td>6 – 10 g/m²/day</td>
+<td>Includes bad weather, cleaning, restarts</td>
+</tr>
+<tr>
+<td>Volumetric</td>
+<td>0.05 – 0.08 g/L/day</td>
+<td>At 200 mm depth</td>
+</tr>
+<tr>
+<td>Doubling time, laboratory optimum</td>
+<td>~ 24 h</td>
+<td>Not achievable outdoors</td>
+</tr>
+<tr>
+<td>Doubling time, outdoor practice</td>
+<td>3 – 5 days</td>
+<td></td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ Be sceptical of published yields.</strong> Figures of 25–30 g/m²/day exist but come
+from short runs, in ideal seasons, at exceptional sites. Annual averages are what
+pay for a facility. Our own design basis uses <strong>12 g/m²/day peak and 7 g/m²/day
+annual mean</strong>, and even those are assumptions awaiting a cultivation trial.</p>
+<h3 id="ops-43-working-density">4.3 Working density</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Point</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Harvest trigger</td>
+<td>0.65 g/L</td>
+</tr>
+<tr>
+<td>Acceptable harvest range</td>
+<td>0.50 – 0.90 g/L</td>
+</tr>
+<tr>
+<td>Density after harvest</td>
+<td>≈ 0.55 g/L</td>
+</tr>
+<tr>
+<td><strong>Minimum working density</strong></td>
+<td><strong>0.30 g/L</strong></td>
+</tr>
+<tr>
+<td>Above ~1.0 g/L</td>
+<td>Light-limited; growth per unit area falls</td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ Never harvest below 0.30 g/L.</strong> A thin culture has lost its self-shading, is
+exposed to full sun, and is wide open to contamination because there is nothing
+competing for the light. Recovering a pond from over-harvest takes longer than
+the extra biomass was worth.</p>
+<hr>
+<h1 id="ops-part-3-medium-and-starting-a-culture">PART 3 — MEDIUM AND STARTING A CULTURE</h1>
+<h2 id="ops-5-the-culture-medium">5. The culture medium</h2>
+<h3 id="ops-51-zarrouk39s-medium-the-reference">5.1 Zarrouk&#39;s medium — the reference</h3>
+<p>Zarrouk&#39;s medium is the standard reference formulation for <em>Arthrospira</em>. It is
+what you use in the laboratory and what all comparisons are made against.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>g/L</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sodium bicarbonate, NaHCO₃</td>
+<td>16.8</td>
+</tr>
+<tr>
+<td>Di-potassium phosphate, K₂HPO₄</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>Sodium nitrate, NaNO₃</td>
+<td>2.5</td>
+</tr>
+<tr>
+<td>Potassium sulphate, K₂SO₄</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Sodium chloride, NaCl</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Magnesium sulphate, MgSO₄·7H₂O</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>Calcium chloride, CaCl₂·2H₂O</td>
+<td>0.04</td>
+</tr>
+<tr>
+<td>Ferrous sulphate, FeSO₄·7H₂O</td>
+<td>0.01</td>
+</tr>
+<tr>
+<td>EDTA (disodium)</td>
+<td>0.08</td>
+</tr>
+<tr>
+<td>A5 micronutrient solution</td>
+<td>1 mL/L</td>
+</tr>
+</tbody></table></div>
+<p><strong>A5 micronutrient solution</strong> (per litre of stock):</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>g/L of stock</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Boric acid, H₃BO₃</td>
+<td>2.86</td>
+</tr>
+<tr>
+<td>Manganese chloride, MnCl₂·4H₂O</td>
+<td>1.81</td>
+</tr>
+<tr>
+<td>Zinc sulphate, ZnSO₄·7H₂O</td>
+<td>0.222</td>
+</tr>
+<tr>
+<td>Copper sulphate, CuSO₄·5H₂O</td>
+<td>0.079</td>
+</tr>
+<tr>
+<td>Sodium molybdate, Na₂MoO₄·2H₂O</td>
+<td>0.039</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-52-why-we-do-not-use-full-zarrouk-commercially">5.2 Why we do not use full Zarrouk commercially</h3>
+<p><strong>Cost, almost entirely bicarbonate.</strong> At 16.8 g/L, a single 100 m³ pond needs
+1.68 tonnes of sodium bicarbonate to fill. That is not economic, and most of it
+is not consumed — it is a buffer reservoir, not a feedstock.</p>
+<p>The commercial approach:</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bicarbonate reduced to 10 – 12 g/L</td>
+<td>Still an effective buffer and barrier; large cost saving</td>
+</tr>
+<tr>
+<td>Carbon supplied as <strong>CO₂</strong>, bicarbonate as make-up only</td>
+<td>CO₂ regenerates the bicarbonate consumed; far cheaper per kg of carbon</td>
+</tr>
+<tr>
+<td>Nitrogen <strong>dosed to demand</strong>, not held at 2.5 g/L</td>
+<td>Nitrate is dosed against uptake, not maintained at laboratory concentration</td>
+</tr>
+<tr>
+<td>Other salts roughly halved</td>
+<td>Adequate at working concentrations</td>
+</tr>
+<tr>
+<td>Composition corrected for <strong>source water</strong></td>
+<td>Hard water already supplies calcium and magnesium; dosing the standard recipe on top over-supplies them</td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ Never dose a standard recipe into water of unknown composition.</strong> If the
+borewell already carries 200 mg/L of calcium, adding the Zarrouk calcium
+chloride on top will precipitate carbonate, consume alkalinity, scale equipment
+and cloud the culture. Get the water analysed and subtract what it already
+provides.</p>
+<h3 id="ops-53-making-up-medium-order-matters">5.3 Making up medium — order matters</h3>
+<p><strong>⚠ Add salts in the right order or you will precipitate the medium.</strong></p>
+<ol>
+<li>Start with the required volume of <strong>treated water</strong>.</li>
+<li>Begin circulation before adding anything.</li>
+<li>Dissolve <strong>bicarbonate first</strong>, fully.</li>
+<li>Add <strong>nitrate</strong>, then <strong>sulphates</strong>, then <strong>chloride</strong>.</li>
+<li>Add <strong>phosphate slowly and last among the majors</strong>, with the water moving.</li>
+<li>Add <strong>iron pre-chelated with EDTA</strong> — dissolve the EDTA first, then the iron
+into it, then add the combined solution.</li>
+<li>Add <strong>micronutrients</strong> last.</li>
+<li>Check pH; adjust with bicarbonate or carbonate.</li>
+<li>Confirm alkalinity by titration before inoculating.</li>
+</ol>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Mistake</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Phosphate added to concentrated calcium</td>
+<td>Calcium phosphate precipitates — a white cloud, phosphorus gone</td>
+</tr>
+<tr>
+<td>Iron added without chelation</td>
+<td>Iron hydroxide precipitates at pH 10 — a rusty floc, iron unavailable</td>
+</tr>
+<tr>
+<td>Salts added to still water</td>
+<td>Local supersaturation and precipitation at the point of addition</td>
+</tr>
+<tr>
+<td>Bicarbonate added last</td>
+<td>Other salts precipitate before the buffer is established</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-54-reagent-quality">5.4 Reagent quality</h3>
+<p><strong>⚠ Every reagent that enters the pond ends up in the food.</strong></p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Food-grade reagents</td>
+<td>Heavy metals in a reagent concentrate into the biomass</td>
+</tr>
+<tr>
+<td>Certificate of analysis per lot</td>
+<td>Including lead, cadmium, mercury and arsenic</td>
+</tr>
+<tr>
+<td>No fertiliser-grade substitution</td>
+<td>Agricultural-grade salts routinely carry heavy metals at levels irrelevant to plants and unacceptable in food</td>
+</tr>
+<tr>
+<td>Segregated storage</td>
+<td>Away from cleaning chemicals</td>
+</tr>
+<tr>
+<td>Dry storage</td>
+<td>Several reagents are hygroscopic and cake in monsoon humidity</td>
+</tr>
+</tbody></table></div>
+<h2 id="ops-6-starting-and-scaling-a-culture">6. Starting and scaling a culture</h2>
+<h3 id="ops-61-the-scale-up-train">6.1 The scale-up train</h3>
+<p>Never inoculate a production pond directly from a laboratory flask. Step it up,
+roughly tenfold at a time, verifying at every step.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Volume</th>
+<th>Environment</th>
+<th>Typical residence</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Master culture</td>
+<td>250 mL – 1 L</td>
+<td>Laboratory, controlled, <strong>kept in duplicate in two locations</strong></td>
+<td>Maintained indefinitely</td>
+</tr>
+<tr>
+<td>Working culture</td>
+<td>5 – 20 L</td>
+<td>Laboratory</td>
+<td>7 – 14 days</td>
+</tr>
+<tr>
+<td>Starter tank 1</td>
+<td>200 L</td>
+<td>Closed tank</td>
+<td>7 – 14 days</td>
+</tr>
+<tr>
+<td>Starter tank 2</td>
+<td>2 m³</td>
+<td>Closed tank</td>
+<td>7 – 14 days</td>
+</tr>
+<tr>
+<td>Nursery pond</td>
+<td>10 m³ / 50 m²</td>
+<td>Covered pond</td>
+<td>10 – 20 days</td>
+</tr>
+<tr>
+<td>Production pond</td>
+<td>100 m³ / 435 m²</td>
+<td>Open raceway</td>
+<td>Semi-continuous</td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ Keep the master culture in duplicate, in two physically separate places.</strong> It
+is the genetic starting material for the entire facility. A single freezer
+failure, fire or contamination event should not be able to destroy it.</p>
+<h3 id="ops-62-release-criteria-do-not-skip-these">6.2 Release criteria — do not skip these</h3>
+<p>A culture moves to the next stage <strong>only</strong> when it passes every one:</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Microscopy</td>
+<td>Characteristic <em>A. platensis</em> helical morphology dominant</td>
+</tr>
+<tr>
+<td>Contaminating phototrophs</td>
+<td>Below 5 % of field</td>
+</tr>
+<tr>
+<td><strong>Grazers</strong></td>
+<td><strong>None detected — this is absolute</strong></td>
+</tr>
+<tr>
+<td>Density</td>
+<td>At or above the transfer density for that step</td>
+</tr>
+<tr>
+<td>Filament condition</td>
+<td>Intact, well-coiled, no widespread fragmentation or lysis</td>
+</tr>
+<tr>
+<td>Colour</td>
+<td>Strong blue-green</td>
+</tr>
+<tr>
+<td>pH behaviour</td>
+<td>Rising in daylight, confirming active growth</td>
+</tr>
+<tr>
+<td>Records</td>
+<td>Transfer authorised, recorded, batch number assigned</td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ A single rotifer transferred into a production pond can collapse it inside
+three days.</strong> Checking takes ten minutes. Restarting a pond takes three weeks.</p>
+<h3 id="ops-63-inoculating-a-production-pond">6.3 Inoculating a production pond</h3>
+<ol>
+<li>Clean and disinfect the pond; rinse thoroughly.</li>
+<li>Fill with prepared medium (§ 5.3) to about <strong>half</strong> operating depth.</li>
+<li>Confirm pH, alkalinity and temperature are in range.</li>
+<li>Start circulation.</li>
+<li>Add inoculum to give a starting density of at least <strong>0.1 – 0.15 g/L</strong>.</li>
+<li>Run at reduced depth until density reaches ~0.3 g/L, then fill to full depth.</li>
+<li>Do not harvest until density is stable at 0.5 g/L or above.</li>
+<li>Microscopy daily from day one.</li>
+</ol>
+<p><strong>Starting shallow is deliberate</strong>: less volume to fill, higher starting density
+for the same inoculum, faster establishment, and less dilute culture sitting in
+full sun.</p>
+<hr>
+<h1 id="ops-part-4-running-the-ponds">PART 4 — RUNNING THE PONDS</h1>
+<h2 id="ops-7-the-daily-routine">7. The daily routine</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Early morning</strong></td>
+<td>Walk every pond. Check circulation running, paddle wheels sound, no scum, no unusual colour or smell. Record pH and temperature.</td>
+</tr>
+<tr>
+<td><strong>Mid-morning</strong></td>
+<td>Take samples from every pond. Secchi depth. Microscopy. Decide today&#39;s harvests.</td>
+</tr>
+<tr>
+<td><strong>Late morning</strong></td>
+<td>Harvest. Density is at its daily peak and temperature has not yet peaked.</td>
+</tr>
+<tr>
+<td><strong>Midday</strong></td>
+<td>Process the harvest: wash, dewater, press, load the dryer. Watch pond temperature on hot days.</td>
+</tr>
+<tr>
+<td><strong>Afternoon</strong></td>
+<td>Nutrient dosing into moving water. Complete records. Clean equipment.</td>
+</tr>
+<tr>
+<td><strong>Evening</strong></td>
+<td>Final walk. Confirm circulation. Confirm CO₂ dosing has stopped for the night.</td>
+</tr>
+<tr>
+<td><strong>Weekly</strong></td>
+<td>Alkalinity titration, gravimetric dry weight, probe calibration, velocity check, deep-clean equipment.</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-71-the-morning-walk-what-to-look-at">7.1 The morning walk — what to look at</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Look for</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Culture colour</td>
+<td>Deep blue-green good. Yellow-green = nitrogen or iron short. Pale = too dilute or bleached. Brown = dying</td>
+</tr>
+<tr>
+<td>Surface scum or foam</td>
+<td>Circulation problem, over-mature culture, or contamination</td>
+</tr>
+<tr>
+<td>Clarity at the edge</td>
+<td>Sudden clearing means a crash is starting</td>
+</tr>
+<tr>
+<td>Smell</td>
+<td>Healthy culture smells faintly of the sea. Sour, sulphurous or septic means anaerobic material</td>
+</tr>
+<tr>
+<td>Wall and corner deposits</td>
+<td>Settled biomass; a contamination reservoir. Clean it</td>
+</tr>
+<tr>
+<td>Paddle wheel sound</td>
+<td>Bearing noise, rubbing, uneven splash</td>
+</tr>
+<tr>
+<td>Flow at the bends</td>
+<td>Look for a dead zone or a rotating eddy</td>
+</tr>
+<tr>
+<td>Insects on the surface</td>
+<td>Larvae source; act now</td>
+</tr>
+<tr>
+<td>Bird activity</td>
+<td>Contamination and pest vector</td>
+</tr>
+</tbody></table></div>
+<h2 id="ops-8-measurements-how-to-actually-take-them">8. Measurements — how to actually take them</h2>
+<h3 id="ops-81-secchi-depth-the-daily-density-check">8.1 Secchi depth — the daily density check</h3>
+<p>The routine field method. A weighted white disc is lowered until it disappears.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Same person, same time of day, same spot, shade the surface with your body</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Lower the disc slowly until the pattern just vanishes</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Record the depth in centimetres</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Convert using <strong>your own</strong> calibration curve</td>
+</tr>
+</tbody></table></div>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Secchi depth</th>
+<th>Approximate density</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&gt; 15 cm</td>
+<td>&lt; 0.3 g/L</td>
+<td>⚠ Too thin — do not harvest</td>
+</tr>
+<tr>
+<td>10 – 15 cm</td>
+<td>0.3 – 0.5 g/L</td>
+<td>Growing; leave it</td>
+</tr>
+<tr>
+<td>5 – 8 cm</td>
+<td>0.5 – 0.8 g/L</td>
+<td>Harvest range</td>
+</tr>
+<tr>
+<td>&lt; 4 cm</td>
+<td>&gt; 0.9 g/L</td>
+<td>Over-dense; harvest now</td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ Those figures are indicative only.</strong> Secchi depth must be correlated against
+gravimetric dry weight for <em>your</em> culture, and re-correlated after any change of
+strain, medium or depth. A borrowed correlation is a guess.</p>
+<h3 id="ops-82-gravimetric-dry-weight-the-reference-method">8.2 Gravimetric dry weight — the reference method</h3>
+<ol>
+<li>Filter a measured volume (typically 100–500 mL) through a pre-dried, pre-weighed filter.</li>
+<li><strong>Wash the retained biomass with distilled water</strong> — ⚠ skip this and you weigh the medium salts too, which at 18 g/L TDS is a very large error.</li>
+<li>Dry at 105 °C to constant weight (typically 2–4 h).</li>
+<li>Cool in a desiccator, weigh.</li>
+<li>Density (g/L) = (final mass − filter mass) in g ÷ sample volume in L.</li>
+</ol>
+<p>Run weekly minimum, and always when re-establishing the Secchi correlation.</p>
+<h3 id="ops-83-ph">8.3 pH</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Point</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Method</td>
+<td>In-line probe, continuous, per pond</td>
+</tr>
+<tr>
+<td>Calibration</td>
+<td><strong>Weekly minimum</strong>, two-point, buffers 7 and 10</td>
+</tr>
+<tr>
+<td>Why so often</td>
+<td>⚠ High alkalinity and constant biofouling drift these probes fast</td>
+</tr>
+<tr>
+<td>Cleaning</td>
+<td>Inspect and clean the bulb at every calibration</td>
+</tr>
+<tr>
+<td>Cross-check</td>
+<td>Bench meter on a grab sample</td>
+</tr>
+</tbody></table></div>
+<p>A pH probe reading 9.5 when the culture is at 10.3 will cause the control system
+to withhold CO₂ and starve the pond of carbon. Calibration is not paperwork.</p>
+<h3 id="ops-84-alkalinity">8.4 Alkalinity</h3>
+<p>Titrate weekly with standard acid to the phenolphthalein and methyl orange
+endpoints. Report as g/L NaHCO₃ equivalent. Falling alkalinity means bicarbonate
+make-up is needed.</p>
+<h3 id="ops-85-salinity">8.5 Salinity</h3>
+<p>Conductivity meter, daily. Rising steadily is normal — evaporation concentrates
+salts. Approaching 30 g/L means blowdown is due (§ 12.4).</p>
+<h3 id="ops-86-microscopy-the-most-valuable-ten-minutes-of-the-day">8.6 Microscopy — the most valuable ten minutes of the day</h3>
+<p><strong>⚠ Daily microscopy on every production pond. This is not optional and it is
+not a laboratory nicety — it is the control that saves ponds.</strong></p>
+<p>A rotifer population is detectable under a microscope <strong>two to four days before</strong>
+it is visible as a falling density. By the time you can see the problem with the
+naked eye, you have usually lost the pond.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sample</td>
+<td>Fresh, from the moving stream, not the edge</td>
+</tr>
+<tr>
+<td>Magnification</td>
+<td>100× to scan, 400× to identify</td>
+</tr>
+<tr>
+<td>Scan</td>
+<td>At least ten fields, systematically</td>
+</tr>
+<tr>
+<td>Record</td>
+<td>Every day, even when normal — you need the baseline to see a trend</td>
+</tr>
+</tbody></table></div>
+<p>What to record:</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Observation</th>
+<th>Normal</th>
+<th>Action limit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Spirulina morphology</td>
+<td>Well-coiled helices, mixed lengths</td>
+<td>Widespread uncoiling or fragmentation</td>
+</tr>
+<tr>
+<td>Other phototrophs</td>
+<td>Occasional cells</td>
+<td><strong>&gt; 5 % of field</strong></td>
+</tr>
+<tr>
+<td><strong>Rotifers</strong></td>
+<td><strong>None</strong></td>
+<td><strong>Any — act immediately</strong></td>
+</tr>
+<tr>
+<td>Amoebae, ciliates</td>
+<td>None</td>
+<td>Any</td>
+</tr>
+<tr>
+<td>Insect larvae</td>
+<td>None</td>
+<td>Any</td>
+</tr>
+<tr>
+<td>Cell lysis, empty sheaths</td>
+<td>Rare</td>
+<td>Frequent</td>
+</tr>
+<tr>
+<td>Bacterial clouds</td>
+<td>Light</td>
+<td>Heavy, especially around debris</td>
+</tr>
+</tbody></table></div>
+<h2 id="ops-9-feeding-the-ponds">9. Feeding the ponds</h2>
+<p><strong>Principle: replace what you removed.</strong></p>
+<p>Every kilogram of dry biomass harvested takes its elemental composition out of
+the pond (§ 3.5). Dose that back, then verify by analysis.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Dose <strong>in solution</strong>, never as solids into the pond</td>
+<td>Undissolved solids sink, dissolve locally, create extreme concentrations</td>
+</tr>
+<tr>
+<td>Dose into <strong>moving water</strong> downstream of the paddle wheel</td>
+<td>Distribution</td>
+</tr>
+<tr>
+<td>⚠ <strong>Never dose when circulation is stopped</strong></td>
+<td>Creates a zone of lethal concentration and extreme pH — this is interlocked in the control system for a reason</td>
+</tr>
+<tr>
+<td>Dose <strong>little and often</strong></td>
+<td>Especially critical for urea</td>
+</tr>
+<tr>
+<td><strong>Verify by laboratory analysis</strong>, not by dose record</td>
+<td>A dosing pump that has failed still writes a perfect record</td>
+</tr>
+<tr>
+<td>Prepare in a dedicated tank</td>
+<td>Not in a bucket, not in a harvest vessel</td>
+</tr>
+</tbody></table></div>
+<p>Nutrient dosing is deliberately <strong>not</strong> automated at this facility. The governing
+measurement is a laboratory analysis, not a live signal, and an automatic system
+dosing against a wrong assumption compounds the error for days before anyone
+notices.</p>
+<h2 id="ops-10-records">10. Records</h2>
+<p>If it is not written down, it did not happen. Minimum daily record per pond:</p>
+<ul>
+<li>date, time, operator</li>
+<li>pH morning and afternoon</li>
+<li>temperature morning and afternoon</li>
+<li>Secchi depth and derived density</li>
+<li>microscopy result, including &quot;normal&quot;</li>
+<li>volume harvested</li>
+<li>nutrients dosed: reagent, lot number, quantity</li>
+<li>CO₂ consumed</li>
+<li>make-up water added</li>
+<li>observations: colour, smell, foam, weather, anything unusual</li>
+</ul>
+<p>These records are what make a batch traceable, and they are the first thing an
+auditor or a serious customer will ask to see.</p>
+<hr>
+<h1 id="ops-part-5-harvest-and-processing">PART 5 — HARVEST AND PROCESSING</h1>
+<h2 id="ops-11-harvesting">11. Harvesting</h2>
+<h3 id="ops-111-when">11.1 When</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Guidance</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Density</td>
+<td>At or above 0.65 g/L</td>
+</tr>
+<tr>
+<td>Time of day</td>
+<td>Late morning</td>
+</tr>
+<tr>
+<td>Why</td>
+<td>Density peaks after a morning of photosynthesis, before peak temperature</td>
+</tr>
+<tr>
+<td>Weather</td>
+<td>Do not harvest immediately before heavy rain — dilution on top of a low density is compounding two problems</td>
+</tr>
+<tr>
+<td>How much</td>
+<td>Take density down to about 0.55 g/L, never below 0.30 g/L</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-112-the-steps">11.2 The steps</h3>
+<pre><code>Pond  →  pump  →  screen  →  wash  →  dewater  →  press  →  wet cake  →  dryer
+          ↓         ↓
+      low shear   filtrate returns to pond
+</code></pre>
+<h3 id="ops-113-pumping-handle-it-gently">11.3 Pumping — handle it gently</h3>
+<p><strong>⚠ The pump handles living biomass. Filament damage is lost yield and lost
+pigment.</strong></p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Low-shear pump type</td>
+<td>Centrifugal pumps at high speed shred filaments</td>
+</tr>
+<tr>
+<td>Modest flow velocity</td>
+<td>Shear rises steeply with velocity</td>
+</tr>
+<tr>
+<td>Smooth pipework, gentle bends</td>
+<td>Every sharp change in direction is a shear point</td>
+</tr>
+<tr>
+<td>No throttling on the suction</td>
+<td>Cavitation destroys filaments</td>
+</tr>
+</tbody></table></div>
+<p>Fragmented filaments pass straight through the harvest screen. They are gone —
+into the filtrate and back to the pond, where they lyse and feed bacteria.</p>
+<h3 id="ops-114-screening">11.4 Screening</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Screen aperture</td>
+<td>30 – 50 µm</td>
+</tr>
+<tr>
+<td>Hydraulic loading</td>
+<td>5 – 15 m³/h per m² of screen</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>≈ 30 g/L slurry (about 3 % solids)</td>
+</tr>
+<tr>
+<td>Capture efficiency</td>
+<td>≥ 92 %</td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ Inspect the screen at every harvest.</strong> A torn screen passes biomass to the
+filtrate, and the loss is invisible until you reconcile yields at month end.
+Screens must be cleanable without tools; a screen that is awkward to clean will
+not be cleaned.</p>
+<h3 id="ops-115-washing">11.5 Washing</h3>
+<p>Harvested biomass carries culture medium with it — mostly sodium bicarbonate,
+sodium nitrate and sodium chloride. Unwashed, that medium dries into the product.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Consequence of poor washing</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>High ash</td>
+<td>⚠ Fails the ≤ 9 % specification</td>
+</tr>
+<tr>
+<td>High sodium</td>
+<td>Nutritionally undesirable, and detectable</td>
+</tr>
+<tr>
+<td>Salty taste</td>
+<td>Immediately noticed by customers</td>
+</tr>
+</tbody></table></div>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Wash water</td>
+<td>Treated, potable standard</td>
+</tr>
+<tr>
+<td>Wash ratio</td>
+<td>≈ 2 L per kg of wet cake</td>
+</tr>
+<tr>
+<td>Verification</td>
+<td>Product ash on the certificate of analysis</td>
+</tr>
+</tbody></table></div>
+<p>Over-washing wastes treated water, creates more saline effluent, and begins to
+leach soluble intracellular material. Optimise against the ash specification.</p>
+<h3 id="ops-116-dewatering-and-pressing">11.6 Dewatering and pressing</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>In</th>
+<th>Out</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Screening</td>
+<td>0.65 g/L</td>
+<td>≈ 3 % solids</td>
+</tr>
+<tr>
+<td>Dewatering</td>
+<td>3 %</td>
+<td>10 – 15 %</td>
+</tr>
+<tr>
+<td>Pressing</td>
+<td>10 – 15 %</td>
+<td><strong>18 – 22 %</strong></td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ Do not over-press.</strong> Excess pressure ruptures filaments and releases
+phycocyanin into the press liquor.</p>
+<p><strong>The operator check: look at the press liquor.</strong> It should be pale straw or
+faintly green. <strong>If it is blue or blue-green, you are pressing product into the
+drain.</strong> Reduce pressure or duration.</p>
+<h3 id="ops-117-the-wet-cake-is-perishable">11.7 The wet cake is perishable</h3>
+<p>Wet cake at 20 % solids, warm, alkaline and nutrient-rich, is an ideal bacterial
+substrate.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Maximum hold</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ambient</td>
+<td><strong>2 hours</strong></td>
+</tr>
+<tr>
+<td>Chilled at ≤ 5 °C</td>
+<td>8 hours</td>
+</tr>
+<tr>
+<td>Preferred</td>
+<td><strong>Straight to the dryer, no storage</strong></td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ The gap between press and dryer is the highest microbiological risk in the
+entire process.</strong> Size the dryer so a peak harvest never queues.</p>
+<h2 id="ops-12-drying-where-quality-is-won-or-lost">12. Drying — where quality is won or lost</h2>
+<h3 id="ops-121-the-rule">12.1 The rule</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Limit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Maximum product temperature</strong></td>
+<td><strong>60 °C</strong></td>
+</tr>
+<tr>
+<td>Brief excursion</td>
+<td>65 °C</td>
+</tr>
+<tr>
+<td>Target final moisture</td>
+<td>5 %</td>
+</tr>
+<tr>
+<td>Maximum final moisture</td>
+<td>7 %</td>
+</tr>
+</tbody></table></div>
+<p>Phycocyanin is heat labile. Every degree and every minute above the limit costs
+colour, and colour is a large part of the value.</p>
+<h3 id="ops-122-the-trap-at-the-end-of-the-cycle">12.2 The trap at the end of the cycle</h3>
+<p>While free water is evaporating, <strong>evaporative cooling holds the product well
+below the air temperature</strong>. Air at 90 °C can dry product sitting at 50 °C.</p>
+<p>When the free water is gone, that cooling disappears <strong>and the product
+temperature runs up to air temperature within minutes.</strong></p>
+<p><strong>⚠ This is where batches are ruined.</strong> Everything looks fine for hours, then the
+last part of the cycle destroys the pigment.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Measure <strong>product</strong> temperature, not air temperature</td>
+<td>Air temperature tells you nothing about the product once cooling stops</td>
+</tr>
+<tr>
+<td>Control on product temperature</td>
+<td>The end of the cycle is the design case</td>
+</tr>
+<tr>
+<td>Record every cycle</td>
+<td>Time, temperature, batch</td>
+</tr>
+<tr>
+<td>Stop at target moisture</td>
+<td>Over-drying is wasted energy and lost pigment</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-123-methods">12.3 Methods</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Assessment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Spray drying</strong></td>
+<td>Industry standard at scale. Contact time in seconds. Excellent colour retention. High capital cost; needs a more dilute feed than our press produces</td>
+</tr>
+<tr>
+<td><strong>Low-temperature air drying of extruded biomass</strong></td>
+<td>Well suited to this scale. Biomass extruded into noodles to raise surface area, dried at 50–60 °C</td>
+</tr>
+<tr>
+<td><strong>Solar-assisted with controlled auxiliary heat</strong></td>
+<td>Lowest energy cost. Must be enclosed for hygiene. Monsoon performance must be proven</td>
+</tr>
+<tr>
+<td><strong>Open sun drying</strong></td>
+<td>⚠ <strong>NOT ACCEPTABLE.</strong> No temperature control, no contamination control, no records, no traceability. This is how traditional dihé is made; it is not how food-grade product is made</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-124-hygiene-during-drying">12.4 Hygiene during drying</h3>
+<ul>
+<li>Enclosed, pest-proofed space</li>
+<li>Filtered drying air</li>
+<li>Food-grade contact surfaces</li>
+<li>Time, temperature and batch recorded for every cycle</li>
+</ul>
+<h2 id="ops-13-milling-sieving-and-packing">13. Milling, sieving and packing</h2>
+<h3 id="ops-131-milling">13.1 Milling</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Mill type</td>
+<td>Impact or pin mill, food grade</td>
+</tr>
+<tr>
+<td>Target particle size</td>
+<td>95 % passing 180 µm (80 mesh)</td>
+</tr>
+<tr>
+<td>⚠ Product temperature in milling</td>
+<td>Must not exceed 60 °C</td>
+</tr>
+<tr>
+<td>Metal detection</td>
+<td>Downstream of milling</td>
+</tr>
+<tr>
+<td>Dust extraction</td>
+<td>Required — hygiene and safety</td>
+</tr>
+</tbody></table></div>
+<p>Milling generates heat. A mill running hot undoes the care taken in drying.</p>
+<h3 id="ops-132-humidity">13.2 Humidity</h3>
+<p><strong>⚠ Spirulina powder is strongly hygroscopic.</strong> Dried product left in open
+containers in monsoon humidity will reabsorb moisture past specification within
+hours, and must then be re-dried — a second thermal exposure and more lost
+pigment.</p>
+<p>Milling, sieving, blending and packing all take place in humidity-controlled
+space, and dried product is never left open.</p>
+<h3 id="ops-133-blending">13.3 Blending</h3>
+<p>Blend to homogenise a batch <strong>before</strong> sampling. A sample from an unblended batch
+does not represent it, and the certificate of analysis is then meaningless.</p>
+<h3 id="ops-134-packing">13.4 Packing</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Moisture barrier</td>
+<td>Hygroscopic</td>
+</tr>
+<tr>
+<td>Oxygen barrier</td>
+<td>Phycocyanin oxidises</td>
+</tr>
+<tr>
+<td>Light barrier</td>
+<td>Phycocyanin is photodegraded</td>
+</tr>
+<tr>
+<td>Nitrogen flush</td>
+<td>Optional; extends shelf life</td>
+</tr>
+<tr>
+<td>Batch code on every pack</td>
+<td>Traceability</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-135-storage">13.5 Storage</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cool, dark, dry, sealed</td>
+<td>Product holds 24 months</td>
+</tr>
+<tr>
+<td>Warm</td>
+<td>Pigment degrades</td>
+</tr>
+<tr>
+<td>Light</td>
+<td>Pigment degrades</td>
+</tr>
+<tr>
+<td>Humid</td>
+<td>Caking, then microbial growth</td>
+</tr>
+<tr>
+<td>Open container</td>
+<td>All of the above</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h1 id="ops-part-6-quality-and-safety">PART 6 — QUALITY AND SAFETY</h1>
+<h2 id="ops-14-product-specification">14. Product specification</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Specification</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Appearance</td>
+<td>Fine dark blue-green powder</td>
+<td>Visual</td>
+</tr>
+<tr>
+<td>Moisture</td>
+<td>≤ 7 %</td>
+<td>Gravimetric</td>
+</tr>
+<tr>
+<td>Crude protein</td>
+<td>≥ 55 % (typical 60–65 %)</td>
+<td>Kjeldahl, N × 6.25, factor stated</td>
+</tr>
+<tr>
+<td>Phycocyanin</td>
+<td>≥ 8 % (premium grade)</td>
+<td>Spectrophotometric</td>
+</tr>
+<tr>
+<td>Total ash</td>
+<td>≤ 9 %</td>
+<td>Gravimetric</td>
+</tr>
+<tr>
+<td>Acid-insoluble ash</td>
+<td>≤ 1 %</td>
+<td>Gravimetric</td>
+</tr>
+<tr>
+<td>Particle size</td>
+<td>95 % passing 180 µm</td>
+<td>Sieve analysis</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-141-microbiological">14.1 Microbiological</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Limit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Total plate count</td>
+<td>≤ 100,000 cfu/g</td>
+</tr>
+<tr>
+<td>Yeast and mould</td>
+<td>≤ 500 cfu/g</td>
+</tr>
+<tr>
+<td>Coliforms</td>
+<td>≤ 10 cfu/g</td>
+</tr>
+<tr>
+<td><em>E. coli</em></td>
+<td>Absent in 1 g</td>
+</tr>
+<tr>
+<td><em>Salmonella</em></td>
+<td>Absent in 25 g</td>
+</tr>
+<tr>
+<td><em>Staphylococcus aureus</em></td>
+<td>Absent in 1 g</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-142-contaminants">14.2 Contaminants</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Limit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Lead</td>
+<td>≤ 3.0 mg/kg</td>
+</tr>
+<tr>
+<td>Cadmium</td>
+<td>≤ 1.0 mg/kg</td>
+</tr>
+<tr>
+<td>Mercury</td>
+<td>≤ 0.1 mg/kg</td>
+</tr>
+<tr>
+<td>Arsenic</td>
+<td>≤ 2.0 mg/kg</td>
+</tr>
+<tr>
+<td><strong>Microcystins</strong></td>
+<td><strong>≤ 1.0 µg/g</strong></td>
+</tr>
+</tbody></table></div>
+<h2 id="ops-15-microcystins-the-one-that-really-matters">15. Microcystins — the one that really matters</h2>
+<p><strong>⚠ Read this section properly. It is the difference between a food business and
+a liability.</strong></p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>Arthrospira platensis</em> <strong>does not produce microcystins</strong></td>
+<td>The organism you are growing is not the hazard</td>
+</tr>
+<tr>
+<td>Other cyanobacteria <strong>do</strong></td>
+<td><em>Microcystis</em>, <em>Anabaena</em>, <em>Planktothrix</em> and others produce potent hepatotoxins</td>
+</tr>
+<tr>
+<td>Open ponds can be invaded by them</td>
+<td>Wind, birds, dust, water, equipment</td>
+</tr>
+<tr>
+<td>Microcystins are heat stable</td>
+<td>Drying does not destroy them</td>
+</tr>
+<tr>
+<td>They are the principal recognised safety hazard of commercially sold spirulina</td>
+<td>Contaminated product has repeatedly been found on international markets</td>
+</tr>
+</tbody></table></div>
+<p><strong>Therefore:</strong></p>
+<ol>
+<li><strong>Microcystin is a release parameter for every batch.</strong> No exceptions.</li>
+<li>The contamination controls of § 3.4 and § 17 exist largely to prevent the
+organisms that produce it from ever establishing.</li>
+<li>Daily microscopy (§ 8.6) is your early warning.</li>
+<li>If a toxin-producing cyanobacterium is identified in a pond, that pond&#39;s
+biomass does not enter the food chain. Not reprocessed, not blended away,
+not sold as feed. Dumped, and the pond cleaned and restarted.</li>
+</ol>
+<p>This is the reason the alkaline, high-pH regime is treated as sacred throughout
+this manual. It is not just yield protection. It is toxin prevention.</p>
+<h2 id="ops-16-batch-traceability">16. Batch traceability</h2>
+<p>Every finished pack must be traceable <strong>backwards</strong> to the pond it came from, and
+every pond traceable <strong>forwards</strong> to every pack containing its biomass.</p>
+<p>Forward traceability is what makes a recall bounded. Without it, one suspect
+pond implicates every pack you have ever shipped.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Record</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Source pond</td>
+<td>Identity, harvest dates</td>
+</tr>
+<tr>
+<td>Inoculum</td>
+<td>Batch and transfer records</td>
+</tr>
+<tr>
+<td>Culture conditions</td>
+<td>pH, temperature, density over the growth period</td>
+</tr>
+<tr>
+<td>Nutrients</td>
+<td>Reagent, lot, quantity, date</td>
+</tr>
+<tr>
+<td>Harvest</td>
+<td>Date, volume, operator</td>
+</tr>
+<tr>
+<td>Washing and dewatering</td>
+<td>Date, water quality, operator</td>
+</tr>
+<tr>
+<td>Drying</td>
+<td>Cycle, time, temperature trace</td>
+</tr>
+<tr>
+<td>Milling and blending</td>
+<td>Date, equipment, operator</td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>All § 14 results</td>
+</tr>
+<tr>
+<td>Release</td>
+<td>Authorisation and date</td>
+</tr>
+<tr>
+<td>Packing</td>
+<td>Date, format, quantity, pack codes</td>
+</tr>
+</tbody></table></div>
+<p><strong>No batch is packed for sale until every § 14 parameter is measured, in
+specification, and release is authorised and recorded.</strong> The certificate of
+analysis states the <strong>measured values for that batch</strong>, not the specification
+limits.</p>
+<hr>
+<h1 id="ops-part-7-when-things-go-wrong">PART 7 — WHEN THINGS GO WRONG</h1>
+<h2 id="ops-17-contamination">17. Contamination</h2>
+<h3 id="ops-171-what-can-invade">17.1 What can invade</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Examples</th>
+<th>Threat</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Competing phototrophs</td>
+<td><em>Chlorella</em>, <em>Scenedesmus</em>, <em>Oscillatoria</em>, <em>Phormidium</em></td>
+<td>Product purity; possible toxin producers</td>
+</tr>
+<tr>
+<td><strong>Grazers</strong></td>
+<td><strong>Rotifers (<em>Brachionus</em>)</strong>, amoebae, ciliates</td>
+<td>⚠ Fastest and most destructive — can collapse a pond in 48–72 h</td>
+</tr>
+<tr>
+<td>Insect larvae</td>
+<td>Chironomid (bloodworm), mosquito</td>
+<td>Grazing and physical contamination</td>
+</tr>
+<tr>
+<td>Bacteria and fungi</td>
+<td>Various</td>
+<td>Product microbiology</td>
+</tr>
+<tr>
+<td>Foreign matter</td>
+<td>Dust, debris, birds</td>
+<td>Contamination</td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-172-rotifers-the-emergency">17.2 Rotifers — the emergency</h3>
+<p>Rotifers eat spirulina filaments. They reproduce explosively. <strong>A pond can go
+from healthy to unrecoverable in three days.</strong></p>
+<p><strong>Signs, in order of appearance:</strong></p>
+<ol>
+<li>Rotifers under the microscope — visible days before anything else</li>
+<li>Filament fragments and empty sheaths increasing</li>
+<li>Density stops rising despite good conditions</li>
+<li>pH stops climbing in daylight</li>
+<li>Culture visibly clearing</li>
+<li>Collapse</li>
+</ol>
+<p><strong>Response — act on step 1, not step 5:</strong></p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Method</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Harvest hard</strong></td>
+<td>Take the culture down and dilute the population</td>
+<td>First response, always available, no risk</td>
+</tr>
+<tr>
+<td><strong>Raise pH</strong></td>
+<td>Push to 10.8–11.0 briefly with carbonate</td>
+<td>Rotifers are less tolerant than spirulina. ⚠ Stressful for the culture too</td>
+</tr>
+<tr>
+<td><strong>Raise alkalinity and salinity</strong></td>
+<td>Towards the top of the operating range</td>
+<td>Slower, gentler</td>
+</tr>
+<tr>
+<td><strong>Ammonia shock</strong></td>
+<td>Brief controlled free-ammonia dose</td>
+<td>⚠ <strong>High risk.</strong> Can kill the culture. Last resort, calculated, never improvised</td>
+</tr>
+<tr>
+<td><strong>Dump and restart</strong></td>
+<td>Empty, clean, disinfect, re-inoculate</td>
+<td>Sometimes the cheapest option — take it early rather than after two weeks of failed rescue</td>
+</tr>
+</tbody></table></div>
+<p><strong>⚠ Never move water, nets, sampling gear or hands from an affected pond to a
+healthy one.</strong> Dedicated equipment per pond, or cleaned and disinfected between.</p>
+<h3 id="ops-173-competing-algae">17.3 Competing algae</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Sign</th>
+<th>Response</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Green (not blue-green) tint</td>
+<td>Raise pH and alkalinity to the top of range</td>
+</tr>
+<tr>
+<td><em>Chlorella</em> under microscope</td>
+<td>Increase harvest rate — spirulina screens out, <em>Chlorella</em> passes through, so harvesting selectively removes your crop... but it also removes nutrients that feed the competitor</td>
+</tr>
+<tr>
+<td>Persistent above 5 % of field</td>
+<td>Consider dumping the pond</td>
+</tr>
+</tbody></table></div>
+<p>The chemistry is the main weapon. If competitors are establishing, the first
+question is always: <strong>has alkalinity or pH drifted low?</strong></p>
+<h3 id="ops-174-insect-larvae">17.4 Insect larvae</h3>
+<p>Find and remove the breeding site — standing water anywhere on site. Screen and
+cover the nursery ponds. Check the pond edges and any wet corners.</p>
+<h2 id="ops-18-culture-problems-diagnostic-table">18. Culture problems — diagnostic table</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely causes</th>
+<th>Check</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Yellow-green culture</strong></td>
+<td>Nitrogen deficiency; iron deficiency</td>
+<td>Nitrate and iron analysis</td>
+<td>Dose nitrogen; check iron is chelated</td>
+</tr>
+<tr>
+<td><strong>Pale, washed out</strong></td>
+<td>Over-harvested; photoinhibition</td>
+<td>Density</td>
+<td>Stop harvesting; increase depth</td>
+</tr>
+<tr>
+<td><strong>Growth stopped, pH flat in daylight</strong></td>
+<td>Carbon exhausted; culture failing</td>
+<td>pH trend, alkalinity, CO₂ system</td>
+<td>Check CO₂ supply and probe calibration</td>
+</tr>
+<tr>
+<td><strong>pH climbing past 11</strong></td>
+<td>Carbon demand exceeds CO₂ supply</td>
+<td>CO₂ flow</td>
+<td>Increase CO₂; check injection efficiency</td>
+</tr>
+<tr>
+<td><strong>pH falling</strong></td>
+<td>CO₂ over-dose; culture dying</td>
+<td>Microscopy</td>
+<td>Reduce CO₂; investigate the culture</td>
+</tr>
+<tr>
+<td><strong>Density falling</strong></td>
+<td>Grazers; over-harvest; crash</td>
+<td>⚠ <strong>Microscopy first, always</strong></td>
+<td>Per § 17.2</td>
+</tr>
+<tr>
+<td><strong>Filaments fragmenting</strong></td>
+<td>Pump shear; stress; grazers</td>
+<td>Microscopy; check pump and velocity</td>
+<td>Reduce shear; check conditions</td>
+</tr>
+<tr>
+<td><strong>Uncoiled straight filaments</strong></td>
+<td>Temperature, nutrient or chemical stress</td>
+<td>Full parameter check</td>
+<td>Correct the stressor</td>
+</tr>
+<tr>
+<td><strong>Surface foam</strong></td>
+<td>Circulation fault; lysing cells; over-mature</td>
+<td>Circulation; microscopy</td>
+<td>Check paddle wheels; harvest</td>
+</tr>
+<tr>
+<td><strong>Settled deposits at bends</strong></td>
+<td>Dead zone in the channel</td>
+<td>Flow at the bends</td>
+<td>⚠ Geometry fault — clean now, fix the civil design</td>
+</tr>
+<tr>
+<td><strong>Sour or septic smell</strong></td>
+<td>Anaerobic deposits</td>
+<td>Corners, sumps, dead zones</td>
+<td>Clean thoroughly</td>
+</tr>
+<tr>
+<td><strong>Rusty precipitate</strong></td>
+<td>Iron added unchelated</td>
+<td>Dosing procedure</td>
+<td>Pre-chelate iron with EDTA</td>
+</tr>
+<tr>
+<td><strong>White cloudiness</strong></td>
+<td>Carbonate or phosphate precipitation</td>
+<td>Water hardness; dosing order</td>
+<td>Review § 5.3</td>
+</tr>
+<tr>
+<td><strong>Sudden clearing after rain</strong></td>
+<td>Dilution</td>
+<td>Alkalinity, salinity, density</td>
+<td>Restore chemistry; do not harvest</td>
+</tr>
+<tr>
+<td><strong>Product dull or olive</strong></td>
+<td>Drying too hot; storage exposure</td>
+<td>Drying records</td>
+<td>⚠ Review § 12</td>
+</tr>
+<tr>
+<td><strong>Product tastes salty</strong></td>
+<td>Under-washing</td>
+<td>Ash result</td>
+<td>Increase wash ratio</td>
+</tr>
+<tr>
+<td><strong>Powder caking</strong></td>
+<td>Moisture pickup</td>
+<td>Moisture; humidity control</td>
+<td>Review § 13.2</td>
+</tr>
+</tbody></table></div>
+<h2 id="ops-19-deciding-to-dump-a-pond">19. Deciding to dump a pond</h2>
+<p>Hard to do, but often correct. Dump when:</p>
+<ul>
+<li>A toxin-producing cyanobacterium is identified — <strong>not negotiable</strong></li>
+<li>Grazers have established and two interventions have failed</li>
+<li>Density is below 0.2 g/L and falling</li>
+<li>Contamination is above 20 % of field</li>
+<li>The cause cannot be identified and the culture continues to decline</li>
+</ul>
+<p><strong>⚠ Rejected culture is never transferred to another pond to save it.</strong> That is
+how one lost pond becomes four.</p>
+<p>Disposal is via the process effluent route — high pH, high biomass, and it may
+not be discharged untreated.</p>
+<p>Then: clean, disinfect, rinse, refill, re-inoculate from the verified train
+(§ 6), and <strong>write down what you think caused it</strong>. The record is how you avoid
+a repeat.</p>
+<hr>
+<h1 id="ops-part-8-reference">PART 8 — REFERENCE</h1>
+<h2 id="ops-20-quick-reference-target-values">20. Quick reference — target values</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Target</th>
+<th>Range</th>
+<th>Act if</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pH</td>
+<td>9.8</td>
+<td>9.5 – 10.5</td>
+<td>&lt; 8.8 or &gt; 11.0</td>
+</tr>
+<tr>
+<td>Temperature</td>
+<td>35 – 37 °C</td>
+<td>20 – 40 °C</td>
+<td>&gt; 40 °C</td>
+</tr>
+<tr>
+<td>Alkalinity (NaHCO₃)</td>
+<td>12 g/L</td>
+<td>8 – 16 g/L</td>
+<td>&lt; 6 g/L</td>
+</tr>
+<tr>
+<td>Salinity (TDS)</td>
+<td>18 g/L</td>
+<td>12 – 30 g/L</td>
+<td>&gt; 30 g/L</td>
+</tr>
+<tr>
+<td>Density</td>
+<td>0.65 g/L</td>
+<td>0.50 – 0.90 g/L</td>
+<td>&lt; 0.30 g/L</td>
+</tr>
+<tr>
+<td>Depth</td>
+<td>200 mm</td>
+<td>150 – 250 mm</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Velocity</td>
+<td>0.25 m/s</td>
+<td>0.20 – 0.30 m/s</td>
+<td>&lt; 0.20 m/s</td>
+</tr>
+<tr>
+<td>Nitrate as N</td>
+<td>80 mg/L</td>
+<td>40 – 200 mg/L</td>
+<td>&lt; 20 mg/L</td>
+</tr>
+<tr>
+<td>Phosphate as P</td>
+<td>15 mg/L</td>
+<td>8 – 40 mg/L</td>
+<td>&lt; 4 mg/L</td>
+</tr>
+<tr>
+<td>Free ammonia</td>
+<td>—</td>
+<td>—</td>
+<td>&gt; 2 mg/L</td>
+</tr>
+</tbody></table></div>
+<h2 id="ops-21-composition-constants-for-calculation">21. Composition constants for calculation</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Element</th>
+<th>% of dry biomass</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Carbon</td>
+<td>46 %</td>
+</tr>
+<tr>
+<td>Nitrogen</td>
+<td>10.5 %</td>
+</tr>
+<tr>
+<td>Phosphorus</td>
+<td>1.1 %</td>
+</tr>
+<tr>
+<td>Potassium</td>
+<td>1.5 %</td>
+</tr>
+<tr>
+<td>Sulphur</td>
+<td>0.8 %</td>
+</tr>
+<tr>
+<td>Magnesium</td>
+<td>0.3 %</td>
+</tr>
+<tr>
+<td>Iron</td>
+<td>0.1 %</td>
+</tr>
+</tbody></table></div>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Reagent</th>
+<th>Element content</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sodium nitrate, NaNO₃</td>
+<td>16.5 % N</td>
+</tr>
+<tr>
+<td>Urea, CO(NH₂)₂</td>
+<td>46.6 % N</td>
+</tr>
+<tr>
+<td>Di-potassium phosphate, K₂HPO₄</td>
+<td>17.8 % P, 44.8 % K</td>
+</tr>
+<tr>
+<td>Magnesium sulphate, MgSO₄·7H₂O</td>
+<td>9.9 % Mg</td>
+</tr>
+<tr>
+<td>Ferrous sulphate, FeSO₄·7H₂O</td>
+<td>20.1 % Fe</td>
+</tr>
+</tbody></table></div>
+<h2 id="ops-22-worked-calculations">22. Worked calculations</h2>
+<h3 id="ops-221-daily-production-from-areal-productivity">22.1 Daily production from areal productivity</h3>
+<pre><code>Production (kg/day) = pond area (m²) × productivity (g/m²/day) ÷ 1000
+</code></pre>
+<p>Stage 1 peak: 1,750 m² × 12 g/m²/day ÷ 1000 = <strong>21 kg/day</strong></p>
+<h3 id="ops-222-harvest-volume">22.2 Harvest volume</h3>
+<pre><code>Volume (m³) = biomass (kg) ÷ [ density (kg/m³) × capture efficiency ]
+</code></pre>
+<p>21 kg ÷ (0.65 × 0.92) = <strong>35.1 m³/day</strong></p>
+<p>Sanity check: 35.1 ÷ 350 m³ pond volume = <strong>10 % of pond volume per day.</strong>
+Commercial practice is 8–20 %. ✓</p>
+<h3 id="ops-223-nutrient-dosing-from-harvest">22.3 Nutrient dosing from harvest</h3>
+<p>For 21 kg/day of dry biomass:</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Demand</th>
+<th>Reagent</th>
+<th>Dose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>N</td>
+<td>21 × 0.105 = 2.21 kg</td>
+<td>Sodium nitrate</td>
+<td>2.21 ÷ 0.165 = <strong>13.4 kg/day</strong></td>
+</tr>
+<tr>
+<td>N (alternative)</td>
+<td>2.21 kg</td>
+<td>Urea</td>
+<td>2.21 ÷ 0.466 = <strong>4.7 kg/day</strong></td>
+</tr>
+<tr>
+<td>P</td>
+<td>21 × 0.011 = 0.23 kg</td>
+<td>K₂HPO₄</td>
+<td>0.23 ÷ 0.178 = <strong>1.30 kg/day</strong></td>
+</tr>
+<tr>
+<td>Mg</td>
+<td>21 × 0.003 = 0.063 kg</td>
+<td>MgSO₄·7H₂O</td>
+<td>0.063 ÷ 0.099 = <strong>0.64 kg/day</strong></td>
+</tr>
+<tr>
+<td>Fe</td>
+<td>21 × 0.001 = 0.021 kg</td>
+<td>FeSO₄·7H₂O</td>
+<td>0.021 ÷ 0.201 = <strong>0.10 kg/day</strong></td>
+</tr>
+</tbody></table></div>
+<p>⚠ The phosphate above also supplies 1.30 × 0.448 = 0.58 kg K against a demand of
+0.32 kg. <strong>Reduce potassium sulphate accordingly or potassium accumulates.</strong></p>
+<h3 id="ops-224-co-demand">22.4 CO₂ demand</h3>
+<pre><code>CO₂ = biomass × carbon fraction × (44 ÷ 12) ÷ utilisation efficiency
+</code></pre>
+<p>21 × 0.46 × 3.667 ÷ 0.65 = <strong>54.5 kg/day</strong></p>
+<p>The 44/12 is the molar mass ratio of CO₂ to carbon. The utilisation efficiency is
+why contactor depth matters: surface sparging achieves only 30–40 %, which nearly
+doubles the gas bill.</p>
+<h3 id="ops-225-wet-cake-and-drying-load">22.5 Wet cake and drying load</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Calculation</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Wet cake at 20 % solids</td>
+<td>21 ÷ 0.20</td>
+<td>105 kg/day</td>
+</tr>
+<tr>
+<td>Product at 5 % moisture</td>
+<td>21 ÷ 0.95</td>
+<td>22.1 kg/day</td>
+</tr>
+<tr>
+<td>Water to evaporate</td>
+<td>105 − 22.1</td>
+<td><strong>82.9 kg/day</strong></td>
+</tr>
+<tr>
+<td>Over an 8 h cycle</td>
+<td>82.9 ÷ 8</td>
+<td>10.4 kg water/h</td>
+</tr>
+<tr>
+<td>Thermal duty at 5,000 kJ/kg</td>
+<td>10.4 × 5000 ÷ 3600</td>
+<td><strong>14.4 kW</strong></td>
+</tr>
+</tbody></table></div>
+<h3 id="ops-226-evaporation-make-up">22.6 Evaporation make-up</h3>
+<pre><code>Make-up (m³/day) = pond area (m²) × evaporation (mm/day) ÷ 1000
+</code></pre>
+<p>Peak: 1,750 × 10 ÷ 1000 = <strong>17.5 m³/day</strong></p>
+<p>This is about 80 % of total process water demand. Evaporation, not process use,
+sizes the water supply.</p>
+<h2 id="ops-23-units-and-conversions">23. Units and conversions</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Unit</th>
+<th>Conversion</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Areal productivity</td>
+<td>g/m²/day</td>
+<td>× 3.65 = t/ha/year (365 days)</td>
+</tr>
+<tr>
+<td>Density</td>
+<td>g/L</td>
+<td>= kg/m³</td>
+</tr>
+<tr>
+<td>Area</td>
+<td>1 acre</td>
+<td>= 4,047 m² = 0.4047 ha</td>
+</tr>
+<tr>
+<td>Volume</td>
+<td>1 m³</td>
+<td>= 1,000 L</td>
+</tr>
+<tr>
+<td>Light (PAR)</td>
+<td>µmol/m²/s</td>
+<td>Full sun ≈ 2,000</td>
+</tr>
+<tr>
+<td>Evaporation</td>
+<td>mm/day</td>
+<td>× area (m²) ÷ 1000 = m³/day</td>
+</tr>
+<tr>
+<td>Temperature</td>
+<td>°C</td>
+<td>Always °C in this manual</td>
+</tr>
+</tbody></table></div>
+<h2 id="ops-24-glossary">24. Glossary</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Alkalinity</strong></td>
+<td>Capacity of the medium to neutralise acid; here from carbonate and bicarbonate</td>
+</tr>
+<tr>
+<td><strong>Areal productivity</strong></td>
+<td>Biomass produced per square metre of pond surface per day</td>
+</tr>
+<tr>
+<td><em><strong>Arthrospira</strong></em></td>
+<td>The correct genus of commercial spirulina</td>
+</tr>
+<tr>
+<td><strong>Baffle wall</strong></td>
+<td>The central dividing wall of a raceway pond</td>
+</tr>
+<tr>
+<td><strong>Blowdown</strong></td>
+<td>Deliberate removal of culture medium to control salinity build-up</td>
+</tr>
+<tr>
+<td><strong>Carbonation sump</strong></td>
+<td>A deepened section of the channel where CO₂ is dissolved</td>
+</tr>
+<tr>
+<td><strong>Filtrate</strong></td>
+<td>Liquid passing through the harvest screen; returned to the pond</td>
+</tr>
+<tr>
+<td><strong>Gas vesicles</strong></td>
+<td>Gas-filled protein structures giving buoyancy</td>
+</tr>
+<tr>
+<td><strong>Hormogonium</strong></td>
+<td>A short motile filament fragment that grows into a new trichome</td>
+</tr>
+<tr>
+<td><strong>Linear morphotype</strong></td>
+<td>Uncoiled, straight form of the trichome; a stress indicator</td>
+</tr>
+<tr>
+<td><strong>Necridium</strong></td>
+<td>A specialised dying cell that lets a trichome fragment</td>
+</tr>
+<tr>
+<td><strong>Photoinhibition</strong></td>
+<td>Damage and reduced photosynthesis caused by excess light</td>
+</tr>
+<tr>
+<td><strong>Phycocyanin</strong></td>
+<td>The blue, water-soluble, heat-labile pigment</td>
+</tr>
+<tr>
+<td><strong>Raceway</strong></td>
+<td>An oval circulating pond driven by a paddle wheel</td>
+</tr>
+<tr>
+<td><strong>Secchi depth</strong></td>
+<td>Depth at which a white disc disappears; a field density proxy</td>
+</tr>
+<tr>
+<td><strong>Trichome</strong></td>
+<td>A multicellular filament</td>
+</tr>
+<tr>
+<td><strong>Zarrouk&#39;s medium</strong></td>
+<td>The standard reference growth medium</td>
+</tr>
+</tbody></table></div>
+<h2 id="ops-25-ten-rules">25. Ten rules</h2>
+<ol>
+<li><strong>Circulation never stops.</strong></li>
+<li><strong>Microscopy every day, every pond, recorded even when normal.</strong></li>
+<li><strong>Never harvest below 0.30 g/L.</strong></li>
+<li><strong>Never let pH drop below 8.8 — it is the contamination barrier.</strong></li>
+<li><strong>Never dose nutrients into a still pond.</strong></li>
+<li><strong>Never let product temperature exceed 60 °C in drying.</strong></li>
+<li><strong>Never transfer anything from a sick pond to a healthy one.</strong></li>
+<li><strong>Never release a batch without a microcystin result.</strong></li>
+<li><strong>Never claim spirulina provides vitamin B12, and never make a health claim.</strong></li>
+<li><strong>Write it down. If it is not recorded, it did not happen.</strong></li>
+</ol>
+<hr>
+<p><strong>End of BB-OPS-001 — Spirulina Production Manual, Rev. 0</strong></p>
+<p><em>This manual is a working document. Where it conflicts with BB-DBR-002, the
+Design Criteria Manual, the design criteria govern. Operating values in this
+manual will be revised against actual cultivation trial results.</em></p>
+
+</article>
+  </main>
+</div>
+
+<script>
+(function () {
+  var TOC = {"reg":"<a class=\"t2\" href=\"#\" data-goto=\"ops\">Production Manual — Spirulina Production Manual</a>","ops":"<a class=\"t2\" href=\"#ops-spirulina-production-manual\" data-id=\"ops-spirulina-production-manual\">Spirulina Production Manual</a>\n<a class=\"t3\" href=\"#ops-a-complete-working-manual-the-organism-cultivation-harvest-p\" data-id=\"ops-a-complete-working-manual-the-organism-cultivation-harvest-p\">A complete working manual — the organism, cultivation, harvest, processing, quality and troubleshooting</a>\n<a class=\"t2\" href=\"#ops-how-to-use-this-manual\" data-id=\"ops-how-to-use-this-manual\">How to use this manual</a>\n<a class=\"t2\" href=\"#ops-1-what-spirulina-actually-is\" data-id=\"ops-1-what-spirulina-actually-is\">1. What spirulina actually is</a>\n<a class=\"t3\" href=\"#ops-11-it-is-a-bacterium-not-a-plant-and-not-an-algae\" data-id=\"ops-11-it-is-a-bacterium-not-a-plant-and-not-an-algae\">1.1 It is a bacterium, not a plant and not an algae</a>\n<a class=\"t3\" href=\"#ops-12-naming-spirulina-versus-arthrospira\" data-id=\"ops-12-naming-spirulina-versus-arthrospira\">1.2 Naming: Spirulina versus Arthrospira</a>\n<a class=\"t3\" href=\"#ops-13-shape-and-structure\" data-id=\"ops-13-shape-and-structure\">1.3 Shape and structure</a>\n<a class=\"t3\" href=\"#ops-14-gas-vesicles-and-buoyancy\" data-id=\"ops-14-gas-vesicles-and-buoyancy\">1.4 Gas vesicles and buoyancy</a>\n<a class=\"t3\" href=\"#ops-15-the-helix-is-not-fixed\" data-id=\"ops-15-the-helix-is-not-fixed\">1.5 The helix is not fixed</a>\n<a class=\"t3\" href=\"#ops-16-how-it-reproduces\" data-id=\"ops-16-how-it-reproduces\">1.6 How it reproduces</a>\n<a class=\"t3\" href=\"#ops-17-what-it-does-and-does-not-do-metabolically\" data-id=\"ops-17-what-it-does-and-does-not-do-metabolically\">1.7 What it does and does not do metabolically</a>\n<a class=\"t3\" href=\"#ops-18-where-it-grows-naturally\" data-id=\"ops-18-where-it-grows-naturally\">1.8 Where it grows naturally</a>\n<a class=\"t3\" href=\"#ops-19-a-long-history-as-food\" data-id=\"ops-19-a-long-history-as-food\">1.9 A long history as food</a>\n<a class=\"t2\" href=\"#ops-2-composition-and-nutrition-stated-honestly\" data-id=\"ops-2-composition-and-nutrition-stated-honestly\">2. Composition and nutrition — stated honestly</a>\n<a class=\"t3\" href=\"#ops-21-gross-composition\" data-id=\"ops-21-gross-composition\">2.1 Gross composition</a>\n<a class=\"t3\" href=\"#ops-22-protein-quality\" data-id=\"ops-22-protein-quality\">2.2 Protein quality</a>\n<a class=\"t3\" href=\"#ops-23-the-pigments\" data-id=\"ops-23-the-pigments\">2.3 The pigments</a>\n<a class=\"t3\" href=\"#ops-24-vitamins-and-minerals-with-one-important-correction\" data-id=\"ops-24-vitamins-and-minerals-with-one-important-correction\">2.4 Vitamins and minerals — with one important correction</a>\n<a class=\"t3\" href=\"#ops-25-why-you-should-not-eat-unlimited-quantities\" data-id=\"ops-25-why-you-should-not-eat-unlimited-quantities\">2.5 Why you should not eat unlimited quantities</a>\n<a class=\"t3\" href=\"#ops-26-what-we-do-not-claim\" data-id=\"ops-26-what-we-do-not-claim\">2.6 What we do not claim</a>\n<a class=\"t2\" href=\"#ops-3-the-six-things-spirulina-needs\" data-id=\"ops-3-the-six-things-spirulina-needs\">3. The six things spirulina needs</a>\n<a class=\"t3\" href=\"#ops-31-light\" data-id=\"ops-31-light\">3.1 Light</a>\n<a class=\"t3\" href=\"#ops-32-temperature\" data-id=\"ops-32-temperature\">3.2 Temperature</a>\n<a class=\"t3\" href=\"#ops-33-carbon-and-the-ph-relationship\" data-id=\"ops-33-carbon-and-the-ph-relationship\">3.3 Carbon and the pH relationship</a>\n<a class=\"t3\" href=\"#ops-34-alkalinity-and-salinity-the-contamination-barrier\" data-id=\"ops-34-alkalinity-and-salinity-the-contamination-barrier\">3.4 Alkalinity and salinity — the contamination barrier</a>\n<a class=\"t3\" href=\"#ops-35-nutrients\" data-id=\"ops-35-nutrients\">3.5 Nutrients</a>\n<a class=\"t3\" href=\"#ops-36-ammonia-useful-and-dangerous\" data-id=\"ops-36-ammonia-useful-and-dangerous\">3.6 Ammonia — useful and dangerous</a>\n<a class=\"t3\" href=\"#ops-37-mixing\" data-id=\"ops-37-mixing\">3.7 Mixing</a>\n<a class=\"t2\" href=\"#ops-4-growth-rate-and-what-to-expect\" data-id=\"ops-4-growth-rate-and-what-to-expect\">4. Growth rate and what to expect</a>\n<a class=\"t3\" href=\"#ops-41-the-growth-curve\" data-id=\"ops-41-the-growth-curve\">4.1 The growth curve</a>\n<a class=\"t3\" href=\"#ops-42-realistic-productivity\" data-id=\"ops-42-realistic-productivity\">4.2 Realistic productivity</a>\n<a class=\"t3\" href=\"#ops-43-working-density\" data-id=\"ops-43-working-density\">4.3 Working density</a>\n<a class=\"t2\" href=\"#ops-5-the-culture-medium\" data-id=\"ops-5-the-culture-medium\">5. The culture medium</a>\n<a class=\"t3\" href=\"#ops-51-zarrouk39s-medium-the-reference\" data-id=\"ops-51-zarrouk39s-medium-the-reference\">5.1 Zarrouk&amp;#39;s medium — the reference</a>\n<a class=\"t3\" href=\"#ops-52-why-we-do-not-use-full-zarrouk-commercially\" data-id=\"ops-52-why-we-do-not-use-full-zarrouk-commercially\">5.2 Why we do not use full Zarrouk commercially</a>\n<a class=\"t3\" href=\"#ops-53-making-up-medium-order-matters\" data-id=\"ops-53-making-up-medium-order-matters\">5.3 Making up medium — order matters</a>\n<a class=\"t3\" href=\"#ops-54-reagent-quality\" data-id=\"ops-54-reagent-quality\">5.4 Reagent quality</a>\n<a class=\"t2\" href=\"#ops-6-starting-and-scaling-a-culture\" data-id=\"ops-6-starting-and-scaling-a-culture\">6. Starting and scaling a culture</a>\n<a class=\"t3\" href=\"#ops-61-the-scale-up-train\" data-id=\"ops-61-the-scale-up-train\">6.1 The scale-up train</a>\n<a class=\"t3\" href=\"#ops-62-release-criteria-do-not-skip-these\" data-id=\"ops-62-release-criteria-do-not-skip-these\">6.2 Release criteria — do not skip these</a>\n<a class=\"t3\" href=\"#ops-63-inoculating-a-production-pond\" data-id=\"ops-63-inoculating-a-production-pond\">6.3 Inoculating a production pond</a>\n<a class=\"t2\" href=\"#ops-7-the-daily-routine\" data-id=\"ops-7-the-daily-routine\">7. The daily routine</a>\n<a class=\"t3\" href=\"#ops-71-the-morning-walk-what-to-look-at\" data-id=\"ops-71-the-morning-walk-what-to-look-at\">7.1 The morning walk — what to look at</a>\n<a class=\"t2\" href=\"#ops-8-measurements-how-to-actually-take-them\" data-id=\"ops-8-measurements-how-to-actually-take-them\">8. Measurements — how to actually take them</a>\n<a class=\"t3\" href=\"#ops-81-secchi-depth-the-daily-density-check\" data-id=\"ops-81-secchi-depth-the-daily-density-check\">8.1 Secchi depth — the daily density check</a>\n<a class=\"t3\" href=\"#ops-82-gravimetric-dry-weight-the-reference-method\" data-id=\"ops-82-gravimetric-dry-weight-the-reference-method\">8.2 Gravimetric dry weight — the reference method</a>\n<a class=\"t3\" href=\"#ops-83-ph\" data-id=\"ops-83-ph\">8.3 pH</a>\n<a class=\"t3\" href=\"#ops-84-alkalinity\" data-id=\"ops-84-alkalinity\">8.4 Alkalinity</a>\n<a class=\"t3\" href=\"#ops-85-salinity\" data-id=\"ops-85-salinity\">8.5 Salinity</a>\n<a class=\"t3\" href=\"#ops-86-microscopy-the-most-valuable-ten-minutes-of-the-day\" data-id=\"ops-86-microscopy-the-most-valuable-ten-minutes-of-the-day\">8.6 Microscopy — the most valuable ten minutes of the day</a>\n<a class=\"t2\" href=\"#ops-9-feeding-the-ponds\" data-id=\"ops-9-feeding-the-ponds\">9. Feeding the ponds</a>\n<a class=\"t2\" href=\"#ops-10-records\" data-id=\"ops-10-records\">10. Records</a>\n<a class=\"t2\" href=\"#ops-11-harvesting\" data-id=\"ops-11-harvesting\">11. Harvesting</a>\n<a class=\"t3\" href=\"#ops-111-when\" data-id=\"ops-111-when\">11.1 When</a>\n<a class=\"t3\" href=\"#ops-112-the-steps\" data-id=\"ops-112-the-steps\">11.2 The steps</a>\n<a class=\"t3\" href=\"#ops-113-pumping-handle-it-gently\" data-id=\"ops-113-pumping-handle-it-gently\">11.3 Pumping — handle it gently</a>\n<a class=\"t3\" href=\"#ops-114-screening\" data-id=\"ops-114-screening\">11.4 Screening</a>\n<a class=\"t3\" href=\"#ops-115-washing\" data-id=\"ops-115-washing\">11.5 Washing</a>\n<a class=\"t3\" href=\"#ops-116-dewatering-and-pressing\" data-id=\"ops-116-dewatering-and-pressing\">11.6 Dewatering and pressing</a>\n<a class=\"t3\" href=\"#ops-117-the-wet-cake-is-perishable\" data-id=\"ops-117-the-wet-cake-is-perishable\">11.7 The wet cake is perishable</a>\n<a class=\"t2\" href=\"#ops-12-drying-where-quality-is-won-or-lost\" data-id=\"ops-12-drying-where-quality-is-won-or-lost\">12. Drying — where quality is won or lost</a>\n<a class=\"t3\" href=\"#ops-121-the-rule\" data-id=\"ops-121-the-rule\">12.1 The rule</a>\n<a class=\"t3\" href=\"#ops-122-the-trap-at-the-end-of-the-cycle\" data-id=\"ops-122-the-trap-at-the-end-of-the-cycle\">12.2 The trap at the end of the cycle</a>\n<a class=\"t3\" href=\"#ops-123-methods\" data-id=\"ops-123-methods\">12.3 Methods</a>\n<a class=\"t3\" href=\"#ops-124-hygiene-during-drying\" data-id=\"ops-124-hygiene-during-drying\">12.4 Hygiene during drying</a>\n<a class=\"t2\" href=\"#ops-13-milling-sieving-and-packing\" data-id=\"ops-13-milling-sieving-and-packing\">13. Milling, sieving and packing</a>\n<a class=\"t3\" href=\"#ops-131-milling\" data-id=\"ops-131-milling\">13.1 Milling</a>\n<a class=\"t3\" href=\"#ops-132-humidity\" data-id=\"ops-132-humidity\">13.2 Humidity</a>\n<a class=\"t3\" href=\"#ops-133-blending\" data-id=\"ops-133-blending\">13.3 Blending</a>\n<a class=\"t3\" href=\"#ops-134-packing\" data-id=\"ops-134-packing\">13.4 Packing</a>\n<a class=\"t3\" href=\"#ops-135-storage\" data-id=\"ops-135-storage\">13.5 Storage</a>\n<a class=\"t2\" href=\"#ops-14-product-specification\" data-id=\"ops-14-product-specification\">14. Product specification</a>\n<a class=\"t3\" href=\"#ops-141-microbiological\" data-id=\"ops-141-microbiological\">14.1 Microbiological</a>\n<a class=\"t3\" href=\"#ops-142-contaminants\" data-id=\"ops-142-contaminants\">14.2 Contaminants</a>\n<a class=\"t2\" href=\"#ops-15-microcystins-the-one-that-really-matters\" data-id=\"ops-15-microcystins-the-one-that-really-matters\">15. Microcystins — the one that really matters</a>\n<a class=\"t2\" href=\"#ops-16-batch-traceability\" data-id=\"ops-16-batch-traceability\">16. Batch traceability</a>\n<a class=\"t2\" href=\"#ops-17-contamination\" data-id=\"ops-17-contamination\">17. Contamination</a>\n<a class=\"t3\" href=\"#ops-171-what-can-invade\" data-id=\"ops-171-what-can-invade\">17.1 What can invade</a>\n<a class=\"t3\" href=\"#ops-172-rotifers-the-emergency\" data-id=\"ops-172-rotifers-the-emergency\">17.2 Rotifers — the emergency</a>\n<a class=\"t3\" href=\"#ops-173-competing-algae\" data-id=\"ops-173-competing-algae\">17.3 Competing algae</a>\n<a class=\"t3\" href=\"#ops-174-insect-larvae\" data-id=\"ops-174-insect-larvae\">17.4 Insect larvae</a>\n<a class=\"t2\" href=\"#ops-18-culture-problems-diagnostic-table\" data-id=\"ops-18-culture-problems-diagnostic-table\">18. Culture problems — diagnostic table</a>\n<a class=\"t2\" href=\"#ops-19-deciding-to-dump-a-pond\" data-id=\"ops-19-deciding-to-dump-a-pond\">19. Deciding to dump a pond</a>\n<a class=\"t2\" href=\"#ops-20-quick-reference-target-values\" data-id=\"ops-20-quick-reference-target-values\">20. Quick reference — target values</a>\n<a class=\"t2\" href=\"#ops-21-composition-constants-for-calculation\" data-id=\"ops-21-composition-constants-for-calculation\">21. Composition constants for calculation</a>\n<a class=\"t2\" href=\"#ops-22-worked-calculations\" data-id=\"ops-22-worked-calculations\">22. Worked calculations</a>\n<a class=\"t3\" href=\"#ops-221-daily-production-from-areal-productivity\" data-id=\"ops-221-daily-production-from-areal-productivity\">22.1 Daily production from areal productivity</a>\n<a class=\"t3\" href=\"#ops-222-harvest-volume\" data-id=\"ops-222-harvest-volume\">22.2 Harvest volume</a>\n<a class=\"t3\" href=\"#ops-223-nutrient-dosing-from-harvest\" data-id=\"ops-223-nutrient-dosing-from-harvest\">22.3 Nutrient dosing from harvest</a>\n<a class=\"t3\" href=\"#ops-224-co-demand\" data-id=\"ops-224-co-demand\">22.4 CO₂ demand</a>\n<a class=\"t3\" href=\"#ops-225-wet-cake-and-drying-load\" data-id=\"ops-225-wet-cake-and-drying-load\">22.5 Wet cake and drying load</a>\n<a class=\"t3\" href=\"#ops-226-evaporation-make-up\" data-id=\"ops-226-evaporation-make-up\">22.6 Evaporation make-up</a>\n<a class=\"t2\" href=\"#ops-23-units-and-conversions\" data-id=\"ops-23-units-and-conversions\">23. Units and conversions</a>\n<a class=\"t2\" href=\"#ops-24-glossary\" data-id=\"ops-24-glossary\">24. Glossary</a>\n<a class=\"t2\" href=\"#ops-25-ten-rules\" data-id=\"ops-25-ten-rules\">25. Ten rules</a>"};
+  var tabs = document.getElementById('tabs');
+  var toc = document.getElementById('toc');
+  var find = document.getElementById('find');
+  var side = document.getElementById('side');
+  var menu = document.getElementById('menu');
+  var current = 'reg';
+  var spy = null;
+
+  function closeSide() {
+    side.classList.remove('open');
+    menu.setAttribute('aria-expanded', 'false');
+  }
+
+  function watchHeadings() {
+    if (spy) { spy.disconnect(); spy = null; }
+    if (current === 'reg' || !('IntersectionObserver' in window)) return;
+    var links = {};
+    toc.querySelectorAll('a').forEach(function (a) { links[a.dataset.id] = a; });
+    var visible = new Set();
+    spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) visible.add(e.target.id); else visible.delete(e.target.id);
+      });
+      var order = Object.keys(links);
+      var top = order.find(function (id) { return visible.has(id); });
+      order.forEach(function (id) { links[id].classList.toggle('on', id === top); });
+    }, { rootMargin: '-70px 0px -75% 0px' });
+    document.querySelectorAll('#doc-' + current + ' h2, #doc-' + current + ' h3')
+      .forEach(function (h) { if (links[h.id]) spy.observe(h); });
+  }
+
+  function show(v, anchor) {
+    current = v;
+    document.querySelectorAll('.doc').forEach(function (d) {
+      d.classList.toggle('on', d.id === 'doc-' + v);
+    });
+    tabs.querySelectorAll('button').forEach(function (b) {
+      var on = b.dataset.v === v;
+      b.setAttribute('aria-current', String(on));
+      // The tab strip scrolls on narrow screens; keep the current volume visible.
+      if (on && b.scrollIntoView) {
+        b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      }
+    });
+    toc.innerHTML = TOC[v] || '';
+    find.value = '';
+    // Nothing to filter on the register's four-item volume list.
+    find.style.display = v === 'reg' ? 'none' : '';
+    closeSide();
+    watchHeadings();
+    if (anchor) {
+      var el = document.getElementById(anchor);
+      if (el) {
+        // The article was display:none until a moment ago; wait for layout
+        // or the scroll target is computed against a stale box.
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { el.scrollIntoView(); });
+        });
+        return;
+      }
+    }
+    window.scrollTo(0, 0);
+  }
+
+  tabs.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-v]');
+    if (b) show(b.dataset.v);
+  });
+
+  toc.addEventListener('click', function (e) {
+    if (e.target.closest('a')) closeSide();
+  });
+
+  document.addEventListener('click', function (e) {
+    var j = e.target.closest('[data-goto]');
+    if (!j) return;
+    e.preventDefault();
+    show(j.dataset.goto, j.dataset.anchor);
+  });
+
+  menu.addEventListener('click', function () {
+    var open = side.classList.toggle('open');
+    menu.setAttribute('aria-expanded', String(open));
+  });
+
+  find.addEventListener('input', function () {
+    var q = find.value.trim().toLowerCase();
+    var hits = 0;
+    toc.querySelectorAll('a').forEach(function (a) {
+      var hit = !q || a.textContent.toLowerCase().indexOf(q) > -1;
+      a.classList.toggle('hide', !hit);
+      if (hit) hits++;
+    });
+    var empty = toc.querySelector('.toc-empty');
+    if (!hits && !empty) {
+      var p = document.createElement('p');
+      p.className = 'toc-empty';
+      p.textContent = 'No section matches "' + find.value + '".';
+      toc.appendChild(p);
+    } else if (hits && empty) {
+      empty.remove();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeSide();
+    if (e.key === '/' && document.activeElement !== find) {
+      e.preventDefault();
+      side.classList.add('open');
+      find.focus();
+    }
+  });
+
+  show("ops");
+})();
+</script>
