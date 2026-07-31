@@ -757,6 +757,27 @@ td:last-child, th:last-child { text-align: right; padding-right: 0; }
   .pkg-state { grid-column: 2; text-align: left; }
 }
 
+.contact-pending {
+  margin-top: 1.75rem;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--phyco);
+  padding: 1rem 1.15rem;
+  max-width: 46em;
+  font-size: var(--fs-md);
+  color: var(--ink-soft);
+}
+
+.contact-pending b {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--phyco);
+  margin-bottom: .45rem;
+  font-weight: 400;
+}
+
 /* --- enquiries ------------------------------------------- */
 
 .enquiry {
@@ -901,7 +922,7 @@ html { scroll-behavior: smooth; }
         from one acre to five.
       </p>
       <div class="hero-actions">
-        <a class="btn" href="#enquiries">Talk to us about volume</a>
+        <a class="btn" href="#suppliers">Supply opportunities</a>
         <a class="btn btn-ghost" href="#process">How it is produced</a>
       </div>
 
@@ -1414,11 +1435,12 @@ html { scroll-behavior: smooth; }
           which package you supply into and we will send it.
         </p>
 
-        <div class="hero-actions" style="margin-top:1.5rem">
-          <a class="btn" href="mailto:suppliers@bluebloomspirulina.in?subject=Supplier%20enquiry%20%E2%80%94%20BlueBloom%20Spirulina&amp;body=Package%20of%20interest%3A%0ACompany%3A%0AWhat%20you%20supply%3A%0A">
-            Request an enquiry document
-          </a>
-        </div>
+        <p class="contact-pending">
+          <b>Contact details are being finalised</b>
+          Our enquiry address is not yet published. It will appear here shortly.
+          If you supply into one of the packages above, please check back, or
+          reach us through the company registration details once filed.
+        </p>
 
         <p class="footnote" style="margin-top:2rem">
           A note on what we value: quotations are assessed on whole-life cost,
@@ -1445,11 +1467,9 @@ html { scroll-behavior: smooth; }
             specification we build to, which is worth more to both sides than a
             price list would be at this stage.
           </p>
-          <a class="btn" href="mailto:enquiries@bluebloomspirulina.in?subject=Bulk%20supply%20enquiry%20%E2%80%94%20BlueBloom%20Spirulina">
-            Send a supply enquiry
-          </a>
           <div class="contact-line">
-            <a href="mailto:enquiries@bluebloomspirulina.in">enquiries@bluebloomspirulina.in</a><br>
+            <b style="color:var(--on-panel);font-weight:500">Contact details are being finalised.</b><br>
+            Our enquiry address will be published here shortly.<br>
             Hyderabad Region, Telangana, India
           </div>
         </div>
