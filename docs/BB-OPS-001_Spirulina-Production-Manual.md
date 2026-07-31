@@ -21,22 +21,28 @@
 The design criteria manual (BB-DBR-002) specifies **what to build**. This manual
 explains **how it works and how to run it**.
 
-| If you want to | Read |
+| If you want to | Read the chapter |
 | --- | --- |
-| Understand the organism | Part 1 |
-| Grow a culture | Parts 2 and 3 |
-| Run the ponds day to day | Part 4 |
-| Harvest and process | Part 5 |
-| Test and release product | Part 6 |
-| Fix something that has gone wrong | Part 7 |
-| Look up a number or a calculation | Part 8 |
+| Understand the organism | *What is spirulina?* |
+| Learn what it needs | *What does it need to grow?* |
+| Grow a culture from scratch | *How do I start a culture?* |
+| Run the ponds day to day | *How do I run the ponds each day?* |
+| Harvest and process | *How do I harvest and process it?* |
+| Test and release product | *How do I know it is safe to sell?* |
+| Fix something that has gone wrong | *What do I do when something goes wrong?* |
+| Look up a number or a calculation | *Where do I look things up?* |
 
 Anything marked **⚠** is a point where a mistake costs a culture, a batch, or
 somebody's safety. Read those twice.
 
 ---
 
-# PART 1 — THE ORGANISM
+# What is spirulina?
+
+A cyanobacterium — not a plant and not an algae — and that distinction shapes
+everything else in this manual. What the organism actually is, how it is built,
+why its filament length is worth money, what it contains, and two nutrition
+claims the trade routinely gets wrong.
 
 ## 1. What spirulina actually is
 
@@ -295,7 +301,13 @@ Specific cautions worth knowing and being able to answer:
 
 ---
 
-# PART 2 — HOW IT GROWS
+# What does it need to grow?
+
+Six variables: light, temperature, carbon, pH and alkalinity, nutrients and
+mixing. Keep all six inside their window and the crop largely looks after
+itself. Why a rising pH is the sign of a healthy culture, why the alkaline
+medium is really a contamination barrier, and what productivity you can
+honestly expect.
 
 ## 3. The six things spirulina needs
 
@@ -551,7 +563,12 @@ the extra biomass was worth.
 
 ---
 
-# PART 3 — MEDIUM AND STARTING A CULTURE
+# How do I start a culture?
+
+The growth medium and the scale-up train. What Zarrouk's medium is, why we do
+not use it at full strength, the order salts must be added in to avoid
+precipitating the whole batch, and how a laboratory flask becomes a working
+pond without carrying contamination in with it.
 
 ## 5. The culture medium
 
@@ -694,7 +711,12 @@ full sun.
 
 ---
 
-# PART 4 — RUNNING THE PONDS
+# How do I run the ponds each day?
+
+The daily routine, from the morning walk to the evening check. How to take
+each measurement properly — Secchi depth, dry weight, pH, and the daily
+microscopy that is the most valuable ten minutes in the whole operation.
+How to feed a pond, and what has to be written down.
 
 ## 7. The daily routine
 
@@ -849,7 +871,12 @@ auditor or a serious customer will ask to see.
 
 ---
 
-# PART 5 — HARVEST AND PROCESSING
+# How do I harvest and process it?
+
+From pond to packed powder. When to harvest and how much to take, why the pump
+must be gentle, how screening works and why it is so much cheaper than
+centrifuging, washing and pressing, and the drying step where product quality
+is most easily destroyed.
 
 ## 11. Harvesting
 
@@ -1048,7 +1075,12 @@ does not represent it, and the certificate of analysis is then meaningless.
 
 ---
 
-# PART 6 — QUALITY AND SAFETY
+# How do I know it is safe to sell?
+
+The product specification and the testing behind it. Microcystins — the one
+genuine safety hazard associated with commercial spirulina, and why every
+single batch is tested for them. And the batch records that make a recall
+bounded rather than catastrophic.
 
 ## 14. Product specification
 
@@ -1138,7 +1170,11 @@ limits.
 
 ---
 
-# PART 7 — WHEN THINGS GO WRONG
+# What do I do when something goes wrong?
+
+Contamination, grazers, and the rotifer emergency that can take a pond in three
+days. A symptom-to-cause diagnostic table covering colour, smell, foam, density
+and lost pigment. And how to decide when a pond is no longer worth saving.
 
 ## 17. Contamination
 
@@ -1239,7 +1275,11 @@ a repeat.
 
 ---
 
-# PART 8 — REFERENCE
+# Where do I look things up?
+
+Every target value on one page, composition constants, worked calculations for
+production, harvest volume, nutrient dosing, CO₂ demand and drying duty, unit
+conversions, a glossary, and ten rules that summarise the entire manual.
 
 ## 20. Quick reference — target values
 

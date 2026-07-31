@@ -90,9 +90,10 @@ function parseDoc(doc) {
   let part = null;
   let section = null;
   let front = [];
+  let seenTitle = false;
 
   const openPart = (title) => {
-    part = { title, sections: [] };
+    part = { title, sections: [], intro: [] };
     parts.push(part);
   };
   const openSection = (title) => {
@@ -102,8 +103,9 @@ function parseDoc(doc) {
   };
 
   for (const t of tokens) {
-    if (t.type === "heading" && t.depth === 1 && /^part\b/i.test(t.text)) {
-      openPart(t.text.replace(/^PART\s*\d+\s*[—–-]\s*/i, "").trim() || t.text);
+    if (t.type === "heading" && t.depth === 1) {
+      if (!seenTitle) { seenTitle = true; front.push(t); continue; }
+      openPart(t.text.trim());
       section = null;
       continue;
     }
@@ -112,6 +114,7 @@ function parseDoc(doc) {
       continue;
     }
     if (section) section.tokens.push(t);
+    else if (part) part.intro.push(t);
     else front.push(t);
   }
 
@@ -124,7 +127,20 @@ function parseDoc(doc) {
     parts[0].sections.unshift(intro);
   }
   if (parts.length && !parts[0].title) {
-    parts[0].title = parts.length > 1 ? "Introduction" : "Contents";
+    parts[0].title = parts.length > 1 ? "Start here" : "Contents";
+    parts[0].lead =
+      parts.length > 1
+        ? "What this manual covers, how it differs from the design criteria, and where to look for what."
+        : "";
+  }
+  // Chapter description: the prose between the chapter heading and its first
+  // section, flattened to plain text for the home card.
+  for (const p of parts) {
+    p.blurb =
+      (p.intro || [])
+        .filter((x) => x.type === "paragraph")
+        .map((x) => x.text.replace(/[*_`]/g, "").replace(/\s+/g, " ").trim())
+        .join(" ") || p.lead || "";
   }
 
   // Render, assign ids, flatten
@@ -183,6 +199,7 @@ const homeFor = (d) => {
     cards.push(
       '<button class="card" data-sec="' + first.id + '">' +
         (p.title ? '<span class="card-part">' + esc(p.title) + "</span>" : "") +
+        (p.blurb ? '<span class="card-blurb">' + esc(p.blurb) + "</span>" : "") +
         '<span class="card-list">' +
           p.sections.map((s) => esc(s.title)).join(" · ") +
         "</span>" +
@@ -196,7 +213,7 @@ const homeFor = (d) => {
       '<p class="kicker">' + esc(d.number) + "</p>" +
       "<h1>" + esc(d.title) + "</h1>" +
       '<p class="blurb">' + esc(d.blurb) + "</p>" +
-      '<p class="hint">Pick a part below, use the contents list, or press ' +
+      '<p class="hint">Pick a chapter below, use the contents list, or press ' +
         "<kbd>/</kbd> to search the whole document.</p>" +
       '<div class="cards">' + cards.join("\n") + "</div>" +
     "</div>"
@@ -292,8 +309,8 @@ kbd{font-family:var(--mono);font-size:.8em;border:1px solid var(--line);border-r
   max-width:90rem;margin-inline:auto;padding:0 1.25rem 6rem}
 .side{position:sticky;top:3.5rem;align-self:start;height:calc(100dvh - 3.5rem);
   overflow-y:auto;padding:1.25rem .75rem 3rem 0;border-right:1px solid var(--line-soft)}
-.navpart{font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--phyco);margin:1.4rem 0 .4rem;padding-left:.6rem}
+.navpart{font-family:var(--serif);font-size:.95rem;font-weight:600;color:var(--phyco);
+  margin:1.5rem 0 .45rem;padding-left:.6rem;line-height:1.3}
 .navpart:first-child{margin-top:0}
 .navsec{display:block;text-decoration:none;color:var(--ink-soft);font-size:.87rem;
   line-height:1.35;padding:.5rem .6rem;border-left:2px solid transparent;border-radius:0 3px 3px 0}
@@ -311,14 +328,17 @@ main{min-width:0;padding-top:2rem}
   letter-spacing:-.02em;max-width:20ch}
 .blurb{font-size:1.15rem;color:var(--ink-soft);max-width:40em;margin:0 0 .75rem}
 .hint{font-size:.9rem;color:var(--muted);margin:0 0 2rem}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:1px;
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(20rem,1fr));gap:1px;
   background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
-.card{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start;text-align:left;
-  background:var(--ground);border:0;padding:1.3rem 1.2rem;cursor:pointer;
+.card{display:flex;flex-direction:column;gap:.6rem;align-items:flex-start;text-align:left;
+  background:var(--ground);border:0;padding:1.5rem 1.4rem;cursor:pointer;
   color:inherit;font:inherit;transition:background .15s}
 .card:hover{background:var(--paper)}
-.card-part{font-family:var(--serif);font-size:1.25rem;font-weight:600;line-height:1.2}
-.card-list{font-size:.85rem;color:var(--muted);line-height:1.5}
+.card-part{font-family:var(--serif);font-size:1.35rem;font-weight:600;line-height:1.25;
+  letter-spacing:-.01em}
+.card-blurb{font-size:.94rem;color:var(--ink-soft);line-height:1.55}
+.card-list{font-size:.8rem;color:var(--muted);line-height:1.5;padding-top:.35rem;
+  border-top:1px solid var(--line-soft);width:100%}
 .card-go{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--phyco);
   margin-top:auto;padding-top:.5rem}
 
