@@ -5,9 +5,11 @@
   "description": "Engineering documentation and website for the BlueBloom Spirulina Production Facility",
   "type": "module",
   "scripts": {
-    "docs": "node tools/build-docs-viewer.mjs"
+    "docs": "node tools/build-docs-viewer.mjs",
+    "rfq": "node tools/build-rfq-letters.mjs"
   },
   "devDependencies": {
+    "html-to-docx": "^1.8.0",
     "marked": "^18.0.7"
   }
 }

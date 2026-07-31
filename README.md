@@ -113,3 +113,32 @@ to the `VOLUMES` array in the script — nothing else changes.
 
 The build fails rather than emitting a dead cross-link if a referenced section
 heading is reworded.
+
+## Supplier enquiries
+
+`docs/rfq/` holds the request-for-quotation letters, one per supply package,
+built from the duty data in Volumes 2 and 3.
+
+`BB-RFQ-000` carries the commercial terms common to every enquiry and is sent
+as an attachment with each letter. Each package letter is marked **firm** or
+**budgetary**: only BB-RFQ-001, site investigation, is firm, because everything
+else depends on assumptions that the site investigation and cultivation trial
+have yet to confirm.
+
+Process equipment enquiries (BB-RFQ-004 onward) are sized against a peak of
+24 kg/day dry biomass — the 2,000 m² pond basis — rather than the 1,750 m²
+figure recommended in Volume 3 § 6.5. This is deliberate: it carries roughly
+14% headroom against the unconfirmed productivity assumptions and avoids
+re-tendering if the cultivation trial comes in strong.
+
+```
+npm install        # marked and html-to-docx, build-time only
+npm run rfq        # writes editable .docx letters to dist/rfq/
+```
+
+The Word files are generated output and are gitignored. Edit them before
+sending: add the letterhead, and fill the supplier name, date, quotation due
+date and contact details, which are marked as placeholders throughout.
+
+Company registration details (CIN, GSTIN, registered address) are placeholders
+in `BB-RFQ-000` and must be filled in before the letters go out.
