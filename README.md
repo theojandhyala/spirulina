@@ -12,12 +12,27 @@ Facility, Hyderabad Region, Telangana, India.
 | Document number | Title | Revision | Status | File |
 | --- | --- | --- | --- | --- |
 | BB-DBR-002-V1 | Design Criteria Manual – Volume 1, General Design Criteria | Rev. 0 | Initial Design Basis | [docs/BB-DBR-002-V1_Design-Criteria-Manual_Vol1_General-Design-Criteria.md](docs/BB-DBR-002-V1_Design-Criteria-Manual_Vol1_General-Design-Criteria.md) |
+| BB-DBR-002-V2 | Design Criteria Manual – Volume 2, Process Engineering | Rev. 0 | Initial Design Basis | [docs/BB-DBR-002-V2_Design-Criteria-Manual_Vol2_Process-Engineering.md](docs/BB-DBR-002-V2_Design-Criteria-Manual_Vol2_Process-Engineering.md) |
 
 ### Planned
 
 | Document number | Title | Status |
 | --- | --- | --- |
-| BB-DBR-002-V2 | Design Criteria Manual – Volume 2, Process Engineering | Not yet issued |
+| BB-DBR-002-V3 | Design Criteria Manual – Volume 3, Civil, Structural and Layout | Not yet issued |
+
+### Note on the Volume 2 figures
+
+The capacities, balances and equipment duties in Volume 2 are a **preliminary
+design basis**. They are internally consistent and suitable for sizing,
+budgeting and procurement enquiry, but they are derived from assumed values for
+pond area, areal productivity and operating days.
+
+Every assumed value is listed in the Volume 2 Assumptions Register (§ 24) with
+the trial, survey or analysis that confirms it and the commitment it must
+precede. The two highest-value early expenditures identified there are a
+**cultivation trial** (confirming productivity, which sets every capacity figure
+in the volume) and a **source water analysis** (which propagates into treatment
+selection, medium formulation, blowdown rate and effluent volume).
 
 ## Website
 
