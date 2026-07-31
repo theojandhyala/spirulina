@@ -1,25 +1,23 @@
 /**
- * Builds a single self-contained HTML reader for the BB-DBR-002 design
- * criteria manual set.
+ * Builds a self-contained, browsable HTML reader for the project documents.
  *
  *   node tools/build-docs-viewer.mjs [outfile] [id ...]
  *
  * With no ids, every document is included (the internal reader).
- * With ids, only those are built. The public website build uses this to carry
- * the production manual WITHOUT the design criteria volumes:
+ * With ids, only those are built. The public website build carries the
+ * production manual WITHOUT the design criteria volumes:
  *
  *   node tools/build-docs-viewer.mjs site/manual/index.html ops
  *
- * Reads every volume listed in VOLUMES below, renders it to HTML, and
- * emits one file with the stylesheet and script inlined — no build step,
- * no dependencies at runtime, opens from the filesystem.
+ * Reading model: the document is split into sections at each `##` heading.
+ * One section is shown at a time, with previous/next, so nobody has to scroll
+ * a 1,400-line document to find anything. Sections are grouped under their
+ * `# PART` heading where the source has them.
  *
  * Requires `marked` at build time only:  npm i marked
- *
- * Add a volume by appending to VOLUMES. Nothing else needs changing.
  */
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { marked } from "marked";
@@ -28,566 +26,620 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = process.argv[2] || join(ROOT, "docs-viewer.html");
 const ONLY = process.argv.slice(3);
 
-const ALL_VOLUMES = [
-  {
-    id: "v1",
-    tab: "Vol 1",
-    number: "BB-DBR-002-V1",
-    title: "General Design Criteria",
-    file: "docs/BB-DBR-002-V1_Design-Criteria-Manual_Vol1_General-Design-Criteria.md",
-  },
-  {
-    id: "v2",
-    tab: "Vol 2",
-    number: "BB-DBR-002-V2",
-    title: "Process Engineering",
-    file: "docs/BB-DBR-002-V2_Design-Criteria-Manual_Vol2_Process-Engineering.md",
-  },
-  {
-    id: "v3",
-    tab: "Vol 3",
-    number: "BB-DBR-002-V3",
-    title: "Civil, Structural and Layout",
-    file: "docs/BB-DBR-002-V3_Design-Criteria-Manual_Vol3_Civil-Structural-Layout.md",
-  },
+const ALL_DOCS = [
   {
     id: "ops",
     tab: "Production Manual",
     number: "BB-OPS-001",
     title: "Spirulina Production Manual",
+    blurb:
+      "What spirulina is, how to grow it, how to harvest and process it, and what to do when something goes wrong.",
     file: "docs/BB-OPS-001_Spirulina-Production-Manual.md",
+  },
+  {
+    id: "v1",
+    tab: "Design Vol 1",
+    number: "BB-DBR-002-V1",
+    title: "General Design Criteria",
+    blurb: "The overarching engineering standard for the facility.",
+    file: "docs/BB-DBR-002-V1_Design-Criteria-Manual_Vol1_General-Design-Criteria.md",
+  },
+  {
+    id: "v2",
+    tab: "Design Vol 2",
+    number: "BB-DBR-002-V2",
+    title: "Process Engineering",
+    blurb: "Capacities, balances and equipment duties.",
+    file: "docs/BB-DBR-002-V2_Design-Criteria-Manual_Vol2_Process-Engineering.md",
+  },
+  {
+    id: "v3",
+    tab: "Design Vol 3",
+    number: "BB-DBR-002-V3",
+    title: "Civil, Structural and Layout",
+    blurb: "Site, ponds, lining, structures and buildings.",
+    file: "docs/BB-DBR-002-V3_Design-Criteria-Manual_Vol3_Civil-Structural-Layout.md",
   },
 ];
 
-// Front-matter headings that are part of the title block, not real sections.
-const TOC_SKIP = new Set(["design criteria manual"]);
-const TOC_SKIP_RE = /^volume\s+\d/i;
-
-const esc = (s) =>
-  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-   .replace(/"/g, "&quot;");
-
-const slug = (s) =>
-  s.toLowerCase().replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-").slice(0, 60);
-
-/** Render one volume, collecting a table of contents as we go. */
-function renderVolume(vol) {
-  const md = readFileSync(join(ROOT, vol.file), "utf8");
-  const toc = [];
-  const seen = new Map();
-
-  const renderer = new marked.Renderer();
-  renderer.heading = function ({ tokens, depth }) {
-    const text = this.parser.parseInline(tokens);
-    const plain = text.replace(/<[^>]+>/g, "");
-    let id = `${vol.id}-${slug(plain)}`;
-    // Guarantee uniqueness; duplicate headings exist across volumes.
-    const n = (seen.get(id) || 0) + 1;
-    seen.set(id, n);
-    if (n > 1) id += `-${n}`;
-    if (
-      (depth === 2 || depth === 3) &&
-      !TOC_SKIP.has(plain.toLowerCase()) &&
-      !TOC_SKIP_RE.test(plain)
-    ) {
-      toc.push({ depth, id, text: plain });
-    }
-    return `<h${depth} id="${id}">${text}</h${depth}>\n`;
-  };
-
-  let html = marked.parse(md, { renderer, gfm: true, breaks: false });
-  // Every table gets its own horizontal scroll container so the page body
-  // never scrolls sideways.
-  html = html.replace(/<table>/g, '<div class="tw"><table>')
-             .replace(/<\/table>/g, "</table></div>");
-
-  return { ...vol, html, toc };
-}
-
-const VOLUMES = ONLY.length
-  ? ALL_VOLUMES.filter((v) => ONLY.includes(v.id))
-  : ALL_VOLUMES;
-
-if (ONLY.length && VOLUMES.length !== ONLY.length) {
-  const missing = ONLY.filter((id) => !ALL_VOLUMES.some((v) => v.id === id));
+const DOCS = ONLY.length ? ALL_DOCS.filter((d) => ONLY.includes(d.id)) : ALL_DOCS;
+if (ONLY.length && DOCS.length !== ONLY.length) {
+  const missing = ONLY.filter((id) => !ALL_DOCS.some((d) => d.id === id));
   throw new Error("build-docs-viewer: unknown document id(s): " + missing.join(", "));
 }
-
-// A build restricted to specific ids is the public website build: it omits
-// the register page, which carries internal capacity figures and findings.
 const PUBLIC = ONLY.length > 0;
 
-const vols = VOLUMES.map(renderVolume);
+const esc = (s) =>
+  String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
+const slug = (s) =>
+  s.toLowerCase().replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-").slice(0, 50);
 
 /**
- * Resolve a heading id by volume and section number, so cross-links in the
- * register cannot drift when a heading is reworded. Fails the build rather
- * than emitting a dead link.
+ * Split one document into parts and sections.
+ * A `# PART …` heading opens a part; every `##` heading opens a section.
+ * Content before the first `##` becomes an "About this document" section so
+ * nothing is silently dropped.
  */
-function anchor(volId, startsWith) {
-  const v = vols.find((x) => x.id === volId);
-  const hit = v && v.toc.find((t) => t.text.startsWith(startsWith));
-  if (!hit) {
-    throw new Error(
-      `build-docs-viewer: no heading in ${volId} starting "${startsWith}" — ` +
-        `the register cross-link would be dead. Update the reference.`
-    );
+function parseDoc(doc) {
+  const md = readFileSync(join(ROOT, doc.file), "utf8");
+  const tokens = marked.lexer(md);
+
+  const parts = [];
+  let part = null;
+  let section = null;
+  let front = [];
+
+  const openPart = (title) => {
+    part = { title, sections: [] };
+    parts.push(part);
+  };
+  const openSection = (title) => {
+    if (!part) openPart(null);
+    section = { title, tokens: [] };
+    part.sections.push(section);
+  };
+
+  for (const t of tokens) {
+    if (t.type === "heading" && t.depth === 1 && /^part\b/i.test(t.text)) {
+      openPart(t.text.replace(/^PART\s*\d+\s*[—–-]\s*/i, "").trim() || t.text);
+      section = null;
+      continue;
+    }
+    if (t.type === "heading" && t.depth === 2) {
+      openSection(t.text);
+      continue;
+    }
+    if (section) section.tokens.push(t);
+    else front.push(t);
   }
-  return hit.id;
+
+  // Front matter becomes the first section of the first part. Where that part
+  // is the implicit one (no `# PART` heading), give it a name so it does not
+  // render as an untitled card.
+  if (front.length) {
+    const intro = { title: "About this document", tokens: front };
+    if (!parts.length) openPart(null);
+    parts[0].sections.unshift(intro);
+  }
+  if (parts.length && !parts[0].title) {
+    parts[0].title = parts.length > 1 ? "Introduction" : "Contents";
+  }
+
+  // Render, assign ids, flatten
+  const flat = [];
+  const seen = new Map();
+  for (const p of parts) {
+    for (const s of p.sections) {
+      let id = doc.id + "-" + slug(s.title);
+      const n = (seen.get(id) || 0) + 1;
+      seen.set(id, n);
+      if (n > 1) id += "-" + n;
+      s.id = id;
+      s.part = p.title;
+      let html = marked.parser(s.tokens);
+      html = html.replace(/<table>/g, '<div class="tw"><table>')
+                 .replace(/<\/table>/g, "</table></div>");
+      // Sub-headings inside a section get ids so the section outline can link
+      html = html.replace(/<h3>(.*?)<\/h3>/g, (m, txt) => {
+        const plain = txt.replace(/<[^>]+>/g, "");
+        return '<h3 id="' + id + "-" + slug(plain) + '">' + txt + "</h3>";
+      });
+      s.html = html;
+      s.subs = [...html.matchAll(/<h3 id="([^"]+)">(.*?)<\/h3>/g)].map((m) => ({
+        id: m[1],
+        text: m[2].replace(/<[^>]+>/g, ""),
+      }));
+      flat.push(s);
+    }
+  }
+
+  return { ...doc, parts, flat };
 }
 
-const FINDING = VOLUMES.some((v) => v.id === "v3") ? anchor("v3", "6.5") : null;
+const docs = DOCS.map(parseDoc);
 
-const tocHtml = (v) =>
-  v.toc
-    .map(
-      (t) =>
-        `<a class="t${t.depth}" href="#${t.id}" data-id="${t.id}">${esc(t.text)}</a>`
-    )
+/* ---------- HTML fragments ---------- */
+
+const navFor = (d) => {
+  const out = [];
+  for (const p of d.parts) {
+    if (p.title) out.push('<div class="navpart">' + esc(p.title) + "</div>");
+    for (const s of p.sections) {
+      out.push(
+        '<a class="navsec" href="#' + s.id + '" data-sec="' + s.id + '">' +
+        esc(s.title) + "</a>"
+      );
+    }
+  }
+  return out.join("\n");
+};
+
+const homeFor = (d) => {
+  const cards = [];
+  for (const p of d.parts) {
+    const first = p.sections[0];
+    cards.push(
+      '<button class="card" data-sec="' + first.id + '">' +
+        (p.title ? '<span class="card-part">' + esc(p.title) + "</span>" : "") +
+        '<span class="card-list">' +
+          p.sections.map((s) => esc(s.title)).join(" · ") +
+        "</span>" +
+        '<span class="card-go">' + p.sections.length + " section" +
+          (p.sections.length === 1 ? "" : "s") + " →</span>" +
+      "</button>"
+    );
+  }
+  return (
+    '<div class="home" id="home-' + d.id + '">' +
+      '<p class="kicker">' + esc(d.number) + "</p>" +
+      "<h1>" + esc(d.title) + "</h1>" +
+      '<p class="blurb">' + esc(d.blurb) + "</p>" +
+      '<p class="hint">Pick a part below, use the contents list, or press ' +
+        "<kbd>/</kbd> to search the whole document.</p>" +
+      '<div class="cards">' + cards.join("\n") + "</div>" +
+    "</div>"
+  );
+};
+
+const sectionsFor = (d) =>
+  d.flat
+    .map((s, i) => {
+      const prev = d.flat[i - 1];
+      const next = d.flat[i + 1];
+      const outline = s.subs.length
+        ? '<nav class="outline"><span>In this section</span>' +
+          s.subs.map((x) => '<a href="#' + x.id + '">' + esc(x.text) + "</a>").join("") +
+          "</nav>"
+        : "";
+      const nav =
+        '<nav class="pager">' +
+        (prev
+          ? '<button class="pg" data-sec="' + prev.id + '"><span>← Previous</span><b>' +
+            esc(prev.title) + "</b></button>"
+          : '<span class="pg empty"></span>') +
+        (next
+          ? '<button class="pg next" data-sec="' + next.id + '"><span>Next →</span><b>' +
+            esc(next.title) + "</b></button>"
+          : '<span class="pg empty"></span>') +
+        "</nav>";
+      return (
+        '<article class="sec" id="sec-' + s.id + '">' +
+          '<p class="crumb">' +
+            '<button class="crumb-home" data-home="' + d.id + '">' + esc(d.title) + "</button>" +
+            (s.part ? '<span class="crumb-sep">›</span><span>' + esc(s.part) + "</span>" : "") +
+            '<span class="crumb-pos">' + (i + 1) + " of " + d.flat.length + "</span>" +
+          "</p>" +
+          "<h1>" + esc(s.title) + "</h1>" +
+          outline +
+          '<div class="body">' + s.html + "</div>" +
+          nav +
+        "</article>"
+      );
+    })
     .join("\n");
 
-const REGISTER = `
-    <article class="doc reg on" id="doc-reg">
-      <p class="kicker">BlueBloom Spirulina Private Limited · Hyderabad Region, Telangana</p>
-      <h1 class="hero-t" style="font-family:var(--serif);letter-spacing:-.02em;color:var(--ink);font-weight:600">Design Criteria Manual</h1>
-      <p class="hero-s">Master engineering standard for the BlueBloom Spirulina
-      Production Facility — a 1-acre commercial cultivation, harvesting, drying and
-      packaging facility designed to expand to five acres.</p>
-      <p class="hero-s" style="color:var(--muted);font-size:.9rem">Three design volumes plus the
-      production manual. Pick one above, or filter sections from the contents list.</p>
-
-      <dl class="figs">
-        <div class="fig"><dt>Stage 1 site</dt><dd>1 acre</dd><small>4,047 m²</small></div>
-        <div class="fig"><dt>Net pond area</dt><dd>1,750 m²</dd><small>Vol 3 § 6.4</small></div>
-        <div class="fig"><dt>Annual output</dt><dd>≈ 3.9 t</dd><small>dry biomass</small></div>
-        <div class="fig"><dt>Master plan</dt><dd>5 acres</dd><small>≈ 24.5 t/yr</small></div>
-      </dl>
-
-      <h2>Document register</h2>
-      <div class="tw"><table>
-        <thead><tr><th>Number</th><th>Volume</th><th>Rev.</th><th>Status</th></tr></thead>
-        <tbody>
-        ${vols
-          .map(
-            (v) =>
-              `<tr><td><code>${esc(v.number)}</code></td><td>${esc(v.title)}</td><td>${v.id === "v1" || v.id === "ops" ? "Rev. 0" : "Rev. 1"}</td><td>${
-                v.id === "v1"
-                  ? "Initial design basis"
-                  : v.id === "ops"
-                  ? "Working manual — operations and training"
-                  : "Design basis — <strong>finding closed</strong>"
-              }</td></tr>`
-          )
-          .join("\n        ")}
-        <tr><td><code>BB-DBR-002-V4</code></td><td>Mechanical, Electrical, Instrumentation and Control</td><td>—</td><td>Not yet issued</td></tr>
-        </tbody>
-      </table></div>
-
-      <h2>Closed finding — net pond area</h2>
-      <p>Volumes 2 and 3 disagreed on Stage 1 net pond area. Volume 2 Rev. 0
-      assumed 2,000 m² (assumption A-01); the Volume 3 layout study supports
-      1,750 m² once buildings, roads, setbacks and inter-pond access are budgeted
-      against the acre.</p>
-
-      <dl class="open">
-        <div><dt>Volume 2, Rev. 0</dt><dd>2,000 m²</dd></div>
-        <div class="lead"><dt>Adopted, Rev. 1</dt><dd>1,750 m²</dd></div>
-        <div><dt>Capacity difference</dt><dd>12.5 %</dd></div>
-        <div><dt>Annual output</dt><dd>4.48 → 3.92 t</dd></div>
-      </dl>
-
-      <div class="note">
-        <b>Closed at Volume 2 Rev. 1</b>
-        <p>Volume 2 was revised in full against 1,750 m² — every derived capacity,
-        balance and equipment duty recalculated, not just the headline figure.
-        Stage 1 output is <strong>≈ 3.9 t/year</strong>.</p>
-        <p>One deliberate divergence remains, recorded at Volume 2 § 4.5: process
-        equipment is enquired against 24 kg/day, the superseded peak, as roughly
-        14% margin against the unconfirmed productivity assumptions A-03 and
-        A-04. Consumables and utilities are planned against the Rev. 1 figures.</p>
-      </div>
-      <p><a class="jump" href="#" data-goto="v3" data-anchor="${FINDING}">Read Volume 3 § 6.5 →</a></p>
-
-      <h2>How to read this set</h2>
-      <p>Volume 1 is qualitative and governs everything below it. Volume 2 turns it
-      into numbers. Volume 3 fixes the geometry Volume 2 assumed — which is how the
-      finding above surfaced, and was then closed.</p>
-      <p><strong>BB-OPS-001, the Production Manual, is a different kind of document.</strong>
-      The design volumes specify what to build; the production manual explains what
-      spirulina is and how to actually run the facility — cultivation, harvest,
-      processing, quality, and what to do when a culture starts failing. Start there
-      if you want to understand the crop rather than the plant.</p>
-      <p>Every assumed value in Volumes 2 and 3 carries a register reference
-      (A-01 to A-22) naming the trial, survey or analysis that confirms it and the
-      commitment it must precede. See Volume 2 § 24 and Volume 3 § 16.</p>
-
-      <div class="note">
-        <b>Status of the figures</b>
-        <p>These are a preliminary design basis: internally consistent and suitable
-        for sizing, budgeting and procurement enquiry, but derived from assumed
-        values for pond area, areal productivity and operating days.</p>
-        <p>The two highest-value early expenditures identified across the set are a
-        <strong>cultivation trial</strong> and a <strong>source water analysis</strong>.
-        Both should precede any major equipment commitment.</p>
-      </div>
-
-      <p class="foot">
-        BB-DBR-002 · Rev. 0 · Proprietary project document<br>
-        Prepared for BlueBloom Spirulina Private Limited<br>
-        Use your browser's print function to save any volume as a PDF.
-      </p>
-    </article>
-`;
-
-const page = `<title>${PUBLIC ? "Spirulina Production Manual — BlueBloom" : "BB-DBR-002 — Design Criteria Manual"}</title>
-<style>
-:root {
-  --ground:#ECEFEA; --paper:#F7F9F5; --panel:#10322C; --ink:#06201E;
-  --ink-soft:#22423C; --muted:#5D6F69; --phyco:#1160C4; --phyco-lt:#57A0F0;
-  --biomass:#1C4A3E; --line:rgba(6,32,30,.14); --line-soft:rgba(6,32,30,.07);
-  --warn-bg:rgba(17,96,196,.07);
+const CSS = `
+:root{
+  --ground:#ECEFEA;--paper:#F7F9F5;--ink:#06201E;--ink-soft:#22423C;
+  --muted:#5D6F69;--phyco:#1160C4;--phyco-lt:#57A0F0;
+  --line:rgba(6,32,30,.14);--line-soft:rgba(6,32,30,.07);--warn:rgba(17,96,196,.07);
   --serif:"Iowan Old Style","Palatino Linotype",Palatino,Charter,Georgia,serif;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
 }
-@media (prefers-color-scheme:dark){
-  :root{--ground:#071110;--paper:#0C1A18;--panel:#0B211E;--ink:#E4EDE8;
-    --ink-soft:#C2D2CC;--muted:#91A69E;--phyco:#5CA3F5;--phyco-lt:#8CC2FF;
-    --biomass:#3E8C73;--line:rgba(228,237,232,.15);--line-soft:rgba(228,237,232,.07);
-    --warn-bg:rgba(92,163,245,.09);}
-}
-:root[data-theme="dark"]{--ground:#071110;--paper:#0C1A18;--panel:#0B211E;--ink:#E4EDE8;
-  --ink-soft:#C2D2CC;--muted:#91A69E;--phyco:#5CA3F5;--phyco-lt:#8CC2FF;
-  --biomass:#3E8C73;--line:rgba(228,237,232,.15);--line-soft:rgba(228,237,232,.07);
-  --warn-bg:rgba(92,163,245,.09);}
-:root[data-theme="light"]{--ground:#ECEFEA;--paper:#F7F9F5;--panel:#10322C;--ink:#06201E;
-  --ink-soft:#22423C;--muted:#5D6F69;--phyco:#1160C4;--phyco-lt:#57A0F0;
-  --biomass:#1C4A3E;--line:rgba(6,32,30,.14);--line-soft:rgba(6,32,30,.07);
-  --warn-bg:rgba(17,96,196,.07);}
+@media (prefers-color-scheme:dark){:root{
+  --ground:#071110;--paper:#0C1A18;--ink:#E4EDE8;--ink-soft:#C2D2CC;--muted:#91A69E;
+  --phyco:#5CA3F5;--phyco-lt:#8CC2FF;--line:rgba(228,237,232,.15);
+  --line-soft:rgba(228,237,232,.07);--warn:rgba(92,163,245,.09);}}
+:root[data-theme=dark]{--ground:#071110;--paper:#0C1A18;--ink:#E4EDE8;--ink-soft:#C2D2CC;
+  --muted:#91A69E;--phyco:#5CA3F5;--phyco-lt:#8CC2FF;--line:rgba(228,237,232,.15);
+  --line-soft:rgba(228,237,232,.07);--warn:rgba(92,163,245,.09);}
+:root[data-theme=light]{--ground:#ECEFEA;--paper:#F7F9F5;--ink:#06201E;--ink-soft:#22423C;
+  --muted:#5D6F69;--phyco:#1160C4;--phyco-lt:#57A0F0;--line:rgba(6,32,30,.14);
+  --line-soft:rgba(6,32,30,.07);--warn:rgba(17,96,196,.07);}
 
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
-  font-size:1rem;line-height:1.62;-webkit-font-smoothing:antialiased}
+  font-size:1.02rem;line-height:1.65;-webkit-font-smoothing:antialiased}
 ::selection{background:var(--phyco);color:#fff}
-:focus-visible{outline:2px solid var(--phyco);outline-offset:2px;border-radius:2px}
+:focus-visible{outline:2px solid var(--phyco);outline-offset:2px;border-radius:3px}
+kbd{font-family:var(--mono);font-size:.8em;border:1px solid var(--line);border-radius:3px;
+  padding:.05em .35em;background:var(--paper)}
 
-/* ---------- masthead ---------- */
-.bar{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--ground) 90%,transparent);
-  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.bar-in{display:flex;align-items:center;gap:1.25rem;height:3.6rem;
-  padding-inline:1.25rem;max-width:96rem;margin-inline:auto}
+/* ---- top bar ---- */
+.bar{position:sticky;top:0;z-index:60;background:var(--ground);
+  border-bottom:1px solid var(--line)}
+.bar-in{display:flex;align-items:center;gap:.75rem;height:3.5rem;
+  padding-inline:1rem;max-width:90rem;margin-inline:auto}
 .brand{display:flex;align-items:center;gap:.5rem;font-family:var(--serif);
-  font-size:1.05rem;white-space:nowrap;letter-spacing:-.01em}
-.brand::before{content:"";width:.55rem;height:.55rem;border-radius:50%;
+  font-size:1.02rem;white-space:nowrap;cursor:pointer;background:none;border:0;
+  color:inherit;padding:0}
+.brand::before{content:"";width:.5rem;height:.5rem;border-radius:50%;
   background:var(--phyco);flex:none}
 .brand b{font-weight:600}
-.brand span{color:var(--muted)}
-.tabs{display:flex;gap:.25rem;margin-left:auto;overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tabs button{font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;
-  background:none;border:1px solid transparent;color:var(--muted);cursor:pointer;
-  padding:.4rem .7rem;border-radius:2px;white-space:nowrap;transition:.15s}
-.tabs button:hover{color:var(--ink)}
-.tabs button[aria-current="true"]{color:#fff;background:var(--phyco);border-color:var(--phyco)}
-.menu{display:none;background:none;border:1px solid var(--line);color:var(--ink);
-  border-radius:2px;padding:.35rem .55rem;cursor:pointer;font-family:var(--mono);font-size:.78rem}
+.spacer{margin-left:auto}
+.docsel{font-family:var(--mono);font-size:.78rem;padding:.4rem .5rem;
+  border:1px solid var(--line);border-radius:3px;background:var(--paper);color:var(--ink)}
+.iconbtn{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);
+  font-size:.78rem;background:var(--paper);border:1px solid var(--line);color:var(--ink);
+  border-radius:3px;padding:.45rem .7rem;cursor:pointer;white-space:nowrap}
+.iconbtn:hover{border-color:var(--phyco);color:var(--phyco)}
 
-/* ---------- shell ---------- */
-.shell{display:grid;grid-template-columns:17rem minmax(0,1fr);gap:2.5rem;
-  max-width:96rem;margin-inline:auto;padding:0 1.25rem 5rem}
-.side{position:sticky;top:3.6rem;align-self:start;height:calc(100dvh - 3.6rem);
-  overflow-y:auto;padding:1.25rem .5rem 2rem 0;border-right:1px solid var(--line-soft)}
-.find{width:100%;font-family:var(--mono);font-size:.78rem;padding:.5rem .6rem;
-  border:1px solid var(--line);border-radius:2px;background:var(--paper);
-  color:var(--ink);margin-bottom:.9rem}
-.find::placeholder{color:var(--muted)}
-.toc{display:flex;flex-direction:column}
-.toc a{text-decoration:none;color:var(--muted);font-size:.83rem;line-height:1.35;
-  padding:.32rem .5rem;border-left:2px solid transparent;transition:.15s}
-.toc a:hover{color:var(--ink);background:var(--paper)}
-.toc a.t3{padding-left:1.4rem;font-size:.79rem;opacity:.85}
-.toc a.on{color:var(--phyco);border-left-color:var(--phyco);background:var(--paper)}
-.toc a.hide{display:none}
-.toc-empty{color:var(--muted);font-family:var(--mono);font-size:.76rem;padding:.5rem}
+/* ---- shell ---- */
+.shell{display:grid;grid-template-columns:18rem minmax(0,1fr);gap:3rem;
+  max-width:90rem;margin-inline:auto;padding:0 1.25rem 6rem}
+.side{position:sticky;top:3.5rem;align-self:start;height:calc(100dvh - 3.5rem);
+  overflow-y:auto;padding:1.25rem .75rem 3rem 0;border-right:1px solid var(--line-soft)}
+.navpart{font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--phyco);margin:1.4rem 0 .4rem;padding-left:.6rem}
+.navpart:first-child{margin-top:0}
+.navsec{display:block;text-decoration:none;color:var(--ink-soft);font-size:.87rem;
+  line-height:1.35;padding:.5rem .6rem;border-left:2px solid transparent;border-radius:0 3px 3px 0}
+.navsec:hover{background:var(--paper);color:var(--ink)}
+.navsec.on{color:var(--phyco);border-left-color:var(--phyco);background:var(--paper);font-weight:500}
 
-/* ---------- document ---------- */
-main{min-width:0;padding-top:2.25rem}
-.doc{display:none}
-.doc.on{display:block}
-.doc>*{max-width:52rem}
-.doc .tw{max-width:100%}
-h1,h2,h3,h4{font-family:var(--serif);font-weight:600;text-wrap:balance;
-  letter-spacing:-.012em;scroll-margin-top:4.5rem}
-.doc h1{font-size:1.5rem;color:var(--muted);font-weight:400;margin:0 0 .25rem;
-  font-family:var(--mono);letter-spacing:.06em}
-.doc h2{font-size:1.65rem;line-height:1.2;margin:3rem 0 1rem;padding-top:1.5rem;
-  border-top:1px solid var(--line)}
-.doc h2:first-of-type{border-top:0;padding-top:0;margin-top:1rem}
-.doc h3{font-size:1.15rem;margin:2rem 0 .6rem}
-.doc p{margin:0 0 1rem}
-.doc strong{font-weight:600}
-.doc em{font-style:italic}
-.doc ul,.doc ol{margin:0 0 1.15rem;padding-left:1.35rem}
-.doc li{margin-bottom:.3rem}
-.doc hr{border:0;border-top:1px solid var(--line-soft);margin:2.25rem 0}
-.doc a{color:var(--phyco)}
-.doc code{font-family:var(--mono);font-size:.87em;background:var(--paper);
-  padding:.1rem .3rem;border-radius:2px}
-.doc pre{background:var(--paper);border:1px solid var(--line-soft);border-radius:2px;
+main{min-width:0;padding-top:2rem}
+
+/* ---- home ---- */
+.home{display:none}
+.home.on{display:block}
+.kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 .5rem}
+.home h1{font-family:var(--serif);font-size:2.3rem;line-height:1.1;margin:0 0 .75rem;
+  letter-spacing:-.02em;max-width:20ch}
+.blurb{font-size:1.15rem;color:var(--ink-soft);max-width:40em;margin:0 0 .75rem}
+.hint{font-size:.9rem;color:var(--muted);margin:0 0 2rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.card{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start;text-align:left;
+  background:var(--ground);border:0;padding:1.3rem 1.2rem;cursor:pointer;
+  color:inherit;font:inherit;transition:background .15s}
+.card:hover{background:var(--paper)}
+.card-part{font-family:var(--serif);font-size:1.25rem;font-weight:600;line-height:1.2}
+.card-list{font-size:.85rem;color:var(--muted);line-height:1.5}
+.card-go{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--phyco);
+  margin-top:auto;padding-top:.5rem}
+
+/* ---- section ---- */
+.sec{display:none}
+.sec.on{display:block}
+.sec>*{max-width:46rem}
+.sec .tw{max-width:100%}
+.crumb{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;font-family:var(--mono);
+  font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  margin:0 0 .75rem}
+.crumb-home{background:none;border:0;padding:0;font:inherit;color:var(--phyco);cursor:pointer}
+.crumb-home:hover{text-decoration:underline}
+.crumb-sep{opacity:.5}
+.crumb-pos{margin-left:auto;opacity:.8}
+.sec h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:0 0 1.25rem;
+  letter-spacing:-.018em;text-wrap:balance}
+.outline{display:flex;flex-wrap:wrap;gap:.4rem .9rem;padding:.85rem 1rem;margin:0 0 1.75rem;
+  background:var(--paper);border:1px solid var(--line-soft);border-radius:3px}
+.outline span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);width:100%}
+.outline a{font-size:.85rem;color:var(--phyco);text-decoration:none}
+.outline a:hover{text-decoration:underline}
+
+.body h3{font-family:var(--serif);font-size:1.25rem;margin:2.2rem 0 .6rem;
+  scroll-margin-top:4.5rem;letter-spacing:-.01em}
+.body h4{font-family:var(--serif);font-size:1.05rem;margin:1.5rem 0 .4rem}
+.body p{margin:0 0 1.05rem}
+.body ul,.body ol{margin:0 0 1.15rem;padding-left:1.4rem}
+.body li{margin-bottom:.35rem}
+.body hr{border:0;border-top:1px solid var(--line-soft);margin:2rem 0}
+.body a{color:var(--phyco)}
+.body code{font-family:var(--mono);font-size:.87em;background:var(--paper);
+  padding:.1rem .32rem;border-radius:3px}
+.body pre{background:var(--paper);border:1px solid var(--line-soft);border-radius:3px;
   padding:.9rem 1rem;overflow-x:auto}
-.doc pre code{background:none;padding:0}
+.body pre code{background:none;padding:0}
+.body blockquote{margin:0 0 1rem;padding-left:1rem;border-left:2px solid var(--line);
+  color:var(--ink-soft)}
+/* a paragraph that is entirely bold is a callout in these documents */
+.body p:has(>strong:only-child){background:var(--warn);border-left:3px solid var(--phyco);
+  padding:.9rem 1.1rem;margin-bottom:1.3rem;border-radius:0 3px 3px 0}
 
-/* a paragraph that is entirely bold is an emphasis callout in these documents */
-.doc p:has(> strong:only-child){background:var(--warn-bg);border-left:2px solid var(--phyco);
-  padding:.85rem 1rem;margin-bottom:1.25rem}
-.doc p:has(> strong:only-child) strong{font-weight:600}
-
-.tw{overflow-x:auto;margin:0 0 1.5rem;border:1px solid var(--line);border-radius:2px}
-/* min-width so narrow screens scroll the table sideways inside .tw rather
-   than crushing every cell to one word per line */
-table{border-collapse:collapse;width:100%;min-width:30rem;font-size:.86rem;
-  font-variant-numeric:tabular-nums;font-family:var(--sans)}
-th,td{text-align:left;padding:.55rem .8rem;border-bottom:1px solid var(--line-soft);
+.tw{overflow-x:auto;margin:0 0 1.5rem;border:1px solid var(--line);border-radius:3px}
+table{border-collapse:collapse;width:100%;min-width:28rem;font-size:.88rem;
+  font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:.6rem .85rem;border-bottom:1px solid var(--line-soft);
   vertical-align:top}
-thead th{background:var(--paper);font-family:var(--mono);font-size:.7rem;
-  letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:400;
-  border-bottom:1px solid var(--line);position:sticky;top:0}
+thead th{background:var(--paper);font-family:var(--mono);font-size:.68rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:400}
 tbody tr:last-child td{border-bottom:0}
-tbody tr:hover{background:var(--paper)}
-td strong{font-weight:600}
 
-/* ---------- register (home) ---------- */
-.reg h2{font-size:1.3rem;margin:2.5rem 0 1rem;padding-top:1.5rem;border-top:1px solid var(--line)}
-.reg h2:first-of-type{border-top:0;padding-top:0;margin-top:2rem}
-.hero-t{font-size:2.1rem;line-height:1.1;margin:0 0 .75rem;max-width:22ch}
-.hero-s{color:var(--ink-soft);max-width:44em;margin:0 0 .5rem}
-.kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--muted);margin-bottom:.9rem}
-.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));
-  gap:1px;background:var(--line);border:1px solid var(--line);margin:1.5rem 0 0}
-.fig{background:var(--ground);padding:.9rem 1rem}
-.fig dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
-.fig dd{margin:0;font-family:var(--serif);font-size:1.25rem;font-variant-numeric:tabular-nums}
-.fig small{display:block;font-family:var(--mono);font-size:.68rem;color:var(--muted);
-  margin-top:.15rem;letter-spacing:.03em}
-.note{background:var(--warn-bg);border-left:2px solid var(--phyco);
-  padding:1rem 1.15rem;margin:1.25rem 0;max-width:52rem}
-.note b{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--phyco);margin-bottom:.5rem}
-.note p{margin:0 0 .7rem}
-.note p:last-child{margin-bottom:0}
-.open{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:1rem;
-  margin:1.25rem 0;max-width:52rem}
-.open div{border:1px solid var(--line);padding:.9rem 1rem;border-radius:2px}
-.open dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
-.open dd{margin:0;font-family:var(--serif);font-size:1.35rem;font-variant-numeric:tabular-nums}
-.open .lead{border-color:var(--phyco)}
-.open .lead dd{color:var(--phyco)}
-.jump{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--mono);
-  font-size:.78rem;text-decoration:none;color:#fff;background:var(--phyco);
-  border:1px solid var(--phyco);padding:.5rem .85rem;border-radius:2px;transition:.15s}
-.jump:hover{background:transparent;color:var(--phyco)}
-.foot{margin-top:3.5rem;padding-top:1.5rem;border-top:1px solid var(--line);
-  font-family:var(--mono);font-size:.76rem;color:var(--muted);line-height:1.8;max-width:52rem}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3.5rem;
+  padding-top:1.5rem;border-top:1px solid var(--line)}
+.pg{display:flex;flex-direction:column;gap:.25rem;align-items:flex-start;text-align:left;
+  background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:.9rem 1rem;
+  cursor:pointer;color:inherit;font:inherit;transition:border-color .15s}
+.pg:hover{border-color:var(--phyco)}
+.pg.next{align-items:flex-end;text-align:right}
+.pg span{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;color:var(--phyco)}
+.pg b{font-weight:500;font-size:.92rem;line-height:1.3}
+.pg.empty{background:none;border:0}
 
-/* ---------- responsive ---------- */
-@media (max-width:960px){
+/* ---- search ---- */
+.searchwrap{display:none;position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.4);
+  padding:4rem 1rem 1rem;overflow-y:auto}
+.searchwrap.on{display:block}
+.searchbox{max-width:44rem;margin-inline:auto;background:var(--ground);
+  border:1px solid var(--line);border-radius:5px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.searchbox input{width:100%;font-family:var(--sans);font-size:1.05rem;padding:1.1rem 1.2rem;
+  border:0;border-bottom:1px solid var(--line);background:var(--ground);color:var(--ink)}
+.searchbox input:focus{outline:0}
+.results{max-height:60vh;overflow-y:auto}
+.result{display:block;width:100%;text-align:left;background:none;border:0;
+  border-bottom:1px solid var(--line-soft);padding:.85rem 1.2rem;cursor:pointer;
+  color:inherit;font:inherit}
+.result:hover,.result.sel{background:var(--paper)}
+.result b{display:block;font-weight:600;font-size:.95rem;margin-bottom:.2rem}
+.result i{font-style:normal;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.3rem}
+.result small{display:block;font-size:.85rem;color:var(--ink-soft);line-height:1.45}
+.result mark{background:var(--phyco);color:#fff;border-radius:2px;padding:0 .15em}
+.searchfoot{padding:.6rem 1.2rem;font-family:var(--mono);font-size:.7rem;color:var(--muted);
+  border-top:1px solid var(--line-soft)}
+
+/* ---- responsive ---- */
+@media (max-width:940px){
   .shell{grid-template-columns:minmax(0,1fr);gap:0}
-  .side{position:fixed;inset:3.6rem 0 0 auto;width:min(21rem,86vw);z-index:55;
-    background:var(--ground);border-right:0;border-left:1px solid var(--line);
-    padding:1.25rem 1rem 2rem;transform:translateX(100%);transition:transform .2s;
-    box-shadow:-10px 0 30px rgba(0,0,0,.14)}
+  .side{position:fixed;inset:3.5rem 0 0 auto;width:min(22rem,88vw);z-index:70;
+    background:var(--ground);border-left:1px solid var(--line);border-right:0;
+    padding:1.25rem 1rem 3rem;transform:translateX(101%);transition:transform .22s;
+    box-shadow:-10px 0 40px rgba(0,0,0,.18)}
   .side.open{transform:translateX(0)}
-  .menu{display:block}
+  .navsec{padding:.7rem .6rem;font-size:.92rem}
   main{padding-top:1.5rem}
+  .pager{grid-template-columns:1fr}
+  .home h1{font-size:1.8rem}
+  .sec h1{font-size:1.55rem}
 }
 @media (max-width:560px){
-  .bar-in{gap:.6rem;padding-inline:.9rem}
+  .bar-in{padding-inline:.85rem;gap:.5rem}
+  .shell{padding-inline:.85rem}
   .brand span{display:none}
-  .shell{padding-inline:.9rem}
-  .hero-t{font-size:1.65rem}
-  .doc h2{font-size:1.35rem}
+  .iconbtn{padding:.45rem .6rem}
 }
-@media (prefers-reduced-motion:reduce){
-  *{transition:none!important;scroll-behavior:auto!important}
-}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 html{scroll-behavior:smooth}
 
 @media print{
-  .bar,.side,.menu,.jump{display:none!important}
+  .bar,.side,.pager,.outline,.crumb,.searchwrap{display:none!important}
   .shell{display:block;padding:0;max-width:none}
   main{padding:0}
-  .doc>*{max-width:none}
-  .doc h2{break-after:avoid;page-break-after:avoid}
-  .tw,table,tr{break-inside:avoid;page-break-inside:avoid}
-  thead th{position:static}
+  .sec,.home{display:block!important}
+  .sec>*{max-width:none}
   body{background:#fff;color:#000;font-size:10.5pt}
+  .tw,table,tr{break-inside:avoid}
 }
-</style>
-
-<header class="bar">
-  <div class="bar-in">
-    <div class="brand"><b>${PUBLIC ? "BlueBloom" : "BB-DBR-002"}</b> <span>${PUBLIC ? "Spirulina Production Manual" : "Design Criteria Manual"}</span></div>
-    <nav class="tabs" id="tabs" aria-label="Volumes">
-      ${PUBLIC ? "" : '<button data-v="reg" aria-current="true">Register</button>'}
-      ${vols.map((v, i) => `<button data-v="${v.id}"${PUBLIC && i === 0 ? ' aria-current="true"' : ""}>${esc(v.tab)}</button>`).join("\n      ")}
-    </nav>
-    <button class="menu" id="menu" aria-expanded="false">Contents</button>
-  </div>
-</header>
-
-<div class="shell">
-  <aside class="side" id="side">
-    <input class="find" id="find" type="search" placeholder="Filter sections…" aria-label="Filter sections">
-    <nav class="toc" id="toc" aria-label="Table of contents"></nav>
-  </aside>
-
-  <main>
-${PUBLIC ? "" : REGISTER}
-
-    ${vols.map((v) => `<article class="doc" id="doc-${v.id}">\n${v.html}\n</article>`).join("\n\n")}
-  </main>
-</div>
-
-<script>
-(function () {
-  var TOC = ${JSON.stringify(
-    Object.fromEntries([
-      // The register has no sections of its own; offer the volumes instead,
-      // so the contents panel is never an empty box.
-      [
-        "reg",
-        vols
-          .map(
-            (v) =>
-              `<a class="t2" href="#" data-goto="${v.id}">${esc(v.tab)} — ${esc(v.title)}</a>`
-          )
-          .join("\n"),
-      ],
-      ...vols.map((v) => [v.id, tocHtml(v)]),
-    ])
-  )};
-  var tabs = document.getElementById('tabs');
-  var toc = document.getElementById('toc');
-  var find = document.getElementById('find');
-  var side = document.getElementById('side');
-  var menu = document.getElementById('menu');
-  var current = 'reg';
-  var spy = null;
-
-  function closeSide() {
-    side.classList.remove('open');
-    menu.setAttribute('aria-expanded', 'false');
-  }
-
-  function watchHeadings() {
-    if (spy) { spy.disconnect(); spy = null; }
-    if (current === 'reg' || !('IntersectionObserver' in window)) return;
-    var links = {};
-    toc.querySelectorAll('a').forEach(function (a) { links[a.dataset.id] = a; });
-    var visible = new Set();
-    spy = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) visible.add(e.target.id); else visible.delete(e.target.id);
-      });
-      var order = Object.keys(links);
-      var top = order.find(function (id) { return visible.has(id); });
-      order.forEach(function (id) { links[id].classList.toggle('on', id === top); });
-    }, { rootMargin: '-70px 0px -75% 0px' });
-    document.querySelectorAll('#doc-' + current + ' h2, #doc-' + current + ' h3')
-      .forEach(function (h) { if (links[h.id]) spy.observe(h); });
-  }
-
-  function show(v, anchor) {
-    current = v;
-    document.querySelectorAll('.doc').forEach(function (d) {
-      d.classList.toggle('on', d.id === 'doc-' + v);
-    });
-    tabs.querySelectorAll('button').forEach(function (b) {
-      var on = b.dataset.v === v;
-      b.setAttribute('aria-current', String(on));
-      // The tab strip scrolls on narrow screens; keep the current volume visible.
-      if (on && b.scrollIntoView) {
-        b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-      }
-    });
-    toc.innerHTML = TOC[v] || '';
-    find.value = '';
-    // Nothing to filter on the register's four-item volume list.
-    find.style.display = v === 'reg' ? 'none' : '';
-    closeSide();
-    watchHeadings();
-    if (anchor) {
-      var el = document.getElementById(anchor);
-      if (el) {
-        // The article was display:none until a moment ago; wait for layout
-        // or the scroll target is computed against a stale box.
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () { el.scrollIntoView(); });
-        });
-        return;
-      }
-    }
-    window.scrollTo(0, 0);
-  }
-
-  tabs.addEventListener('click', function (e) {
-    var b = e.target.closest('button[data-v]');
-    if (b) show(b.dataset.v);
-  });
-
-  toc.addEventListener('click', function (e) {
-    if (e.target.closest('a')) closeSide();
-  });
-
-  document.addEventListener('click', function (e) {
-    var j = e.target.closest('[data-goto]');
-    if (!j) return;
-    e.preventDefault();
-    show(j.dataset.goto, j.dataset.anchor);
-  });
-
-  menu.addEventListener('click', function () {
-    var open = side.classList.toggle('open');
-    menu.setAttribute('aria-expanded', String(open));
-  });
-
-  find.addEventListener('input', function () {
-    var q = find.value.trim().toLowerCase();
-    var hits = 0;
-    toc.querySelectorAll('a').forEach(function (a) {
-      var hit = !q || a.textContent.toLowerCase().indexOf(q) > -1;
-      a.classList.toggle('hide', !hit);
-      if (hit) hits++;
-    });
-    var empty = toc.querySelector('.toc-empty');
-    if (!hits && !empty) {
-      var p = document.createElement('p');
-      p.className = 'toc-empty';
-      p.textContent = 'No section matches "' + find.value + '".';
-      toc.appendChild(p);
-    } else if (hits && empty) {
-      empty.remove();
-    }
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeSide();
-    if (e.key === '/' && document.activeElement !== find) {
-      e.preventDefault();
-      side.classList.add('open');
-      find.focus();
-    }
-  });
-
-  show(${PUBLIC ? JSON.stringify(vols[0].id) : "'reg'"});
-})();
-</script>
 `;
 
+const page =
+  "<title>" +
+  (PUBLIC ? esc(docs[0].title) + " — BlueBloom" : "BlueBloom — Project Documents") +
+  "</title>\n<style>" + CSS + "</style>\n" +
+  '<header class="bar"><div class="bar-in">' +
+    '<button class="brand" id="brandBtn"><b>' +
+      (PUBLIC ? "BlueBloom" : "BlueBloom") + "</b> <span>" +
+      (PUBLIC ? esc(docs[0].title) : "Project Documents") + "</span></button>" +
+    '<span class="spacer"></span>' +
+    (docs.length > 1
+      ? '<select class="docsel" id="docsel" aria-label="Document">' +
+        docs.map((d) => '<option value="' + d.id + '">' + esc(d.tab) + "</option>").join("") +
+        "</select>"
+      : "") +
+    '<button class="iconbtn" id="searchBtn">Search <kbd>/</kbd></button>' +
+    '<button class="iconbtn" id="menuBtn" aria-expanded="false">Contents</button>' +
+  "</div></header>\n" +
+  '<div class="shell">' +
+    '<aside class="side" id="side"><nav id="nav"></nav></aside>' +
+    "<main>" +
+      docs.map(homeFor).join("\n") +
+      docs.map(sectionsFor).join("\n") +
+    "</main>" +
+  "</div>\n" +
+  '<div class="searchwrap" id="searchWrap"><div class="searchbox">' +
+    '<input id="searchInput" type="search" placeholder="Search the whole document…" autocomplete="off">' +
+    '<div class="results" id="results"></div>' +
+    '<div class="searchfoot">↑ ↓ to move · Enter to open · Esc to close</div>' +
+  "</div></div>\n" +
+  "<script>\n" + SCRIPT() + "\n</script>\n";
+
+function SCRIPT() {
+  const NAV = {};
+  const ORDER = {};
+  for (const d of docs) {
+    NAV[d.id] = navFor(d);
+    ORDER[d.id] = d.flat.map((s) => ({ id: s.id, title: s.title, part: s.part || "" }));
+  }
+  return `
+(function(){
+  var NAV = ${JSON.stringify(NAV)};
+  var ORDER = ${JSON.stringify(ORDER)};
+  var DOCS = ${JSON.stringify(docs.map((d) => d.id))};
+  var doc = DOCS[0], cur = null;
+
+  var nav = document.getElementById('nav');
+  var side = document.getElementById('side');
+  var menuBtn = document.getElementById('menuBtn');
+  var searchBtn = document.getElementById('searchBtn');
+  var searchWrap = document.getElementById('searchWrap');
+  var searchInput = document.getElementById('searchInput');
+  var results = document.getElementById('results');
+  var docsel = document.getElementById('docsel');
+
+  function closeSide(){ side.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); }
+
+  function showHome(id){
+    doc = id; cur = null;
+    document.querySelectorAll('.home').forEach(function(h){ h.classList.toggle('on', h.id === 'home-'+id); });
+    document.querySelectorAll('.sec').forEach(function(s){ s.classList.remove('on'); });
+    nav.innerHTML = NAV[id];
+    closeSide(); window.scrollTo(0,0);
+    if (history.replaceState) history.replaceState(null,'','#'+id);
+  }
+
+  function showSec(secId, anchor){
+    var owner = null;
+    for (var k in ORDER) if (ORDER[k].some(function(s){ return s.id === secId; })) owner = k;
+    if (!owner) return;
+    if (owner !== doc) { doc = owner; nav.innerHTML = NAV[doc]; if (docsel) docsel.value = doc; }
+    cur = secId;
+    document.querySelectorAll('.home').forEach(function(h){ h.classList.remove('on'); });
+    document.querySelectorAll('.sec').forEach(function(s){ s.classList.toggle('on', s.id === 'sec-'+secId); });
+    nav.querySelectorAll('.navsec').forEach(function(a){ a.classList.toggle('on', a.dataset.sec === secId); });
+    var on = nav.querySelector('.navsec.on');
+    if (on && on.scrollIntoView) on.scrollIntoView({block:'nearest'});
+    closeSide();
+    if (anchor) {
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){
+        var el = document.getElementById(anchor); if (el) el.scrollIntoView();
+      });});
+    } else window.scrollTo(0,0);
+    if (history.replaceState) history.replaceState(null,'','#'+secId);
+  }
+
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-sec]');
+    if (t) { e.preventDefault(); showSec(t.dataset.sec); return; }
+    var h = e.target.closest('[data-home]');
+    if (h) { e.preventDefault(); showHome(h.dataset.home); return; }
+  });
+
+  document.getElementById('brandBtn').addEventListener('click', function(){ showHome(doc); });
+  menuBtn.addEventListener('click', function(){
+    var open = side.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+  if (docsel) docsel.addEventListener('change', function(){ showHome(docsel.value); });
+
+  /* ---- search over the rendered sections ---- */
+  var sel = 0, hits = [];
+
+  function openSearch(){
+    searchWrap.classList.add('on'); searchInput.focus(); searchInput.select();
+  }
+  function closeSearch(){ searchWrap.classList.remove('on'); }
+
+  searchBtn.addEventListener('click', openSearch);
+  searchWrap.addEventListener('click', function(e){ if (e.target === searchWrap) closeSearch(); });
+
+  function snippet(text, q){
+    var i = text.toLowerCase().indexOf(q);
+    if (i < 0) return text.slice(0,140) + '…';
+    var s = Math.max(0, i - 60), e = Math.min(text.length, i + q.length + 90);
+    var pre = text.slice(s, i), hit = text.slice(i, i+q.length), post = text.slice(i+q.length, e);
+    var esc = function(x){ return x.replace(/&/g,'&amp;').replace(/</g,'&lt;'); };
+    return (s>0?'…':'') + esc(pre) + '<mark>' + esc(hit) + '</mark>' + esc(post) + (e<text.length?'…':'');
+  }
+
+  function runSearch(){
+    var q = searchInput.value.trim().toLowerCase();
+    hits = []; sel = 0;
+    if (q.length < 2) {
+      results.innerHTML = '<div class="searchfoot">Type at least two characters.</div>';
+      return;
+    }
+    DOCS.forEach(function(d){
+      ORDER[d].forEach(function(s){
+        var el = document.getElementById('sec-' + s.id);
+        if (!el) return;
+        var text = el.querySelector('.body') ? el.querySelector('.body').innerText : '';
+        var inTitle = s.title.toLowerCase().indexOf(q) > -1;
+        var inText = text.toLowerCase().indexOf(q) > -1;
+        if (inTitle || inText) hits.push({ s:s, text:text, title:inTitle });
+      });
+    });
+    hits.sort(function(a,b){ return (b.title?1:0) - (a.title?1:0); });
+    if (!hits.length) {
+      results.innerHTML = '<div class="searchfoot">No match for &ldquo;' +
+        searchInput.value.replace(/</g,'&lt;') + '&rdquo;.</div>';
+      return;
+    }
+    results.innerHTML = hits.slice(0,40).map(function(h,i){
+      return '<button class="result' + (i===0?' sel':'') + '" data-i="'+i+'">' +
+        (h.s.part ? '<i>' + h.s.part + '</i>' : '') +
+        '<b>' + h.s.title.replace(/</g,'&lt;') + '</b>' +
+        '<small>' + snippet(h.text, q) + '</small></button>';
+    }).join('');
+  }
+
+  searchInput.addEventListener('input', runSearch);
+  results.addEventListener('click', function(e){
+    var b = e.target.closest('.result');
+    if (b) { closeSearch(); showSec(hits[+b.dataset.i].s.id); }
+  });
+
+  function move(d){
+    var nodes = results.querySelectorAll('.result');
+    if (!nodes.length) return;
+    nodes[sel] && nodes[sel].classList.remove('sel');
+    sel = (sel + d + nodes.length) % nodes.length;
+    nodes[sel].classList.add('sel');
+    nodes[sel].scrollIntoView({block:'nearest'});
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (searchWrap.classList.contains('on')) {
+      if (e.key === 'Escape') { closeSearch(); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); move(1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
+      else if (e.key === 'Enter' && hits.length) { e.preventDefault(); closeSearch(); showSec(hits[sel].s.id); }
+      return;
+    }
+    if (e.key === 'Escape') { closeSide(); return; }
+    var typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+    if (typing) return;
+    if (e.key === '/') { e.preventDefault(); openSearch(); }
+    else if (cur && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+      var list = ORDER[doc], i = list.findIndex(function(s){ return s.id === cur; });
+      var j = i + (e.key === 'ArrowRight' ? 1 : -1);
+      if (j >= 0 && j < list.length) showSec(list[j].id);
+    }
+  });
+
+  // Deep link support
+  var h = location.hash.replace(/^#/,'');
+  var known = false;
+  for (var k in ORDER) if (ORDER[k].some(function(s){ return s.id === h; })) known = true;
+  if (known) showSec(h);
+  else if (DOCS.indexOf(h) > -1) showHome(h);
+  else showHome(DOCS[0]);
+})();
+`;
+}
+
+mkdirSync(dirname(OUT), { recursive: true });
 writeFileSync(OUT, page);
-const kb = (page.length / 1024).toFixed(0);
-console.log(`wrote ${OUT}  (${kb} kB)`);
-for (const v of vols) console.log(`  ${v.number}  ${v.toc.length} sections indexed`);
+console.log("wrote " + OUT + "  (" + (page.length / 1024).toFixed(0) + " kB)");
+for (const d of docs) {
+  console.log(
+    "  " + d.number.padEnd(16) +
+    d.parts.length + " parts, " + d.flat.length + " sections"
+  );
+}

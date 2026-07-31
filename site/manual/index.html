@@ -1,215 +1,214 @@
 <title>Spirulina Production Manual — BlueBloom</title>
 <style>
-:root {
-  --ground:#ECEFEA; --paper:#F7F9F5; --panel:#10322C; --ink:#06201E;
-  --ink-soft:#22423C; --muted:#5D6F69; --phyco:#1160C4; --phyco-lt:#57A0F0;
-  --biomass:#1C4A3E; --line:rgba(6,32,30,.14); --line-soft:rgba(6,32,30,.07);
-  --warn-bg:rgba(17,96,196,.07);
+:root{
+  --ground:#ECEFEA;--paper:#F7F9F5;--ink:#06201E;--ink-soft:#22423C;
+  --muted:#5D6F69;--phyco:#1160C4;--phyco-lt:#57A0F0;
+  --line:rgba(6,32,30,.14);--line-soft:rgba(6,32,30,.07);--warn:rgba(17,96,196,.07);
   --serif:"Iowan Old Style","Palatino Linotype",Palatino,Charter,Georgia,serif;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
 }
-@media (prefers-color-scheme:dark){
-  :root{--ground:#071110;--paper:#0C1A18;--panel:#0B211E;--ink:#E4EDE8;
-    --ink-soft:#C2D2CC;--muted:#91A69E;--phyco:#5CA3F5;--phyco-lt:#8CC2FF;
-    --biomass:#3E8C73;--line:rgba(228,237,232,.15);--line-soft:rgba(228,237,232,.07);
-    --warn-bg:rgba(92,163,245,.09);}
-}
-:root[data-theme="dark"]{--ground:#071110;--paper:#0C1A18;--panel:#0B211E;--ink:#E4EDE8;
-  --ink-soft:#C2D2CC;--muted:#91A69E;--phyco:#5CA3F5;--phyco-lt:#8CC2FF;
-  --biomass:#3E8C73;--line:rgba(228,237,232,.15);--line-soft:rgba(228,237,232,.07);
-  --warn-bg:rgba(92,163,245,.09);}
-:root[data-theme="light"]{--ground:#ECEFEA;--paper:#F7F9F5;--panel:#10322C;--ink:#06201E;
-  --ink-soft:#22423C;--muted:#5D6F69;--phyco:#1160C4;--phyco-lt:#57A0F0;
-  --biomass:#1C4A3E;--line:rgba(6,32,30,.14);--line-soft:rgba(6,32,30,.07);
-  --warn-bg:rgba(17,96,196,.07);}
+@media (prefers-color-scheme:dark){:root{
+  --ground:#071110;--paper:#0C1A18;--ink:#E4EDE8;--ink-soft:#C2D2CC;--muted:#91A69E;
+  --phyco:#5CA3F5;--phyco-lt:#8CC2FF;--line:rgba(228,237,232,.15);
+  --line-soft:rgba(228,237,232,.07);--warn:rgba(92,163,245,.09);}}
+:root[data-theme=dark]{--ground:#071110;--paper:#0C1A18;--ink:#E4EDE8;--ink-soft:#C2D2CC;
+  --muted:#91A69E;--phyco:#5CA3F5;--phyco-lt:#8CC2FF;--line:rgba(228,237,232,.15);
+  --line-soft:rgba(228,237,232,.07);--warn:rgba(92,163,245,.09);}
+:root[data-theme=light]{--ground:#ECEFEA;--paper:#F7F9F5;--ink:#06201E;--ink-soft:#22423C;
+  --muted:#5D6F69;--phyco:#1160C4;--phyco-lt:#57A0F0;--line:rgba(6,32,30,.14);
+  --line-soft:rgba(6,32,30,.07);--warn:rgba(17,96,196,.07);}
 
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
-  font-size:1rem;line-height:1.62;-webkit-font-smoothing:antialiased}
+  font-size:1.02rem;line-height:1.65;-webkit-font-smoothing:antialiased}
 ::selection{background:var(--phyco);color:#fff}
-:focus-visible{outline:2px solid var(--phyco);outline-offset:2px;border-radius:2px}
+:focus-visible{outline:2px solid var(--phyco);outline-offset:2px;border-radius:3px}
+kbd{font-family:var(--mono);font-size:.8em;border:1px solid var(--line);border-radius:3px;
+  padding:.05em .35em;background:var(--paper)}
 
-/* ---------- masthead ---------- */
-.bar{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--ground) 90%,transparent);
-  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.bar-in{display:flex;align-items:center;gap:1.25rem;height:3.6rem;
-  padding-inline:1.25rem;max-width:96rem;margin-inline:auto}
+/* ---- top bar ---- */
+.bar{position:sticky;top:0;z-index:60;background:var(--ground);
+  border-bottom:1px solid var(--line)}
+.bar-in{display:flex;align-items:center;gap:.75rem;height:3.5rem;
+  padding-inline:1rem;max-width:90rem;margin-inline:auto}
 .brand{display:flex;align-items:center;gap:.5rem;font-family:var(--serif);
-  font-size:1.05rem;white-space:nowrap;letter-spacing:-.01em}
-.brand::before{content:"";width:.55rem;height:.55rem;border-radius:50%;
+  font-size:1.02rem;white-space:nowrap;cursor:pointer;background:none;border:0;
+  color:inherit;padding:0}
+.brand::before{content:"";width:.5rem;height:.5rem;border-radius:50%;
   background:var(--phyco);flex:none}
 .brand b{font-weight:600}
-.brand span{color:var(--muted)}
-.tabs{display:flex;gap:.25rem;margin-left:auto;overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tabs button{font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;
-  background:none;border:1px solid transparent;color:var(--muted);cursor:pointer;
-  padding:.4rem .7rem;border-radius:2px;white-space:nowrap;transition:.15s}
-.tabs button:hover{color:var(--ink)}
-.tabs button[aria-current="true"]{color:#fff;background:var(--phyco);border-color:var(--phyco)}
-.menu{display:none;background:none;border:1px solid var(--line);color:var(--ink);
-  border-radius:2px;padding:.35rem .55rem;cursor:pointer;font-family:var(--mono);font-size:.78rem}
+.spacer{margin-left:auto}
+.docsel{font-family:var(--mono);font-size:.78rem;padding:.4rem .5rem;
+  border:1px solid var(--line);border-radius:3px;background:var(--paper);color:var(--ink)}
+.iconbtn{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);
+  font-size:.78rem;background:var(--paper);border:1px solid var(--line);color:var(--ink);
+  border-radius:3px;padding:.45rem .7rem;cursor:pointer;white-space:nowrap}
+.iconbtn:hover{border-color:var(--phyco);color:var(--phyco)}
 
-/* ---------- shell ---------- */
-.shell{display:grid;grid-template-columns:17rem minmax(0,1fr);gap:2.5rem;
-  max-width:96rem;margin-inline:auto;padding:0 1.25rem 5rem}
-.side{position:sticky;top:3.6rem;align-self:start;height:calc(100dvh - 3.6rem);
-  overflow-y:auto;padding:1.25rem .5rem 2rem 0;border-right:1px solid var(--line-soft)}
-.find{width:100%;font-family:var(--mono);font-size:.78rem;padding:.5rem .6rem;
-  border:1px solid var(--line);border-radius:2px;background:var(--paper);
-  color:var(--ink);margin-bottom:.9rem}
-.find::placeholder{color:var(--muted)}
-.toc{display:flex;flex-direction:column}
-.toc a{text-decoration:none;color:var(--muted);font-size:.83rem;line-height:1.35;
-  padding:.32rem .5rem;border-left:2px solid transparent;transition:.15s}
-.toc a:hover{color:var(--ink);background:var(--paper)}
-.toc a.t3{padding-left:1.4rem;font-size:.79rem;opacity:.85}
-.toc a.on{color:var(--phyco);border-left-color:var(--phyco);background:var(--paper)}
-.toc a.hide{display:none}
-.toc-empty{color:var(--muted);font-family:var(--mono);font-size:.76rem;padding:.5rem}
+/* ---- shell ---- */
+.shell{display:grid;grid-template-columns:18rem minmax(0,1fr);gap:3rem;
+  max-width:90rem;margin-inline:auto;padding:0 1.25rem 6rem}
+.side{position:sticky;top:3.5rem;align-self:start;height:calc(100dvh - 3.5rem);
+  overflow-y:auto;padding:1.25rem .75rem 3rem 0;border-right:1px solid var(--line-soft)}
+.navpart{font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--phyco);margin:1.4rem 0 .4rem;padding-left:.6rem}
+.navpart:first-child{margin-top:0}
+.navsec{display:block;text-decoration:none;color:var(--ink-soft);font-size:.87rem;
+  line-height:1.35;padding:.5rem .6rem;border-left:2px solid transparent;border-radius:0 3px 3px 0}
+.navsec:hover{background:var(--paper);color:var(--ink)}
+.navsec.on{color:var(--phyco);border-left-color:var(--phyco);background:var(--paper);font-weight:500}
 
-/* ---------- document ---------- */
-main{min-width:0;padding-top:2.25rem}
-.doc{display:none}
-.doc.on{display:block}
-.doc>*{max-width:52rem}
-.doc .tw{max-width:100%}
-h1,h2,h3,h4{font-family:var(--serif);font-weight:600;text-wrap:balance;
-  letter-spacing:-.012em;scroll-margin-top:4.5rem}
-.doc h1{font-size:1.5rem;color:var(--muted);font-weight:400;margin:0 0 .25rem;
-  font-family:var(--mono);letter-spacing:.06em}
-.doc h2{font-size:1.65rem;line-height:1.2;margin:3rem 0 1rem;padding-top:1.5rem;
-  border-top:1px solid var(--line)}
-.doc h2:first-of-type{border-top:0;padding-top:0;margin-top:1rem}
-.doc h3{font-size:1.15rem;margin:2rem 0 .6rem}
-.doc p{margin:0 0 1rem}
-.doc strong{font-weight:600}
-.doc em{font-style:italic}
-.doc ul,.doc ol{margin:0 0 1.15rem;padding-left:1.35rem}
-.doc li{margin-bottom:.3rem}
-.doc hr{border:0;border-top:1px solid var(--line-soft);margin:2.25rem 0}
-.doc a{color:var(--phyco)}
-.doc code{font-family:var(--mono);font-size:.87em;background:var(--paper);
-  padding:.1rem .3rem;border-radius:2px}
-.doc pre{background:var(--paper);border:1px solid var(--line-soft);border-radius:2px;
+main{min-width:0;padding-top:2rem}
+
+/* ---- home ---- */
+.home{display:none}
+.home.on{display:block}
+.kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 .5rem}
+.home h1{font-family:var(--serif);font-size:2.3rem;line-height:1.1;margin:0 0 .75rem;
+  letter-spacing:-.02em;max-width:20ch}
+.blurb{font-size:1.15rem;color:var(--ink-soft);max-width:40em;margin:0 0 .75rem}
+.hint{font-size:.9rem;color:var(--muted);margin:0 0 2rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.card{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start;text-align:left;
+  background:var(--ground);border:0;padding:1.3rem 1.2rem;cursor:pointer;
+  color:inherit;font:inherit;transition:background .15s}
+.card:hover{background:var(--paper)}
+.card-part{font-family:var(--serif);font-size:1.25rem;font-weight:600;line-height:1.2}
+.card-list{font-size:.85rem;color:var(--muted);line-height:1.5}
+.card-go{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--phyco);
+  margin-top:auto;padding-top:.5rem}
+
+/* ---- section ---- */
+.sec{display:none}
+.sec.on{display:block}
+.sec>*{max-width:46rem}
+.sec .tw{max-width:100%}
+.crumb{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;font-family:var(--mono);
+  font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  margin:0 0 .75rem}
+.crumb-home{background:none;border:0;padding:0;font:inherit;color:var(--phyco);cursor:pointer}
+.crumb-home:hover{text-decoration:underline}
+.crumb-sep{opacity:.5}
+.crumb-pos{margin-left:auto;opacity:.8}
+.sec h1{font-family:var(--serif);font-size:2rem;line-height:1.15;margin:0 0 1.25rem;
+  letter-spacing:-.018em;text-wrap:balance}
+.outline{display:flex;flex-wrap:wrap;gap:.4rem .9rem;padding:.85rem 1rem;margin:0 0 1.75rem;
+  background:var(--paper);border:1px solid var(--line-soft);border-radius:3px}
+.outline span{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);width:100%}
+.outline a{font-size:.85rem;color:var(--phyco);text-decoration:none}
+.outline a:hover{text-decoration:underline}
+
+.body h3{font-family:var(--serif);font-size:1.25rem;margin:2.2rem 0 .6rem;
+  scroll-margin-top:4.5rem;letter-spacing:-.01em}
+.body h4{font-family:var(--serif);font-size:1.05rem;margin:1.5rem 0 .4rem}
+.body p{margin:0 0 1.05rem}
+.body ul,.body ol{margin:0 0 1.15rem;padding-left:1.4rem}
+.body li{margin-bottom:.35rem}
+.body hr{border:0;border-top:1px solid var(--line-soft);margin:2rem 0}
+.body a{color:var(--phyco)}
+.body code{font-family:var(--mono);font-size:.87em;background:var(--paper);
+  padding:.1rem .32rem;border-radius:3px}
+.body pre{background:var(--paper);border:1px solid var(--line-soft);border-radius:3px;
   padding:.9rem 1rem;overflow-x:auto}
-.doc pre code{background:none;padding:0}
+.body pre code{background:none;padding:0}
+.body blockquote{margin:0 0 1rem;padding-left:1rem;border-left:2px solid var(--line);
+  color:var(--ink-soft)}
+/* a paragraph that is entirely bold is a callout in these documents */
+.body p:has(>strong:only-child){background:var(--warn);border-left:3px solid var(--phyco);
+  padding:.9rem 1.1rem;margin-bottom:1.3rem;border-radius:0 3px 3px 0}
 
-/* a paragraph that is entirely bold is an emphasis callout in these documents */
-.doc p:has(> strong:only-child){background:var(--warn-bg);border-left:2px solid var(--phyco);
-  padding:.85rem 1rem;margin-bottom:1.25rem}
-.doc p:has(> strong:only-child) strong{font-weight:600}
-
-.tw{overflow-x:auto;margin:0 0 1.5rem;border:1px solid var(--line);border-radius:2px}
-/* min-width so narrow screens scroll the table sideways inside .tw rather
-   than crushing every cell to one word per line */
-table{border-collapse:collapse;width:100%;min-width:30rem;font-size:.86rem;
-  font-variant-numeric:tabular-nums;font-family:var(--sans)}
-th,td{text-align:left;padding:.55rem .8rem;border-bottom:1px solid var(--line-soft);
+.tw{overflow-x:auto;margin:0 0 1.5rem;border:1px solid var(--line);border-radius:3px}
+table{border-collapse:collapse;width:100%;min-width:28rem;font-size:.88rem;
+  font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:.6rem .85rem;border-bottom:1px solid var(--line-soft);
   vertical-align:top}
-thead th{background:var(--paper);font-family:var(--mono);font-size:.7rem;
-  letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:400;
-  border-bottom:1px solid var(--line);position:sticky;top:0}
+thead th{background:var(--paper);font-family:var(--mono);font-size:.68rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:400}
 tbody tr:last-child td{border-bottom:0}
-tbody tr:hover{background:var(--paper)}
-td strong{font-weight:600}
 
-/* ---------- register (home) ---------- */
-.reg h2{font-size:1.3rem;margin:2.5rem 0 1rem;padding-top:1.5rem;border-top:1px solid var(--line)}
-.reg h2:first-of-type{border-top:0;padding-top:0;margin-top:2rem}
-.hero-t{font-size:2.1rem;line-height:1.1;margin:0 0 .75rem;max-width:22ch}
-.hero-s{color:var(--ink-soft);max-width:44em;margin:0 0 .5rem}
-.kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--muted);margin-bottom:.9rem}
-.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));
-  gap:1px;background:var(--line);border:1px solid var(--line);margin:1.5rem 0 0}
-.fig{background:var(--ground);padding:.9rem 1rem}
-.fig dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
-.fig dd{margin:0;font-family:var(--serif);font-size:1.25rem;font-variant-numeric:tabular-nums}
-.fig small{display:block;font-family:var(--mono);font-size:.68rem;color:var(--muted);
-  margin-top:.15rem;letter-spacing:.03em}
-.note{background:var(--warn-bg);border-left:2px solid var(--phyco);
-  padding:1rem 1.15rem;margin:1.25rem 0;max-width:52rem}
-.note b{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--phyco);margin-bottom:.5rem}
-.note p{margin:0 0 .7rem}
-.note p:last-child{margin-bottom:0}
-.open{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:1rem;
-  margin:1.25rem 0;max-width:52rem}
-.open div{border:1px solid var(--line);padding:.9rem 1rem;border-radius:2px}
-.open dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
-.open dd{margin:0;font-family:var(--serif);font-size:1.35rem;font-variant-numeric:tabular-nums}
-.open .lead{border-color:var(--phyco)}
-.open .lead dd{color:var(--phyco)}
-.jump{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--mono);
-  font-size:.78rem;text-decoration:none;color:#fff;background:var(--phyco);
-  border:1px solid var(--phyco);padding:.5rem .85rem;border-radius:2px;transition:.15s}
-.jump:hover{background:transparent;color:var(--phyco)}
-.foot{margin-top:3.5rem;padding-top:1.5rem;border-top:1px solid var(--line);
-  font-family:var(--mono);font-size:.76rem;color:var(--muted);line-height:1.8;max-width:52rem}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3.5rem;
+  padding-top:1.5rem;border-top:1px solid var(--line)}
+.pg{display:flex;flex-direction:column;gap:.25rem;align-items:flex-start;text-align:left;
+  background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:.9rem 1rem;
+  cursor:pointer;color:inherit;font:inherit;transition:border-color .15s}
+.pg:hover{border-color:var(--phyco)}
+.pg.next{align-items:flex-end;text-align:right}
+.pg span{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;color:var(--phyco)}
+.pg b{font-weight:500;font-size:.92rem;line-height:1.3}
+.pg.empty{background:none;border:0}
 
-/* ---------- responsive ---------- */
-@media (max-width:960px){
+/* ---- search ---- */
+.searchwrap{display:none;position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.4);
+  padding:4rem 1rem 1rem;overflow-y:auto}
+.searchwrap.on{display:block}
+.searchbox{max-width:44rem;margin-inline:auto;background:var(--ground);
+  border:1px solid var(--line);border-radius:5px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.searchbox input{width:100%;font-family:var(--sans);font-size:1.05rem;padding:1.1rem 1.2rem;
+  border:0;border-bottom:1px solid var(--line);background:var(--ground);color:var(--ink)}
+.searchbox input:focus{outline:0}
+.results{max-height:60vh;overflow-y:auto}
+.result{display:block;width:100%;text-align:left;background:none;border:0;
+  border-bottom:1px solid var(--line-soft);padding:.85rem 1.2rem;cursor:pointer;
+  color:inherit;font:inherit}
+.result:hover,.result.sel{background:var(--paper)}
+.result b{display:block;font-weight:600;font-size:.95rem;margin-bottom:.2rem}
+.result i{font-style:normal;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.3rem}
+.result small{display:block;font-size:.85rem;color:var(--ink-soft);line-height:1.45}
+.result mark{background:var(--phyco);color:#fff;border-radius:2px;padding:0 .15em}
+.searchfoot{padding:.6rem 1.2rem;font-family:var(--mono);font-size:.7rem;color:var(--muted);
+  border-top:1px solid var(--line-soft)}
+
+/* ---- responsive ---- */
+@media (max-width:940px){
   .shell{grid-template-columns:minmax(0,1fr);gap:0}
-  .side{position:fixed;inset:3.6rem 0 0 auto;width:min(21rem,86vw);z-index:55;
-    background:var(--ground);border-right:0;border-left:1px solid var(--line);
-    padding:1.25rem 1rem 2rem;transform:translateX(100%);transition:transform .2s;
-    box-shadow:-10px 0 30px rgba(0,0,0,.14)}
+  .side{position:fixed;inset:3.5rem 0 0 auto;width:min(22rem,88vw);z-index:70;
+    background:var(--ground);border-left:1px solid var(--line);border-right:0;
+    padding:1.25rem 1rem 3rem;transform:translateX(101%);transition:transform .22s;
+    box-shadow:-10px 0 40px rgba(0,0,0,.18)}
   .side.open{transform:translateX(0)}
-  .menu{display:block}
+  .navsec{padding:.7rem .6rem;font-size:.92rem}
   main{padding-top:1.5rem}
+  .pager{grid-template-columns:1fr}
+  .home h1{font-size:1.8rem}
+  .sec h1{font-size:1.55rem}
 }
 @media (max-width:560px){
-  .bar-in{gap:.6rem;padding-inline:.9rem}
+  .bar-in{padding-inline:.85rem;gap:.5rem}
+  .shell{padding-inline:.85rem}
   .brand span{display:none}
-  .shell{padding-inline:.9rem}
-  .hero-t{font-size:1.65rem}
-  .doc h2{font-size:1.35rem}
+  .iconbtn{padding:.45rem .6rem}
 }
-@media (prefers-reduced-motion:reduce){
-  *{transition:none!important;scroll-behavior:auto!important}
-}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 html{scroll-behavior:smooth}
 
 @media print{
-  .bar,.side,.menu,.jump{display:none!important}
+  .bar,.side,.pager,.outline,.crumb,.searchwrap{display:none!important}
   .shell{display:block;padding:0;max-width:none}
   main{padding:0}
-  .doc>*{max-width:none}
-  .doc h2{break-after:avoid;page-break-after:avoid}
-  .tw,table,tr{break-inside:avoid;page-break-inside:avoid}
-  thead th{position:static}
+  .sec,.home{display:block!important}
+  .sec>*{max-width:none}
   body{background:#fff;color:#000;font-size:10.5pt}
+  .tw,table,tr{break-inside:avoid}
 }
 </style>
-
-<header class="bar">
-  <div class="bar-in">
-    <div class="brand"><b>BlueBloom</b> <span>Spirulina Production Manual</span></div>
-    <nav class="tabs" id="tabs" aria-label="Volumes">
-      
-      <button data-v="ops" aria-current="true">Production Manual</button>
-    </nav>
-    <button class="menu" id="menu" aria-expanded="false">Contents</button>
-  </div>
-</header>
-
-<div class="shell">
-  <aside class="side" id="side">
-    <input class="find" id="find" type="search" placeholder="Filter sections…" aria-label="Filter sections">
-    <nav class="toc" id="toc" aria-label="Table of contents"></nav>
-  </aside>
-
-  <main>
-
-
-    <article class="doc" id="doc-ops">
-<h1 id="ops-bb-ops-001">BB-OPS-001</h1>
-<h2 id="ops-spirulina-production-manual">Spirulina Production Manual</h2>
-<h3 id="ops-a-complete-working-manual-the-organism-cultivation-harvest-p">A complete working manual — the organism, cultivation, harvest, processing, quality and troubleshooting</h3>
+<header class="bar"><div class="bar-in"><button class="brand" id="brandBtn"><b>BlueBloom</b> <span>Spirulina Production Manual</span></button><span class="spacer"></span><button class="iconbtn" id="searchBtn">Search <kbd>/</kbd></button><button class="iconbtn" id="menuBtn" aria-expanded="false">Contents</button></div></header>
+<div class="shell"><aside class="side" id="side"><nav id="nav"></nav></aside><main><div class="home" id="home-ops"><p class="kicker">BB-OPS-001</p><h1>Spirulina Production Manual</h1><p class="blurb">What spirulina is, how to grow it, how to harvest and process it, and what to do when something goes wrong.</p><p class="hint">Pick a part below, use the contents list, or press <kbd>/</kbd> to search the whole document.</p><div class="cards"><button class="card" data-sec="ops-about-this-document"><span class="card-part">Introduction</span><span class="card-list">About this document · Spirulina Production Manual · How to use this manual</span><span class="card-go">3 sections →</span></button>
+<button class="card" data-sec="ops-1-what-spirulina-actually-is"><span class="card-part">THE ORGANISM</span><span class="card-list">1. What spirulina actually is · 2. Composition and nutrition — stated honestly</span><span class="card-go">2 sections →</span></button>
+<button class="card" data-sec="ops-3-the-six-things-spirulina-needs"><span class="card-part">HOW IT GROWS</span><span class="card-list">3. The six things spirulina needs · 4. Growth rate and what to expect</span><span class="card-go">2 sections →</span></button>
+<button class="card" data-sec="ops-5-the-culture-medium"><span class="card-part">MEDIUM AND STARTING A CULTURE</span><span class="card-list">5. The culture medium · 6. Starting and scaling a culture</span><span class="card-go">2 sections →</span></button>
+<button class="card" data-sec="ops-7-the-daily-routine"><span class="card-part">RUNNING THE PONDS</span><span class="card-list">7. The daily routine · 8. Measurements — how to actually take them · 9. Feeding the ponds · 10. Records</span><span class="card-go">4 sections →</span></button>
+<button class="card" data-sec="ops-11-harvesting"><span class="card-part">HARVEST AND PROCESSING</span><span class="card-list">11. Harvesting · 12. Drying — where quality is won or lost · 13. Milling, sieving and packing</span><span class="card-go">3 sections →</span></button>
+<button class="card" data-sec="ops-14-product-specification"><span class="card-part">QUALITY AND SAFETY</span><span class="card-list">14. Product specification · 15. Microcystins — the one that really matters · 16. Batch traceability</span><span class="card-go">3 sections →</span></button>
+<button class="card" data-sec="ops-17-contamination"><span class="card-part">WHEN THINGS GO WRONG</span><span class="card-list">17. Contamination · 18. Culture problems — diagnostic table · 19. Deciding to dump a pond</span><span class="card-go">3 sections →</span></button>
+<button class="card" data-sec="ops-20-quick-reference-target-values"><span class="card-part">REFERENCE</span><span class="card-list">20. Quick reference — target values · 21. Composition constants for calculation · 22. Worked calculations · 23. Units and conversions · 24. Glossary · 25. Ten rules</span><span class="card-go">6 sections →</span></button></div></div><article class="sec" id="sec-ops-about-this-document"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>Introduction</span><span class="crumb-pos">1 of 28</span></p><h1>About this document</h1><div class="body"><h1>BB-OPS-001</h1>
+</div><nav class="pager"><span class="pg empty"></span><button class="pg next" data-sec="ops-spirulina-production-manual"><span>Next →</span><b>Spirulina Production Manual</b></button></nav></article>
+<article class="sec" id="sec-ops-spirulina-production-manual"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>Introduction</span><span class="crumb-pos">2 of 28</span></p><h1>Spirulina Production Manual</h1><nav class="outline"><span>In this section</span><a href="#ops-spirulina-production-manual-a-complete-working-manual-the-organism-cultivation">A complete working manual — the organism, cultivation, harvest, processing, quality and troubleshooting</a></nav><div class="body"><h3 id="ops-spirulina-production-manual-a-complete-working-manual-the-organism-cultivation">A complete working manual — the organism, cultivation, harvest, processing, quality and troubleshooting</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -247,8 +246,8 @@ html{scroll-behavior:smooth}
 </tr>
 </tbody></table></div>
 <hr>
-<h2 id="ops-how-to-use-this-manual">How to use this manual</h2>
-<p>The design criteria manual (BB-DBR-002) specifies <strong>what to build</strong>. This manual
+</div><nav class="pager"><button class="pg" data-sec="ops-about-this-document"><span>← Previous</span><b>About this document</b></button><button class="pg next" data-sec="ops-how-to-use-this-manual"><span>Next →</span><b>How to use this manual</b></button></nav></article>
+<article class="sec" id="sec-ops-how-to-use-this-manual"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>Introduction</span><span class="crumb-pos">3 of 28</span></p><h1>How to use this manual</h1><div class="body"><p>The design criteria manual (BB-DBR-002) specifies <strong>what to build</strong>. This manual
 explains <strong>how it works and how to run it</strong>.</p>
 <div class="tw"><table>
 <thead>
@@ -289,9 +288,8 @@ explains <strong>how it works and how to run it</strong>.</p>
 <p>Anything marked <strong>⚠</strong> is a point where a mistake costs a culture, a batch, or
 somebody&#39;s safety. Read those twice.</p>
 <hr>
-<h1 id="ops-part-1-the-organism">PART 1 — THE ORGANISM</h1>
-<h2 id="ops-1-what-spirulina-actually-is">1. What spirulina actually is</h2>
-<h3 id="ops-11-it-is-a-bacterium-not-a-plant-and-not-an-algae">1.1 It is a bacterium, not a plant and not an algae</h3>
+</div><nav class="pager"><button class="pg" data-sec="ops-spirulina-production-manual"><span>← Previous</span><b>Spirulina Production Manual</b></button><button class="pg next" data-sec="ops-1-what-spirulina-actually-is"><span>Next →</span><b>1. What spirulina actually is</b></button></nav></article>
+<article class="sec" id="sec-ops-1-what-spirulina-actually-is"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>THE ORGANISM</span><span class="crumb-pos">4 of 28</span></p><h1>1. What spirulina actually is</h1><nav class="outline"><span>In this section</span><a href="#ops-1-what-spirulina-actually-is-11-it-is-a-bacterium-not-a-plant-and-not-an-algae">1.1 It is a bacterium, not a plant and not an algae</a><a href="#ops-1-what-spirulina-actually-is-12-naming-spirulina-versus-arthrospira">1.2 Naming: Spirulina versus Arthrospira</a><a href="#ops-1-what-spirulina-actually-is-13-shape-and-structure">1.3 Shape and structure</a><a href="#ops-1-what-spirulina-actually-is-14-gas-vesicles-and-buoyancy">1.4 Gas vesicles and buoyancy</a><a href="#ops-1-what-spirulina-actually-is-15-the-helix-is-not-fixed">1.5 The helix is not fixed</a><a href="#ops-1-what-spirulina-actually-is-16-how-it-reproduces">1.6 How it reproduces</a><a href="#ops-1-what-spirulina-actually-is-17-what-it-does-and-does-not-do-metabolically">1.7 What it does and does not do metabolically</a><a href="#ops-1-what-spirulina-actually-is-18-where-it-grows-naturally">1.8 Where it grows naturally</a><a href="#ops-1-what-spirulina-actually-is-19-a-long-history-as-food">1.9 A long history as food</a></nav><div class="body"><h3 id="ops-1-what-spirulina-actually-is-11-it-is-a-bacterium-not-a-plant-and-not-an-algae">1.1 It is a bacterium, not a plant and not an algae</h3>
 <p>Spirulina is a <strong>cyanobacterium</strong> — a photosynthetic bacterium. It is a
 prokaryote: it has no nucleus, no chloroplasts, no mitochondria, and none of
 the membrane-bound organelles that define plant and algal cells.</p>
@@ -317,7 +315,7 @@ everything else in this manual:</p>
 <td>It is vulnerable to the same things that suppress bacteria — pH, salinity, ammonia — which is precisely what gives us contamination control without chemicals.</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-12-naming-spirulina-versus-arthrospira">1.2 Naming: <em>Spirulina</em> versus <em>Arthrospira</em></h3>
+<h3 id="ops-1-what-spirulina-actually-is-12-naming-spirulina-versus-arthrospira">1.2 Naming: <em>Spirulina</em> versus <em>Arthrospira</em></h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -347,7 +345,7 @@ on the basis of trichome structure. The food trade kept the old name. So the
 product is called spirulina and the organism is <em>Arthrospira</em>. Both are correct
 in their own context. On a certificate of analysis, write <em>Arthrospira
 platensis</em>; on a retail label, write spirulina.</p>
-<h3 id="ops-13-shape-and-structure">1.3 Shape and structure</h3>
+<h3 id="ops-1-what-spirulina-actually-is-13-shape-and-structure">1.3 Shape and structure</h3>
 <p>Spirulina grows as a <strong>trichome</strong> — a multicellular filament — coiled into an
 open left-handed helix. It is the helix that gives the organism its name and,
 as it happens, its commercial viability.</p>
@@ -385,7 +383,7 @@ on a fine screen. A single-celled alga at 5–10 µm cannot — it needs a centr
 Screen filtration costs a fraction of centrifugation in both capital and running
 energy. Everything in Part 5 of this manual depends on the filaments staying
 long and intact, which is why shear damage is treated so seriously.</p>
-<h3 id="ops-14-gas-vesicles-and-buoyancy">1.4 Gas vesicles and buoyancy</h3>
+<h3 id="ops-1-what-spirulina-actually-is-14-gas-vesicles-and-buoyancy">1.4 Gas vesicles and buoyancy</h3>
 <p>Spirulina cells contain <strong>gas vesicles</strong> — protein-walled, gas-filled structures
 that reduce cell density and provide buoyancy. In a still pond the culture
 floats towards the surface.</p>
@@ -416,7 +414,7 @@ floats towards the surface.</p>
 <p>This is one reason circulation runs continuously. A pond left unstirred for a
 few hours in daylight concentrates its own biomass into the most damaging light
 at the surface.</p>
-<h3 id="ops-15-the-helix-is-not-fixed">1.5 The helix is not fixed</h3>
+<h3 id="ops-1-what-spirulina-actually-is-15-the-helix-is-not-fixed">1.5 The helix is not fixed</h3>
 <p>Under stress — temperature extremes, nutrient limitation, some contamination —
 trichomes can <strong>uncoil into a straight or loosely waved form</strong>. This is the
 <em>linear morphotype</em>.</p>
@@ -446,7 +444,7 @@ trichomes can <strong>uncoil into a straight or loosely waved form</strong>. Thi
 </tbody></table></div>
 <p><strong>Watch the shape, not only the count.</strong> Morphology changes days before yield
 does.</p>
-<h3 id="ops-16-how-it-reproduces">1.6 How it reproduces</h3>
+<h3 id="ops-1-what-spirulina-actually-is-16-how-it-reproduces">1.6 How it reproduces</h3>
 <p>Spirulina does not have sex, spores, or a complex life cycle. It multiplies by:</p>
 <ol>
 <li><strong>Binary fission</strong> — cells divide across the trichome, lengthening it.</li>
@@ -458,7 +456,7 @@ intervals along the trichome, breaking it into short motile fragments called
 <p>Practical meaning: a healthy culture contains a <strong>spread of filament lengths</strong>.
 A culture of uniformly very short fragments is either young from a recent
 transfer, or is fragmenting from stress or mechanical damage.</p>
-<h3 id="ops-17-what-it-does-and-does-not-do-metabolically">1.7 What it does and does not do metabolically</h3>
+<h3 id="ops-1-what-spirulina-actually-is-17-what-it-does-and-does-not-do-metabolically">1.7 What it does and does not do metabolically</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -503,7 +501,7 @@ transfer, or is fragmenting from stress or mechanical damage.</p>
 <td>It will not grow on sugar in a fermenter</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-18-where-it-grows-naturally">1.8 Where it grows naturally</h3>
+<h3 id="ops-1-what-spirulina-actually-is-18-where-it-grows-naturally">1.8 Where it grows naturally</h3>
 <p>Spirulina is native to <strong>alkaline soda lakes</strong> — shallow, warm, highly alkaline
 waters with dissolved carbonate and bicarbonate, high sodium, and pH between
 about 8.5 and 11.</p>
@@ -536,7 +534,7 @@ few organisms tolerate pH 10 and 15 g/L of dissolved salts. By reproducing a
 soda lake in a lined pond, we get a growth medium that is close to a selective
 one — the chemistry that suits the crop actively suppresses most competitors.
 No other food crop offers anything comparable.</p>
-<h3 id="ops-19-a-long-history-as-food">1.9 A long history as food</h3>
+<h3 id="ops-1-what-spirulina-actually-is-19-a-long-history-as-food">1.9 A long history as food</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -564,8 +562,8 @@ No other food crop offers anything comparable.</p>
 <p>Spirulina is not a modern invention. It is one of the oldest documented
 harvested foods still in commercial production.</p>
 <hr>
-<h2 id="ops-2-composition-and-nutrition-stated-honestly">2. Composition and nutrition — stated honestly</h2>
-<h3 id="ops-21-gross-composition">2.1 Gross composition</h3>
+</div><nav class="pager"><button class="pg" data-sec="ops-how-to-use-this-manual"><span>← Previous</span><b>How to use this manual</b></button><button class="pg next" data-sec="ops-2-composition-and-nutrition-stated-honestly"><span>Next →</span><b>2. Composition and nutrition — stated honestly</b></button></nav></article>
+<article class="sec" id="sec-ops-2-composition-and-nutrition-stated-honestly"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>THE ORGANISM</span><span class="crumb-pos">5 of 28</span></p><h1>2. Composition and nutrition — stated honestly</h1><nav class="outline"><span>In this section</span><a href="#ops-2-composition-and-nutrition-stated-honestly-21-gross-composition">2.1 Gross composition</a><a href="#ops-2-composition-and-nutrition-stated-honestly-22-protein-quality">2.2 Protein quality</a><a href="#ops-2-composition-and-nutrition-stated-honestly-23-the-pigments">2.3 The pigments</a><a href="#ops-2-composition-and-nutrition-stated-honestly-24-vitamins-and-minerals-with-one-important-correc">2.4 Vitamins and minerals — with one important correction</a><a href="#ops-2-composition-and-nutrition-stated-honestly-25-why-you-should-not-eat-unlimited-quantities">2.5 Why you should not eat unlimited quantities</a><a href="#ops-2-composition-and-nutrition-stated-honestly-26-what-we-do-not-claim">2.6 What we do not claim</a></nav><div class="body"><h3 id="ops-2-composition-and-nutrition-stated-honestly-21-gross-composition">2.1 Gross composition</h3>
 <p>Typical ranges for well-grown, properly washed and dried commercial spirulina,
 on a dry-weight basis:</p>
 <div class="tw"><table>
@@ -612,7 +610,7 @@ on a dry-weight basis:</p>
 <td>Low; not a fibre source</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-22-protein-quality">2.2 Protein quality</h3>
+<h3 id="ops-2-composition-and-nutrition-stated-honestly-22-protein-quality">2.2 Protein quality</h3>
 <p>Spirulina contains <strong>all nine essential amino acids</strong>, which makes it a complete
 protein. It is not, however, perfectly balanced.</p>
 <div class="tw"><table>
@@ -645,7 +643,7 @@ nitrogen sits in nucleic acids and phycocyanin rather than in dietary protein.
 Some references use a factor of 5.95 or lower. <strong>State the factor used on the
 certificate of analysis</strong> — otherwise your figure is not comparable to anyone
 else&#39;s.</p>
-<h3 id="ops-23-the-pigments">2.3 The pigments</h3>
+<h3 id="ops-2-composition-and-nutrition-stated-honestly-23-the-pigments">2.3 The pigments</h3>
 <p>Spirulina&#39;s colour comes from three pigment groups, and they are commercially
 significant in their own right.</p>
 <div class="tw"><table>
@@ -681,7 +679,7 @@ cheapest quality indicator</strong>: strong blue-green means intact phycocyanin,
 means the culture was healthy and the drying was controlled. Dull, olive, grey or
 brownish powder means pigment has been lost — usually to heat in drying, light in
 storage, or a stressed culture.</p>
-<h3 id="ops-24-vitamins-and-minerals-with-one-important-correction">2.4 Vitamins and minerals — with one important correction</h3>
+<h3 id="ops-2-composition-and-nutrition-stated-honestly-24-vitamins-and-minerals-with-one-important-correc">2.4 Vitamins and minerals — with one important correction</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -740,7 +738,7 @@ which may even interfere with absorption of genuine B12.</p>
 — especially a vegan or vegetarian customer — that it will meet their B12
 needs.</strong> Doing so is false, and it could cause real harm to somebody relying on
 it. This is the single most common false claim in the spirulina trade.</p>
-<h3 id="ops-25-why-you-should-not-eat-unlimited-quantities">2.5 Why you should not eat unlimited quantities</h3>
+<h3 id="ops-2-composition-and-nutrition-stated-honestly-25-why-you-should-not-eat-unlimited-quantities">2.5 Why you should not eat unlimited quantities</h3>
 <p>Spirulina is 4–6 % nucleic acid. Nucleic acids metabolise to <strong>purines</strong>, and
 purines to <strong>uric acid</strong>. High sustained intake of any single-cell protein raises
 uric acid load, which matters for gout and for kidney stone formation.</p>
@@ -749,7 +747,7 @@ roughly <strong>20 g per day or less</strong> for an adult. Typical spirulina se
 3–10 g/day sit comfortably inside that.</p>
 <p>This is a reason to state serving sizes on the label and not to encourage
 unlimited consumption.</p>
-<h3 id="ops-26-what-we-do-not-claim">2.6 What we do not claim</h3>
+<h3 id="ops-2-composition-and-nutrition-stated-honestly-26-what-we-do-not-claim">2.6 What we do not claim</h3>
 <p>Spirulina is a nutritious food. It is not a medicine.</p>
 <p><strong>⚠ Do not make, print, imply, or repeat any claim that spirulina treats, cures,
 prevents or mitigates any disease.</strong> Doing so is unlawful under Indian food law
@@ -789,9 +787,8 @@ composition above is a strong enough proposition on its own.</p>
 </tr>
 </tbody></table></div>
 <hr>
-<h1 id="ops-part-2-how-it-grows">PART 2 — HOW IT GROWS</h1>
-<h2 id="ops-3-the-six-things-spirulina-needs">3. The six things spirulina needs</h2>
-<p>Everything in cultivation reduces to keeping six variables inside a window.
+</div><nav class="pager"><button class="pg" data-sec="ops-1-what-spirulina-actually-is"><span>← Previous</span><b>1. What spirulina actually is</b></button><button class="pg next" data-sec="ops-3-the-six-things-spirulina-needs"><span>Next →</span><b>3. The six things spirulina needs</b></button></nav></article>
+<article class="sec" id="sec-ops-3-the-six-things-spirulina-needs"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>HOW IT GROWS</span><span class="crumb-pos">6 of 28</span></p><h1>3. The six things spirulina needs</h1><nav class="outline"><span>In this section</span><a href="#ops-3-the-six-things-spirulina-needs-31-light">3.1 Light</a><a href="#ops-3-the-six-things-spirulina-needs-32-temperature">3.2 Temperature</a><a href="#ops-3-the-six-things-spirulina-needs-33-carbon-and-the-ph-relationship">3.3 Carbon and the pH relationship</a><a href="#ops-3-the-six-things-spirulina-needs-34-alkalinity-and-salinity-the-contamination-barri">3.4 Alkalinity and salinity — the contamination barrier</a><a href="#ops-3-the-six-things-spirulina-needs-35-nutrients">3.5 Nutrients</a><a href="#ops-3-the-six-things-spirulina-needs-36-ammonia-useful-and-dangerous">3.6 Ammonia — useful and dangerous</a><a href="#ops-3-the-six-things-spirulina-needs-37-mixing">3.7 Mixing</a></nav><div class="body"><p>Everything in cultivation reduces to keeping six variables inside a window.
 Learn these and you understand the whole crop.</p>
 <div class="tw"><table>
 <thead>
@@ -839,7 +836,7 @@ Learn these and you understand the whole crop.</p>
 <td>Settling, stratification, surface scum, oxygen build-up</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-31-light">3.1 Light</h3>
+<h3 id="ops-3-the-six-things-spirulina-needs-31-light">3.1 Light</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -880,7 +877,7 @@ This flashing-light effect is more efficient than constant moderate light.</li>
 density too low, or after rain dilution, the culture has lost its own shading
 and will bleach. That is the moment to consider increasing depth or accepting a
 slower harvest.</p>
-<h3 id="ops-32-temperature">3.2 Temperature</h3>
+<h3 id="ops-3-the-six-things-spirulina-needs-32-temperature">3.2 Temperature</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -933,7 +930,7 @@ ambient air temperature. Mitigations, in order of preference:</p>
 </ol>
 <p>Night cooling is normally sufficient in a dry climate. The dangerous condition is
 a run of consecutive very hot days with warm nights.</p>
-<h3 id="ops-33-carbon-and-the-ph-relationship">3.3 Carbon and the pH relationship</h3>
+<h3 id="ops-3-the-six-things-spirulina-needs-33-carbon-and-the-ph-relationship">3.3 Carbon and the pH relationship</h3>
 <p>This is the least intuitive part of spirulina cultivation and the one most worth
 understanding properly.</p>
 <p>Spirulina takes up carbon from <strong>bicarbonate (HCO₃⁻)</strong> in the medium. As it
@@ -975,7 +972,7 @@ controlled on the pH signal — pH is a direct, real-time proxy for carbon deman
 <p><strong>⚠ Inject CO₂ only in daylight.</strong> There is no photosynthesis at night, so
 night-time CO₂ is wasted, and it drives pH down towards the range where
 contaminants thrive.</p>
-<h3 id="ops-34-alkalinity-and-salinity-the-contamination-barrier">3.4 Alkalinity and salinity — the contamination barrier</h3>
+<h3 id="ops-3-the-six-things-spirulina-needs-34-alkalinity-and-salinity-the-contamination-barri">3.4 Alkalinity and salinity — the contamination barrier</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -1012,7 +1009,7 @@ for several weeks and then cost you a pond. If you must reduce it, do so on one
 pond, watch it under the microscope daily, and be ready to restore.</p>
 <p>Salinity also rises on its own, because evaporation leaves salts behind while the
 water leaves. That is why blowdown exists — see § 12.4.</p>
-<h3 id="ops-35-nutrients">3.5 Nutrients</h3>
+<h3 id="ops-3-the-six-things-spirulina-needs-35-nutrients">3.5 Nutrients</h3>
 <p>Spirulina biomass has a reasonably consistent elemental composition, so nutrient
 demand can be calculated directly from expected production.</p>
 <div class="tw"><table>
@@ -1076,7 +1073,7 @@ that back. Worked example in § 25.3.</p>
 at pH 10, which is why it is dosed as a chelate with EDTA. A culture that is
 pale, slow and unresponsive despite adequate nitrogen is very often short of
 available iron.</p>
-<h3 id="ops-36-ammonia-useful-and-dangerous">3.6 Ammonia — useful and dangerous</h3>
+<h3 id="ops-3-the-six-things-spirulina-needs-36-ammonia-useful-and-dangerous">3.6 Ammonia — useful and dangerous</h3>
 <p>If urea or an ammonium salt is used as the nitrogen source, it enters the culture
 as ammonium (NH₄⁺). At high pH, ammonium converts to <strong>free ammonia (NH₃)</strong>,
 which is toxic to spirulina.</p>
@@ -1118,7 +1115,7 @@ of urea that would be harmless at pH 8 can be lethal at pH 10.</p>
 <p>Sodium nitrate avoids this problem entirely, at higher cost. That trade-off is
 the reason § 3.5 of the design criteria leaves the decision to trial results
 rather than to price.</p>
-<h3 id="ops-37-mixing">3.7 Mixing</h3>
+<h3 id="ops-3-the-six-things-spirulina-needs-37-mixing">3.7 Mixing</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -1157,8 +1154,8 @@ and accumulating oxygen. Loss of paddle wheels is the fastest way to lose a pond
 which is why they sit on backup power.</p>
 <p>Faster is not better. Above about 0.35 m/s the extra energy buys nothing and the
 shear begins to fragment filaments — which then screen poorly at harvest.</p>
-<h2 id="ops-4-growth-rate-and-what-to-expect">4. Growth rate and what to expect</h2>
-<h3 id="ops-41-the-growth-curve">4.1 The growth curve</h3>
+</div><nav class="pager"><button class="pg" data-sec="ops-2-composition-and-nutrition-stated-honestly"><span>← Previous</span><b>2. Composition and nutrition — stated honestly</b></button><button class="pg next" data-sec="ops-4-growth-rate-and-what-to-expect"><span>Next →</span><b>4. Growth rate and what to expect</b></button></nav></article>
+<article class="sec" id="sec-ops-4-growth-rate-and-what-to-expect"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>HOW IT GROWS</span><span class="crumb-pos">7 of 28</span></p><h1>4. Growth rate and what to expect</h1><nav class="outline"><span>In this section</span><a href="#ops-4-growth-rate-and-what-to-expect-41-the-growth-curve">4.1 The growth curve</a><a href="#ops-4-growth-rate-and-what-to-expect-42-realistic-productivity">4.2 Realistic productivity</a><a href="#ops-4-growth-rate-and-what-to-expect-43-working-density">4.3 Working density</a></nav><div class="body"><h3 id="ops-4-growth-rate-and-what-to-expect-41-the-growth-curve">4.1 The growth curve</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -1196,7 +1193,7 @@ shear begins to fragment filaments — which then screen poorly at harvest.</p>
 <p><strong>A production pond is held in the linear phase.</strong> You harvest daily or every few
 days to keep density in the band where growth per unit area is highest, and you
 never let it reach stationary.</p>
-<h3 id="ops-42-realistic-productivity">4.2 Realistic productivity</h3>
+<h3 id="ops-4-growth-rate-and-what-to-expect-42-realistic-productivity">4.2 Realistic productivity</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -1235,7 +1232,7 @@ never let it reach stationary.</p>
 from short runs, in ideal seasons, at exceptional sites. Annual averages are what
 pay for a facility. Our own design basis uses <strong>12 g/m²/day peak and 7 g/m²/day
 annual mean</strong>, and even those are assumptions awaiting a cultivation trial.</p>
-<h3 id="ops-43-working-density">4.3 Working density</h3>
+<h3 id="ops-4-growth-rate-and-what-to-expect-43-working-density">4.3 Working density</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -1269,9 +1266,8 @@ exposed to full sun, and is wide open to contamination because there is nothing
 competing for the light. Recovering a pond from over-harvest takes longer than
 the extra biomass was worth.</p>
 <hr>
-<h1 id="ops-part-3-medium-and-starting-a-culture">PART 3 — MEDIUM AND STARTING A CULTURE</h1>
-<h2 id="ops-5-the-culture-medium">5. The culture medium</h2>
-<h3 id="ops-51-zarrouk39s-medium-the-reference">5.1 Zarrouk&#39;s medium — the reference</h3>
+</div><nav class="pager"><button class="pg" data-sec="ops-3-the-six-things-spirulina-needs"><span>← Previous</span><b>3. The six things spirulina needs</b></button><button class="pg next" data-sec="ops-5-the-culture-medium"><span>Next →</span><b>5. The culture medium</b></button></nav></article>
+<article class="sec" id="sec-ops-5-the-culture-medium"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>MEDIUM AND STARTING A CULTURE</span><span class="crumb-pos">8 of 28</span></p><h1>5. The culture medium</h1><nav class="outline"><span>In this section</span><a href="#ops-5-the-culture-medium-51-zarrouk39s-medium-the-reference">5.1 Zarrouk&amp;#39;s medium — the reference</a><a href="#ops-5-the-culture-medium-52-why-we-do-not-use-full-zarrouk-commercially">5.2 Why we do not use full Zarrouk commercially</a><a href="#ops-5-the-culture-medium-53-making-up-medium-order-matters">5.3 Making up medium — order matters</a><a href="#ops-5-the-culture-medium-54-reagent-quality">5.4 Reagent quality</a></nav><div class="body"><h3 id="ops-5-the-culture-medium-51-zarrouk39s-medium-the-reference">5.1 Zarrouk&#39;s medium — the reference</h3>
 <p>Zarrouk&#39;s medium is the standard reference formulation for <em>Arthrospira</em>. It is
 what you use in the laboratory and what all comparisons are made against.</p>
 <div class="tw"><table>
@@ -1351,7 +1347,7 @@ what you use in the laboratory and what all comparisons are made against.</p>
 <td>0.039</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-52-why-we-do-not-use-full-zarrouk-commercially">5.2 Why we do not use full Zarrouk commercially</h3>
+<h3 id="ops-5-the-culture-medium-52-why-we-do-not-use-full-zarrouk-commercially">5.2 Why we do not use full Zarrouk commercially</h3>
 <p><strong>Cost, almost entirely bicarbonate.</strong> At 16.8 g/L, a single 100 m³ pond needs
 1.68 tonnes of sodium bicarbonate to fill. That is not economic, and most of it
 is not consumed — it is a buffer reservoir, not a feedstock.</p>
@@ -1389,7 +1385,7 @@ borewell already carries 200 mg/L of calcium, adding the Zarrouk calcium
 chloride on top will precipitate carbonate, consume alkalinity, scale equipment
 and cloud the culture. Get the water analysed and subtract what it already
 provides.</p>
-<h3 id="ops-53-making-up-medium-order-matters">5.3 Making up medium — order matters</h3>
+<h3 id="ops-5-the-culture-medium-53-making-up-medium-order-matters">5.3 Making up medium — order matters</h3>
 <p><strong>⚠ Add salts in the right order or you will precipitate the medium.</strong></p>
 <ol>
 <li>Start with the required volume of <strong>treated water</strong>.</li>
@@ -1427,7 +1423,7 @@ into it, then add the combined solution.</li>
 <td>Other salts precipitate before the buffer is established</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-54-reagent-quality">5.4 Reagent quality</h3>
+<h3 id="ops-5-the-culture-medium-54-reagent-quality">5.4 Reagent quality</h3>
 <p><strong>⚠ Every reagent that enters the pond ends up in the food.</strong></p>
 <div class="tw"><table>
 <thead>
@@ -1457,8 +1453,8 @@ into it, then add the combined solution.</li>
 <td>Several reagents are hygroscopic and cake in monsoon humidity</td>
 </tr>
 </tbody></table></div>
-<h2 id="ops-6-starting-and-scaling-a-culture">6. Starting and scaling a culture</h2>
-<h3 id="ops-61-the-scale-up-train">6.1 The scale-up train</h3>
+</div><nav class="pager"><button class="pg" data-sec="ops-4-growth-rate-and-what-to-expect"><span>← Previous</span><b>4. Growth rate and what to expect</b></button><button class="pg next" data-sec="ops-6-starting-and-scaling-a-culture"><span>Next →</span><b>6. Starting and scaling a culture</b></button></nav></article>
+<article class="sec" id="sec-ops-6-starting-and-scaling-a-culture"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>MEDIUM AND STARTING A CULTURE</span><span class="crumb-pos">9 of 28</span></p><h1>6. Starting and scaling a culture</h1><nav class="outline"><span>In this section</span><a href="#ops-6-starting-and-scaling-a-culture-61-the-scale-up-train">6.1 The scale-up train</a><a href="#ops-6-starting-and-scaling-a-culture-62-release-criteria-do-not-skip-these">6.2 Release criteria — do not skip these</a><a href="#ops-6-starting-and-scaling-a-culture-63-inoculating-a-production-pond">6.3 Inoculating a production pond</a></nav><div class="body"><h3 id="ops-6-starting-and-scaling-a-culture-61-the-scale-up-train">6.1 The scale-up train</h3>
 <p>Never inoculate a production pond directly from a laboratory flask. Step it up,
 roughly tenfold at a time, verifying at every step.</p>
 <div class="tw"><table>
@@ -1510,7 +1506,7 @@ roughly tenfold at a time, verifying at every step.</p>
 <p><strong>⚠ Keep the master culture in duplicate, in two physically separate places.</strong> It
 is the genetic starting material for the entire facility. A single freezer
 failure, fire or contamination event should not be able to destroy it.</p>
-<h3 id="ops-62-release-criteria-do-not-skip-these">6.2 Release criteria — do not skip these</h3>
+<h3 id="ops-6-starting-and-scaling-a-culture-62-release-criteria-do-not-skip-these">6.2 Release criteria — do not skip these</h3>
 <p>A culture moves to the next stage <strong>only</strong> when it passes every one:</p>
 <div class="tw"><table>
 <thead>
@@ -1554,7 +1550,7 @@ failure, fire or contamination event should not be able to destroy it.</p>
 </tbody></table></div>
 <p><strong>⚠ A single rotifer transferred into a production pond can collapse it inside
 three days.</strong> Checking takes ten minutes. Restarting a pond takes three weeks.</p>
-<h3 id="ops-63-inoculating-a-production-pond">6.3 Inoculating a production pond</h3>
+<h3 id="ops-6-starting-and-scaling-a-culture-63-inoculating-a-production-pond">6.3 Inoculating a production pond</h3>
 <ol>
 <li>Clean and disinfect the pond; rinse thoroughly.</li>
 <li>Fill with prepared medium (§ 5.3) to about <strong>half</strong> operating depth.</li>
@@ -1569,9 +1565,8 @@ three days.</strong> Checking takes ten minutes. Restarting a pond takes three w
 for the same inoculum, faster establishment, and less dilute culture sitting in
 full sun.</p>
 <hr>
-<h1 id="ops-part-4-running-the-ponds">PART 4 — RUNNING THE PONDS</h1>
-<h2 id="ops-7-the-daily-routine">7. The daily routine</h2>
-<div class="tw"><table>
+</div><nav class="pager"><button class="pg" data-sec="ops-5-the-culture-medium"><span>← Previous</span><b>5. The culture medium</b></button><button class="pg next" data-sec="ops-7-the-daily-routine"><span>Next →</span><b>7. The daily routine</b></button></nav></article>
+<article class="sec" id="sec-ops-7-the-daily-routine"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>RUNNING THE PONDS</span><span class="crumb-pos">10 of 28</span></p><h1>7. The daily routine</h1><nav class="outline"><span>In this section</span><a href="#ops-7-the-daily-routine-71-the-morning-walk-what-to-look-at">7.1 The morning walk — what to look at</a></nav><div class="body"><div class="tw"><table>
 <thead>
 <tr>
 <th>Time</th>
@@ -1607,7 +1602,7 @@ full sun.</p>
 <td>Alkalinity titration, gravimetric dry weight, probe calibration, velocity check, deep-clean equipment.</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-71-the-morning-walk-what-to-look-at">7.1 The morning walk — what to look at</h3>
+<h3 id="ops-7-the-daily-routine-71-the-morning-walk-what-to-look-at">7.1 The morning walk — what to look at</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -1652,8 +1647,8 @@ full sun.</p>
 <td>Contamination and pest vector</td>
 </tr>
 </tbody></table></div>
-<h2 id="ops-8-measurements-how-to-actually-take-them">8. Measurements — how to actually take them</h2>
-<h3 id="ops-81-secchi-depth-the-daily-density-check">8.1 Secchi depth — the daily density check</h3>
+</div><nav class="pager"><button class="pg" data-sec="ops-6-starting-and-scaling-a-culture"><span>← Previous</span><b>6. Starting and scaling a culture</b></button><button class="pg next" data-sec="ops-8-measurements-how-to-actually-take-them"><span>Next →</span><b>8. Measurements — how to actually take them</b></button></nav></article>
+<article class="sec" id="sec-ops-8-measurements-how-to-actually-take-them"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>RUNNING THE PONDS</span><span class="crumb-pos">11 of 28</span></p><h1>8. Measurements — how to actually take them</h1><nav class="outline"><span>In this section</span><a href="#ops-8-measurements-how-to-actually-take-them-81-secchi-depth-the-daily-density-check">8.1 Secchi depth — the daily density check</a><a href="#ops-8-measurements-how-to-actually-take-them-82-gravimetric-dry-weight-the-reference-method">8.2 Gravimetric dry weight — the reference method</a><a href="#ops-8-measurements-how-to-actually-take-them-83-ph">8.3 pH</a><a href="#ops-8-measurements-how-to-actually-take-them-84-alkalinity">8.4 Alkalinity</a><a href="#ops-8-measurements-how-to-actually-take-them-85-salinity">8.5 Salinity</a><a href="#ops-8-measurements-how-to-actually-take-them-86-microscopy-the-most-valuable-ten-minutes-of-the">8.6 Microscopy — the most valuable ten minutes of the day</a></nav><div class="body"><h3 id="ops-8-measurements-how-to-actually-take-them-81-secchi-depth-the-daily-density-check">8.1 Secchi depth — the daily density check</h3>
 <p>The routine field method. A weighted white disc is lowered until it disappears.</p>
 <div class="tw"><table>
 <thead>
@@ -1711,7 +1706,7 @@ full sun.</p>
 <p><strong>⚠ Those figures are indicative only.</strong> Secchi depth must be correlated against
 gravimetric dry weight for <em>your</em> culture, and re-correlated after any change of
 strain, medium or depth. A borrowed correlation is a guess.</p>
-<h3 id="ops-82-gravimetric-dry-weight-the-reference-method">8.2 Gravimetric dry weight — the reference method</h3>
+<h3 id="ops-8-measurements-how-to-actually-take-them-82-gravimetric-dry-weight-the-reference-method">8.2 Gravimetric dry weight — the reference method</h3>
 <ol>
 <li>Filter a measured volume (typically 100–500 mL) through a pre-dried, pre-weighed filter.</li>
 <li><strong>Wash the retained biomass with distilled water</strong> — ⚠ skip this and you weigh the medium salts too, which at 18 g/L TDS is a very large error.</li>
@@ -1720,7 +1715,7 @@ strain, medium or depth. A borrowed correlation is a guess.</p>
 <li>Density (g/L) = (final mass − filter mass) in g ÷ sample volume in L.</li>
 </ol>
 <p>Run weekly minimum, and always when re-establishing the Secchi correlation.</p>
-<h3 id="ops-83-ph">8.3 pH</h3>
+<h3 id="ops-8-measurements-how-to-actually-take-them-83-ph">8.3 pH</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -1751,14 +1746,14 @@ strain, medium or depth. A borrowed correlation is a guess.</p>
 </tbody></table></div>
 <p>A pH probe reading 9.5 when the culture is at 10.3 will cause the control system
 to withhold CO₂ and starve the pond of carbon. Calibration is not paperwork.</p>
-<h3 id="ops-84-alkalinity">8.4 Alkalinity</h3>
+<h3 id="ops-8-measurements-how-to-actually-take-them-84-alkalinity">8.4 Alkalinity</h3>
 <p>Titrate weekly with standard acid to the phenolphthalein and methyl orange
 endpoints. Report as g/L NaHCO₃ equivalent. Falling alkalinity means bicarbonate
 make-up is needed.</p>
-<h3 id="ops-85-salinity">8.5 Salinity</h3>
+<h3 id="ops-8-measurements-how-to-actually-take-them-85-salinity">8.5 Salinity</h3>
 <p>Conductivity meter, daily. Rising steadily is normal — evaporation concentrates
 salts. Approaching 30 g/L means blowdown is due (§ 12.4).</p>
-<h3 id="ops-86-microscopy-the-most-valuable-ten-minutes-of-the-day">8.6 Microscopy — the most valuable ten minutes of the day</h3>
+<h3 id="ops-8-measurements-how-to-actually-take-them-86-microscopy-the-most-valuable-ten-minutes-of-the">8.6 Microscopy — the most valuable ten minutes of the day</h3>
 <p><strong>⚠ Daily microscopy on every production pond. This is not optional and it is
 not a laboratory nicety — it is the control that saves ponds.</strong></p>
 <p>A rotifer population is detectable under a microscope <strong>two to four days before</strong>
@@ -1833,8 +1828,8 @@ naked eye, you have usually lost the pond.</p>
 <td>Heavy, especially around debris</td>
 </tr>
 </tbody></table></div>
-<h2 id="ops-9-feeding-the-ponds">9. Feeding the ponds</h2>
-<p><strong>Principle: replace what you removed.</strong></p>
+</div><nav class="pager"><button class="pg" data-sec="ops-7-the-daily-routine"><span>← Previous</span><b>7. The daily routine</b></button><button class="pg next" data-sec="ops-9-feeding-the-ponds"><span>Next →</span><b>9. Feeding the ponds</b></button></nav></article>
+<article class="sec" id="sec-ops-9-feeding-the-ponds"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>RUNNING THE PONDS</span><span class="crumb-pos">12 of 28</span></p><h1>9. Feeding the ponds</h1><div class="body"><p><strong>Principle: replace what you removed.</strong></p>
 <p>Every kilogram of dry biomass harvested takes its elemental composition out of
 the pond (§ 3.5). Dose that back, then verify by analysis.</p>
 <div class="tw"><table>
@@ -1873,8 +1868,8 @@ the pond (§ 3.5). Dose that back, then verify by analysis.</p>
 measurement is a laboratory analysis, not a live signal, and an automatic system
 dosing against a wrong assumption compounds the error for days before anyone
 notices.</p>
-<h2 id="ops-10-records">10. Records</h2>
-<p>If it is not written down, it did not happen. Minimum daily record per pond:</p>
+</div><nav class="pager"><button class="pg" data-sec="ops-8-measurements-how-to-actually-take-them"><span>← Previous</span><b>8. Measurements — how to actually take them</b></button><button class="pg next" data-sec="ops-10-records"><span>Next →</span><b>10. Records</b></button></nav></article>
+<article class="sec" id="sec-ops-10-records"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>RUNNING THE PONDS</span><span class="crumb-pos">13 of 28</span></p><h1>10. Records</h1><div class="body"><p>If it is not written down, it did not happen. Minimum daily record per pond:</p>
 <ul>
 <li>date, time, operator</li>
 <li>pH morning and afternoon</li>
@@ -1890,9 +1885,8 @@ notices.</p>
 <p>These records are what make a batch traceable, and they are the first thing an
 auditor or a serious customer will ask to see.</p>
 <hr>
-<h1 id="ops-part-5-harvest-and-processing">PART 5 — HARVEST AND PROCESSING</h1>
-<h2 id="ops-11-harvesting">11. Harvesting</h2>
-<h3 id="ops-111-when">11.1 When</h3>
+</div><nav class="pager"><button class="pg" data-sec="ops-9-feeding-the-ponds"><span>← Previous</span><b>9. Feeding the ponds</b></button><button class="pg next" data-sec="ops-11-harvesting"><span>Next →</span><b>11. Harvesting</b></button></nav></article>
+<article class="sec" id="sec-ops-11-harvesting"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>HARVEST AND PROCESSING</span><span class="crumb-pos">14 of 28</span></p><h1>11. Harvesting</h1><nav class="outline"><span>In this section</span><a href="#ops-11-harvesting-111-when">11.1 When</a><a href="#ops-11-harvesting-112-the-steps">11.2 The steps</a><a href="#ops-11-harvesting-113-pumping-handle-it-gently">11.3 Pumping — handle it gently</a><a href="#ops-11-harvesting-114-screening">11.4 Screening</a><a href="#ops-11-harvesting-115-washing">11.5 Washing</a><a href="#ops-11-harvesting-116-dewatering-and-pressing">11.6 Dewatering and pressing</a><a href="#ops-11-harvesting-117-the-wet-cake-is-perishable">11.7 The wet cake is perishable</a></nav><div class="body"><h3 id="ops-11-harvesting-111-when">11.1 When</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -1921,12 +1915,12 @@ auditor or a serious customer will ask to see.</p>
 <td>Take density down to about 0.55 g/L, never below 0.30 g/L</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-112-the-steps">11.2 The steps</h3>
+<h3 id="ops-11-harvesting-112-the-steps">11.2 The steps</h3>
 <pre><code>Pond  →  pump  →  screen  →  wash  →  dewater  →  press  →  wet cake  →  dryer
           ↓         ↓
       low shear   filtrate returns to pond
 </code></pre>
-<h3 id="ops-113-pumping-handle-it-gently">11.3 Pumping — handle it gently</h3>
+<h3 id="ops-11-harvesting-113-pumping-handle-it-gently">11.3 Pumping — handle it gently</h3>
 <p><strong>⚠ The pump handles living biomass. Filament damage is lost yield and lost
 pigment.</strong></p>
 <div class="tw"><table>
@@ -1955,7 +1949,7 @@ pigment.</strong></p>
 </tbody></table></div>
 <p>Fragmented filaments pass straight through the harvest screen. They are gone —
 into the filtrate and back to the pond, where they lyse and feed bacteria.</p>
-<h3 id="ops-114-screening">11.4 Screening</h3>
+<h3 id="ops-11-harvesting-114-screening">11.4 Screening</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -1984,7 +1978,7 @@ into the filtrate and back to the pond, where they lyse and feed bacteria.</p>
 filtrate, and the loss is invisible until you reconcile yields at month end.
 Screens must be cleanable without tools; a screen that is awkward to clean will
 not be cleaned.</p>
-<h3 id="ops-115-washing">11.5 Washing</h3>
+<h3 id="ops-11-harvesting-115-washing">11.5 Washing</h3>
 <p>Harvested biomass carries culture medium with it — mostly sodium bicarbonate,
 sodium nitrate and sodium chloride. Unwashed, that medium dries into the product.</p>
 <div class="tw"><table>
@@ -2029,7 +2023,7 @@ sodium nitrate and sodium chloride. Unwashed, that medium dries into the product
 </tbody></table></div>
 <p>Over-washing wastes treated water, creates more saline effluent, and begins to
 leach soluble intracellular material. Optimise against the ash specification.</p>
-<h3 id="ops-116-dewatering-and-pressing">11.6 Dewatering and pressing</h3>
+<h3 id="ops-11-harvesting-116-dewatering-and-pressing">11.6 Dewatering and pressing</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -2059,7 +2053,7 @@ phycocyanin into the press liquor.</p>
 <p><strong>The operator check: look at the press liquor.</strong> It should be pale straw or
 faintly green. <strong>If it is blue or blue-green, you are pressing product into the
 drain.</strong> Reduce pressure or duration.</p>
-<h3 id="ops-117-the-wet-cake-is-perishable">11.7 The wet cake is perishable</h3>
+<h3 id="ops-11-harvesting-117-the-wet-cake-is-perishable">11.7 The wet cake is perishable</h3>
 <p>Wet cake at 20 % solids, warm, alkaline and nutrient-rich, is an ideal bacterial
 substrate.</p>
 <div class="tw"><table>
@@ -2084,8 +2078,8 @@ substrate.</p>
 </tbody></table></div>
 <p><strong>⚠ The gap between press and dryer is the highest microbiological risk in the
 entire process.</strong> Size the dryer so a peak harvest never queues.</p>
-<h2 id="ops-12-drying-where-quality-is-won-or-lost">12. Drying — where quality is won or lost</h2>
-<h3 id="ops-121-the-rule">12.1 The rule</h3>
+</div><nav class="pager"><button class="pg" data-sec="ops-10-records"><span>← Previous</span><b>10. Records</b></button><button class="pg next" data-sec="ops-12-drying-where-quality-is-won-or-lost"><span>Next →</span><b>12. Drying — where quality is won or lost</b></button></nav></article>
+<article class="sec" id="sec-ops-12-drying-where-quality-is-won-or-lost"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>HARVEST AND PROCESSING</span><span class="crumb-pos">15 of 28</span></p><h1>12. Drying — where quality is won or lost</h1><nav class="outline"><span>In this section</span><a href="#ops-12-drying-where-quality-is-won-or-lost-121-the-rule">12.1 The rule</a><a href="#ops-12-drying-where-quality-is-won-or-lost-122-the-trap-at-the-end-of-the-cycle">12.2 The trap at the end of the cycle</a><a href="#ops-12-drying-where-quality-is-won-or-lost-123-methods">12.3 Methods</a><a href="#ops-12-drying-where-quality-is-won-or-lost-124-hygiene-during-drying">12.4 Hygiene during drying</a></nav><div class="body"><h3 id="ops-12-drying-where-quality-is-won-or-lost-121-the-rule">12.1 The rule</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -2112,7 +2106,7 @@ entire process.</strong> Size the dryer so a peak harvest never queues.</p>
 </tbody></table></div>
 <p>Phycocyanin is heat labile. Every degree and every minute above the limit costs
 colour, and colour is a large part of the value.</p>
-<h3 id="ops-122-the-trap-at-the-end-of-the-cycle">12.2 The trap at the end of the cycle</h3>
+<h3 id="ops-12-drying-where-quality-is-won-or-lost-122-the-trap-at-the-end-of-the-cycle">12.2 The trap at the end of the cycle</h3>
 <p>While free water is evaporating, <strong>evaporative cooling holds the product well
 below the air temperature</strong>. Air at 90 °C can dry product sitting at 50 °C.</p>
 <p>When the free water is gone, that cooling disappears <strong>and the product
@@ -2143,7 +2137,7 @@ last part of the cycle destroys the pigment.</p>
 <td>Over-drying is wasted energy and lost pigment</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-123-methods">12.3 Methods</h3>
+<h3 id="ops-12-drying-where-quality-is-won-or-lost-123-methods">12.3 Methods</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -2168,15 +2162,15 @@ last part of the cycle destroys the pigment.</p>
 <td>⚠ <strong>NOT ACCEPTABLE.</strong> No temperature control, no contamination control, no records, no traceability. This is how traditional dihé is made; it is not how food-grade product is made</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-124-hygiene-during-drying">12.4 Hygiene during drying</h3>
+<h3 id="ops-12-drying-where-quality-is-won-or-lost-124-hygiene-during-drying">12.4 Hygiene during drying</h3>
 <ul>
 <li>Enclosed, pest-proofed space</li>
 <li>Filtered drying air</li>
 <li>Food-grade contact surfaces</li>
 <li>Time, temperature and batch recorded for every cycle</li>
 </ul>
-<h2 id="ops-13-milling-sieving-and-packing">13. Milling, sieving and packing</h2>
-<h3 id="ops-131-milling">13.1 Milling</h3>
+</div><nav class="pager"><button class="pg" data-sec="ops-11-harvesting"><span>← Previous</span><b>11. Harvesting</b></button><button class="pg next" data-sec="ops-13-milling-sieving-and-packing"><span>Next →</span><b>13. Milling, sieving and packing</b></button></nav></article>
+<article class="sec" id="sec-ops-13-milling-sieving-and-packing"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>HARVEST AND PROCESSING</span><span class="crumb-pos">16 of 28</span></p><h1>13. Milling, sieving and packing</h1><nav class="outline"><span>In this section</span><a href="#ops-13-milling-sieving-and-packing-131-milling">13.1 Milling</a><a href="#ops-13-milling-sieving-and-packing-132-humidity">13.2 Humidity</a><a href="#ops-13-milling-sieving-and-packing-133-blending">13.3 Blending</a><a href="#ops-13-milling-sieving-and-packing-134-packing">13.4 Packing</a><a href="#ops-13-milling-sieving-and-packing-135-storage">13.5 Storage</a></nav><div class="body"><h3 id="ops-13-milling-sieving-and-packing-131-milling">13.1 Milling</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -2206,17 +2200,17 @@ last part of the cycle destroys the pigment.</p>
 </tr>
 </tbody></table></div>
 <p>Milling generates heat. A mill running hot undoes the care taken in drying.</p>
-<h3 id="ops-132-humidity">13.2 Humidity</h3>
+<h3 id="ops-13-milling-sieving-and-packing-132-humidity">13.2 Humidity</h3>
 <p><strong>⚠ Spirulina powder is strongly hygroscopic.</strong> Dried product left in open
 containers in monsoon humidity will reabsorb moisture past specification within
 hours, and must then be re-dried — a second thermal exposure and more lost
 pigment.</p>
 <p>Milling, sieving, blending and packing all take place in humidity-controlled
 space, and dried product is never left open.</p>
-<h3 id="ops-133-blending">13.3 Blending</h3>
+<h3 id="ops-13-milling-sieving-and-packing-133-blending">13.3 Blending</h3>
 <p>Blend to homogenise a batch <strong>before</strong> sampling. A sample from an unblended batch
 does not represent it, and the certificate of analysis is then meaningless.</p>
-<h3 id="ops-134-packing">13.4 Packing</h3>
+<h3 id="ops-13-milling-sieving-and-packing-134-packing">13.4 Packing</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -2245,7 +2239,7 @@ does not represent it, and the certificate of analysis is then meaningless.</p>
 <td>Traceability</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-135-storage">13.5 Storage</h3>
+<h3 id="ops-13-milling-sieving-and-packing-135-storage">13.5 Storage</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -2275,9 +2269,8 @@ does not represent it, and the certificate of analysis is then meaningless.</p>
 </tr>
 </tbody></table></div>
 <hr>
-<h1 id="ops-part-6-quality-and-safety">PART 6 — QUALITY AND SAFETY</h1>
-<h2 id="ops-14-product-specification">14. Product specification</h2>
-<div class="tw"><table>
+</div><nav class="pager"><button class="pg" data-sec="ops-12-drying-where-quality-is-won-or-lost"><span>← Previous</span><b>12. Drying — where quality is won or lost</b></button><button class="pg next" data-sec="ops-14-product-specification"><span>Next →</span><b>14. Product specification</b></button></nav></article>
+<article class="sec" id="sec-ops-14-product-specification"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>QUALITY AND SAFETY</span><span class="crumb-pos">17 of 28</span></p><h1>14. Product specification</h1><nav class="outline"><span>In this section</span><a href="#ops-14-product-specification-141-microbiological">14.1 Microbiological</a><a href="#ops-14-product-specification-142-contaminants">14.2 Contaminants</a></nav><div class="body"><div class="tw"><table>
 <thead>
 <tr>
 <th>Parameter</th>
@@ -2321,7 +2314,7 @@ does not represent it, and the certificate of analysis is then meaningless.</p>
 <td>Sieve analysis</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-141-microbiological">14.1 Microbiological</h3>
+<h3 id="ops-14-product-specification-141-microbiological">14.1 Microbiological</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -2354,7 +2347,7 @@ does not represent it, and the certificate of analysis is then meaningless.</p>
 <td>Absent in 1 g</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-142-contaminants">14.2 Contaminants</h3>
+<h3 id="ops-14-product-specification-142-contaminants">14.2 Contaminants</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -2383,8 +2376,8 @@ does not represent it, and the certificate of analysis is then meaningless.</p>
 <td><strong>≤ 1.0 µg/g</strong></td>
 </tr>
 </tbody></table></div>
-<h2 id="ops-15-microcystins-the-one-that-really-matters">15. Microcystins — the one that really matters</h2>
-<p><strong>⚠ Read this section properly. It is the difference between a food business and
+</div><nav class="pager"><button class="pg" data-sec="ops-13-milling-sieving-and-packing"><span>← Previous</span><b>13. Milling, sieving and packing</b></button><button class="pg next" data-sec="ops-15-microcystins-the-one-that-really-matters"><span>Next →</span><b>15. Microcystins — the one that really matters</b></button></nav></article>
+<article class="sec" id="sec-ops-15-microcystins-the-one-that-really-matters"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>QUALITY AND SAFETY</span><span class="crumb-pos">18 of 28</span></p><h1>15. Microcystins — the one that really matters</h1><div class="body"><p><strong>⚠ Read this section properly. It is the difference between a food business and
 a liability.</strong></p>
 <div class="tw"><table>
 <thead>
@@ -2426,8 +2419,8 @@ not sold as feed. Dumped, and the pond cleaned and restarted.</li>
 </ol>
 <p>This is the reason the alkaline, high-pH regime is treated as sacred throughout
 this manual. It is not just yield protection. It is toxin prevention.</p>
-<h2 id="ops-16-batch-traceability">16. Batch traceability</h2>
-<p>Every finished pack must be traceable <strong>backwards</strong> to the pond it came from, and
+</div><nav class="pager"><button class="pg" data-sec="ops-14-product-specification"><span>← Previous</span><b>14. Product specification</b></button><button class="pg next" data-sec="ops-16-batch-traceability"><span>Next →</span><b>16. Batch traceability</b></button></nav></article>
+<article class="sec" id="sec-ops-16-batch-traceability"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>QUALITY AND SAFETY</span><span class="crumb-pos">19 of 28</span></p><h1>16. Batch traceability</h1><div class="body"><p>Every finished pack must be traceable <strong>backwards</strong> to the pond it came from, and
 every pond traceable <strong>forwards</strong> to every pack containing its biomass.</p>
 <p>Forward traceability is what makes a recall bounded. Without it, one suspect
 pond implicates every pack you have ever shipped.</p>
@@ -2488,9 +2481,8 @@ specification, and release is authorised and recorded.</strong> The certificate 
 analysis states the <strong>measured values for that batch</strong>, not the specification
 limits.</p>
 <hr>
-<h1 id="ops-part-7-when-things-go-wrong">PART 7 — WHEN THINGS GO WRONG</h1>
-<h2 id="ops-17-contamination">17. Contamination</h2>
-<h3 id="ops-171-what-can-invade">17.1 What can invade</h3>
+</div><nav class="pager"><button class="pg" data-sec="ops-15-microcystins-the-one-that-really-matters"><span>← Previous</span><b>15. Microcystins — the one that really matters</b></button><button class="pg next" data-sec="ops-17-contamination"><span>Next →</span><b>17. Contamination</b></button></nav></article>
+<article class="sec" id="sec-ops-17-contamination"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>WHEN THINGS GO WRONG</span><span class="crumb-pos">20 of 28</span></p><h1>17. Contamination</h1><nav class="outline"><span>In this section</span><a href="#ops-17-contamination-171-what-can-invade">17.1 What can invade</a><a href="#ops-17-contamination-172-rotifers-the-emergency">17.2 Rotifers — the emergency</a><a href="#ops-17-contamination-173-competing-algae">17.3 Competing algae</a><a href="#ops-17-contamination-174-insect-larvae">17.4 Insect larvae</a></nav><div class="body"><h3 id="ops-17-contamination-171-what-can-invade">17.1 What can invade</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -2525,7 +2517,7 @@ limits.</p>
 <td>Contamination</td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-172-rotifers-the-emergency">17.2 Rotifers — the emergency</h3>
+<h3 id="ops-17-contamination-172-rotifers-the-emergency">17.2 Rotifers — the emergency</h3>
 <p>Rotifers eat spirulina filaments. They reproduce explosively. <strong>A pond can go
 from healthy to unrecoverable in three days.</strong></p>
 <p><strong>Signs, in order of appearance:</strong></p>
@@ -2574,7 +2566,7 @@ from healthy to unrecoverable in three days.</strong></p>
 </tbody></table></div>
 <p><strong>⚠ Never move water, nets, sampling gear or hands from an affected pond to a
 healthy one.</strong> Dedicated equipment per pond, or cleaned and disinfected between.</p>
-<h3 id="ops-173-competing-algae">17.3 Competing algae</h3>
+<h3 id="ops-17-contamination-173-competing-algae">17.3 Competing algae</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -2597,11 +2589,11 @@ healthy one.</strong> Dedicated equipment per pond, or cleaned and disinfected b
 </tbody></table></div>
 <p>The chemistry is the main weapon. If competitors are establishing, the first
 question is always: <strong>has alkalinity or pH drifted low?</strong></p>
-<h3 id="ops-174-insect-larvae">17.4 Insect larvae</h3>
+<h3 id="ops-17-contamination-174-insect-larvae">17.4 Insect larvae</h3>
 <p>Find and remove the breeding site — standing water anywhere on site. Screen and
 cover the nursery ponds. Check the pond edges and any wet corners.</p>
-<h2 id="ops-18-culture-problems-diagnostic-table">18. Culture problems — diagnostic table</h2>
-<div class="tw"><table>
+</div><nav class="pager"><button class="pg" data-sec="ops-16-batch-traceability"><span>← Previous</span><b>16. Batch traceability</b></button><button class="pg next" data-sec="ops-18-culture-problems-diagnostic-table"><span>Next →</span><b>18. Culture problems — diagnostic table</b></button></nav></article>
+<article class="sec" id="sec-ops-18-culture-problems-diagnostic-table"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>WHEN THINGS GO WRONG</span><span class="crumb-pos">21 of 28</span></p><h1>18. Culture problems — diagnostic table</h1><div class="body"><div class="tw"><table>
 <thead>
 <tr>
 <th>Symptom</th>
@@ -2713,8 +2705,8 @@ cover the nursery ponds. Check the pond edges and any wet corners.</p>
 <td>Review § 13.2</td>
 </tr>
 </tbody></table></div>
-<h2 id="ops-19-deciding-to-dump-a-pond">19. Deciding to dump a pond</h2>
-<p>Hard to do, but often correct. Dump when:</p>
+</div><nav class="pager"><button class="pg" data-sec="ops-17-contamination"><span>← Previous</span><b>17. Contamination</b></button><button class="pg next" data-sec="ops-19-deciding-to-dump-a-pond"><span>Next →</span><b>19. Deciding to dump a pond</b></button></nav></article>
+<article class="sec" id="sec-ops-19-deciding-to-dump-a-pond"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>WHEN THINGS GO WRONG</span><span class="crumb-pos">22 of 28</span></p><h1>19. Deciding to dump a pond</h1><div class="body"><p>Hard to do, but often correct. Dump when:</p>
 <ul>
 <li>A toxin-producing cyanobacterium is identified — <strong>not negotiable</strong></li>
 <li>Grazers have established and two interventions have failed</li>
@@ -2730,9 +2722,8 @@ not be discharged untreated.</p>
 (§ 6), and <strong>write down what you think caused it</strong>. The record is how you avoid
 a repeat.</p>
 <hr>
-<h1 id="ops-part-8-reference">PART 8 — REFERENCE</h1>
-<h2 id="ops-20-quick-reference-target-values">20. Quick reference — target values</h2>
-<div class="tw"><table>
+</div><nav class="pager"><button class="pg" data-sec="ops-18-culture-problems-diagnostic-table"><span>← Previous</span><b>18. Culture problems — diagnostic table</b></button><button class="pg next" data-sec="ops-20-quick-reference-target-values"><span>Next →</span><b>20. Quick reference — target values</b></button></nav></article>
+<article class="sec" id="sec-ops-20-quick-reference-target-values"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>REFERENCE</span><span class="crumb-pos">23 of 28</span></p><h1>20. Quick reference — target values</h1><div class="body"><div class="tw"><table>
 <thead>
 <tr>
 <th>Parameter</th>
@@ -2802,8 +2793,8 @@ a repeat.</p>
 <td>&gt; 2 mg/L</td>
 </tr>
 </tbody></table></div>
-<h2 id="ops-21-composition-constants-for-calculation">21. Composition constants for calculation</h2>
-<div class="tw"><table>
+</div><nav class="pager"><button class="pg" data-sec="ops-19-deciding-to-dump-a-pond"><span>← Previous</span><b>19. Deciding to dump a pond</b></button><button class="pg next" data-sec="ops-21-composition-constants-for-calculation"><span>Next →</span><b>21. Composition constants for calculation</b></button></nav></article>
+<article class="sec" id="sec-ops-21-composition-constants-for-calculation"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>REFERENCE</span><span class="crumb-pos">24 of 28</span></p><h1>21. Composition constants for calculation</h1><div class="body"><div class="tw"><table>
 <thead>
 <tr>
 <th>Element</th>
@@ -2867,18 +2858,18 @@ a repeat.</p>
 <td>20.1 % Fe</td>
 </tr>
 </tbody></table></div>
-<h2 id="ops-22-worked-calculations">22. Worked calculations</h2>
-<h3 id="ops-221-daily-production-from-areal-productivity">22.1 Daily production from areal productivity</h3>
+</div><nav class="pager"><button class="pg" data-sec="ops-20-quick-reference-target-values"><span>← Previous</span><b>20. Quick reference — target values</b></button><button class="pg next" data-sec="ops-22-worked-calculations"><span>Next →</span><b>22. Worked calculations</b></button></nav></article>
+<article class="sec" id="sec-ops-22-worked-calculations"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>REFERENCE</span><span class="crumb-pos">25 of 28</span></p><h1>22. Worked calculations</h1><nav class="outline"><span>In this section</span><a href="#ops-22-worked-calculations-221-daily-production-from-areal-productivity">22.1 Daily production from areal productivity</a><a href="#ops-22-worked-calculations-222-harvest-volume">22.2 Harvest volume</a><a href="#ops-22-worked-calculations-223-nutrient-dosing-from-harvest">22.3 Nutrient dosing from harvest</a><a href="#ops-22-worked-calculations-224-co-demand">22.4 CO₂ demand</a><a href="#ops-22-worked-calculations-225-wet-cake-and-drying-load">22.5 Wet cake and drying load</a><a href="#ops-22-worked-calculations-226-evaporation-make-up">22.6 Evaporation make-up</a></nav><div class="body"><h3 id="ops-22-worked-calculations-221-daily-production-from-areal-productivity">22.1 Daily production from areal productivity</h3>
 <pre><code>Production (kg/day) = pond area (m²) × productivity (g/m²/day) ÷ 1000
 </code></pre>
 <p>Stage 1 peak: 1,750 m² × 12 g/m²/day ÷ 1000 = <strong>21 kg/day</strong></p>
-<h3 id="ops-222-harvest-volume">22.2 Harvest volume</h3>
+<h3 id="ops-22-worked-calculations-222-harvest-volume">22.2 Harvest volume</h3>
 <pre><code>Volume (m³) = biomass (kg) ÷ [ density (kg/m³) × capture efficiency ]
 </code></pre>
 <p>21 kg ÷ (0.65 × 0.92) = <strong>35.1 m³/day</strong></p>
 <p>Sanity check: 35.1 ÷ 350 m³ pond volume = <strong>10 % of pond volume per day.</strong>
 Commercial practice is 8–20 %. ✓</p>
-<h3 id="ops-223-nutrient-dosing-from-harvest">22.3 Nutrient dosing from harvest</h3>
+<h3 id="ops-22-worked-calculations-223-nutrient-dosing-from-harvest">22.3 Nutrient dosing from harvest</h3>
 <p>For 21 kg/day of dry biomass:</p>
 <div class="tw"><table>
 <thead>
@@ -2922,14 +2913,14 @@ Commercial practice is 8–20 %. ✓</p>
 </tbody></table></div>
 <p>⚠ The phosphate above also supplies 1.30 × 0.448 = 0.58 kg K against a demand of
 0.32 kg. <strong>Reduce potassium sulphate accordingly or potassium accumulates.</strong></p>
-<h3 id="ops-224-co-demand">22.4 CO₂ demand</h3>
+<h3 id="ops-22-worked-calculations-224-co-demand">22.4 CO₂ demand</h3>
 <pre><code>CO₂ = biomass × carbon fraction × (44 ÷ 12) ÷ utilisation efficiency
 </code></pre>
 <p>21 × 0.46 × 3.667 ÷ 0.65 = <strong>54.5 kg/day</strong></p>
 <p>The 44/12 is the molar mass ratio of CO₂ to carbon. The utilisation efficiency is
 why contactor depth matters: surface sparging achieves only 30–40 %, which nearly
 doubles the gas bill.</p>
-<h3 id="ops-225-wet-cake-and-drying-load">22.5 Wet cake and drying load</h3>
+<h3 id="ops-22-worked-calculations-225-wet-cake-and-drying-load">22.5 Wet cake and drying load</h3>
 <div class="tw"><table>
 <thead>
 <tr>
@@ -2964,14 +2955,14 @@ doubles the gas bill.</p>
 <td><strong>14.4 kW</strong></td>
 </tr>
 </tbody></table></div>
-<h3 id="ops-226-evaporation-make-up">22.6 Evaporation make-up</h3>
+<h3 id="ops-22-worked-calculations-226-evaporation-make-up">22.6 Evaporation make-up</h3>
 <pre><code>Make-up (m³/day) = pond area (m²) × evaporation (mm/day) ÷ 1000
 </code></pre>
 <p>Peak: 1,750 × 10 ÷ 1000 = <strong>17.5 m³/day</strong></p>
 <p>This is about 80 % of total process water demand. Evaporation, not process use,
 sizes the water supply.</p>
-<h2 id="ops-23-units-and-conversions">23. Units and conversions</h2>
-<div class="tw"><table>
+</div><nav class="pager"><button class="pg" data-sec="ops-21-composition-constants-for-calculation"><span>← Previous</span><b>21. Composition constants for calculation</b></button><button class="pg next" data-sec="ops-23-units-and-conversions"><span>Next →</span><b>23. Units and conversions</b></button></nav></article>
+<article class="sec" id="sec-ops-23-units-and-conversions"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>REFERENCE</span><span class="crumb-pos">26 of 28</span></p><h1>23. Units and conversions</h1><div class="body"><div class="tw"><table>
 <thead>
 <tr>
 <th>Quantity</th>
@@ -3015,8 +3006,8 @@ sizes the water supply.</p>
 <td>Always °C in this manual</td>
 </tr>
 </tbody></table></div>
-<h2 id="ops-24-glossary">24. Glossary</h2>
-<div class="tw"><table>
+</div><nav class="pager"><button class="pg" data-sec="ops-22-worked-calculations"><span>← Previous</span><b>22. Worked calculations</b></button><button class="pg next" data-sec="ops-24-glossary"><span>Next →</span><b>24. Glossary</b></button></nav></article>
+<article class="sec" id="sec-ops-24-glossary"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>REFERENCE</span><span class="crumb-pos">27 of 28</span></p><h1>24. Glossary</h1><div class="body"><div class="tw"><table>
 <thead>
 <tr>
 <th>Term</th>
@@ -3092,8 +3083,8 @@ sizes the water supply.</p>
 <td>The standard reference growth medium</td>
 </tr>
 </tbody></table></div>
-<h2 id="ops-25-ten-rules">25. Ten rules</h2>
-<ol>
+</div><nav class="pager"><button class="pg" data-sec="ops-23-units-and-conversions"><span>← Previous</span><b>23. Units and conversions</b></button><button class="pg next" data-sec="ops-25-ten-rules"><span>Next →</span><b>25. Ten rules</b></button></nav></article>
+<article class="sec" id="sec-ops-25-ten-rules"><p class="crumb"><button class="crumb-home" data-home="ops">Spirulina Production Manual</button><span class="crumb-sep">›</span><span>REFERENCE</span><span class="crumb-pos">28 of 28</span></p><h1>25. Ten rules</h1><div class="body"><ol>
 <li><strong>Circulation never stops.</strong></li>
 <li><strong>Microscopy every day, every pond, recorded even when normal.</strong></li>
 <li><strong>Never harvest below 0.30 g/L.</strong></li>
@@ -3110,127 +3101,162 @@ sizes the water supply.</p>
 <p><em>This manual is a working document. Where it conflicts with BB-DBR-002, the
 Design Criteria Manual, the design criteria govern. Operating values in this
 manual will be revised against actual cultivation trial results.</em></p>
-
-</article>
-  </main>
-</div>
-
+</div><nav class="pager"><button class="pg" data-sec="ops-24-glossary"><span>← Previous</span><b>24. Glossary</b></button><span class="pg empty"></span></nav></article></main></div>
+<div class="searchwrap" id="searchWrap"><div class="searchbox"><input id="searchInput" type="search" placeholder="Search the whole document…" autocomplete="off"><div class="results" id="results"></div><div class="searchfoot">↑ ↓ to move · Enter to open · Esc to close</div></div></div>
 <script>
-(function () {
-  var TOC = {"reg":"<a class=\"t2\" href=\"#\" data-goto=\"ops\">Production Manual — Spirulina Production Manual</a>","ops":"<a class=\"t2\" href=\"#ops-spirulina-production-manual\" data-id=\"ops-spirulina-production-manual\">Spirulina Production Manual</a>\n<a class=\"t3\" href=\"#ops-a-complete-working-manual-the-organism-cultivation-harvest-p\" data-id=\"ops-a-complete-working-manual-the-organism-cultivation-harvest-p\">A complete working manual — the organism, cultivation, harvest, processing, quality and troubleshooting</a>\n<a class=\"t2\" href=\"#ops-how-to-use-this-manual\" data-id=\"ops-how-to-use-this-manual\">How to use this manual</a>\n<a class=\"t2\" href=\"#ops-1-what-spirulina-actually-is\" data-id=\"ops-1-what-spirulina-actually-is\">1. What spirulina actually is</a>\n<a class=\"t3\" href=\"#ops-11-it-is-a-bacterium-not-a-plant-and-not-an-algae\" data-id=\"ops-11-it-is-a-bacterium-not-a-plant-and-not-an-algae\">1.1 It is a bacterium, not a plant and not an algae</a>\n<a class=\"t3\" href=\"#ops-12-naming-spirulina-versus-arthrospira\" data-id=\"ops-12-naming-spirulina-versus-arthrospira\">1.2 Naming: Spirulina versus Arthrospira</a>\n<a class=\"t3\" href=\"#ops-13-shape-and-structure\" data-id=\"ops-13-shape-and-structure\">1.3 Shape and structure</a>\n<a class=\"t3\" href=\"#ops-14-gas-vesicles-and-buoyancy\" data-id=\"ops-14-gas-vesicles-and-buoyancy\">1.4 Gas vesicles and buoyancy</a>\n<a class=\"t3\" href=\"#ops-15-the-helix-is-not-fixed\" data-id=\"ops-15-the-helix-is-not-fixed\">1.5 The helix is not fixed</a>\n<a class=\"t3\" href=\"#ops-16-how-it-reproduces\" data-id=\"ops-16-how-it-reproduces\">1.6 How it reproduces</a>\n<a class=\"t3\" href=\"#ops-17-what-it-does-and-does-not-do-metabolically\" data-id=\"ops-17-what-it-does-and-does-not-do-metabolically\">1.7 What it does and does not do metabolically</a>\n<a class=\"t3\" href=\"#ops-18-where-it-grows-naturally\" data-id=\"ops-18-where-it-grows-naturally\">1.8 Where it grows naturally</a>\n<a class=\"t3\" href=\"#ops-19-a-long-history-as-food\" data-id=\"ops-19-a-long-history-as-food\">1.9 A long history as food</a>\n<a class=\"t2\" href=\"#ops-2-composition-and-nutrition-stated-honestly\" data-id=\"ops-2-composition-and-nutrition-stated-honestly\">2. Composition and nutrition — stated honestly</a>\n<a class=\"t3\" href=\"#ops-21-gross-composition\" data-id=\"ops-21-gross-composition\">2.1 Gross composition</a>\n<a class=\"t3\" href=\"#ops-22-protein-quality\" data-id=\"ops-22-protein-quality\">2.2 Protein quality</a>\n<a class=\"t3\" href=\"#ops-23-the-pigments\" data-id=\"ops-23-the-pigments\">2.3 The pigments</a>\n<a class=\"t3\" href=\"#ops-24-vitamins-and-minerals-with-one-important-correction\" data-id=\"ops-24-vitamins-and-minerals-with-one-important-correction\">2.4 Vitamins and minerals — with one important correction</a>\n<a class=\"t3\" href=\"#ops-25-why-you-should-not-eat-unlimited-quantities\" data-id=\"ops-25-why-you-should-not-eat-unlimited-quantities\">2.5 Why you should not eat unlimited quantities</a>\n<a class=\"t3\" href=\"#ops-26-what-we-do-not-claim\" data-id=\"ops-26-what-we-do-not-claim\">2.6 What we do not claim</a>\n<a class=\"t2\" href=\"#ops-3-the-six-things-spirulina-needs\" data-id=\"ops-3-the-six-things-spirulina-needs\">3. The six things spirulina needs</a>\n<a class=\"t3\" href=\"#ops-31-light\" data-id=\"ops-31-light\">3.1 Light</a>\n<a class=\"t3\" href=\"#ops-32-temperature\" data-id=\"ops-32-temperature\">3.2 Temperature</a>\n<a class=\"t3\" href=\"#ops-33-carbon-and-the-ph-relationship\" data-id=\"ops-33-carbon-and-the-ph-relationship\">3.3 Carbon and the pH relationship</a>\n<a class=\"t3\" href=\"#ops-34-alkalinity-and-salinity-the-contamination-barrier\" data-id=\"ops-34-alkalinity-and-salinity-the-contamination-barrier\">3.4 Alkalinity and salinity — the contamination barrier</a>\n<a class=\"t3\" href=\"#ops-35-nutrients\" data-id=\"ops-35-nutrients\">3.5 Nutrients</a>\n<a class=\"t3\" href=\"#ops-36-ammonia-useful-and-dangerous\" data-id=\"ops-36-ammonia-useful-and-dangerous\">3.6 Ammonia — useful and dangerous</a>\n<a class=\"t3\" href=\"#ops-37-mixing\" data-id=\"ops-37-mixing\">3.7 Mixing</a>\n<a class=\"t2\" href=\"#ops-4-growth-rate-and-what-to-expect\" data-id=\"ops-4-growth-rate-and-what-to-expect\">4. Growth rate and what to expect</a>\n<a class=\"t3\" href=\"#ops-41-the-growth-curve\" data-id=\"ops-41-the-growth-curve\">4.1 The growth curve</a>\n<a class=\"t3\" href=\"#ops-42-realistic-productivity\" data-id=\"ops-42-realistic-productivity\">4.2 Realistic productivity</a>\n<a class=\"t3\" href=\"#ops-43-working-density\" data-id=\"ops-43-working-density\">4.3 Working density</a>\n<a class=\"t2\" href=\"#ops-5-the-culture-medium\" data-id=\"ops-5-the-culture-medium\">5. The culture medium</a>\n<a class=\"t3\" href=\"#ops-51-zarrouk39s-medium-the-reference\" data-id=\"ops-51-zarrouk39s-medium-the-reference\">5.1 Zarrouk&amp;#39;s medium — the reference</a>\n<a class=\"t3\" href=\"#ops-52-why-we-do-not-use-full-zarrouk-commercially\" data-id=\"ops-52-why-we-do-not-use-full-zarrouk-commercially\">5.2 Why we do not use full Zarrouk commercially</a>\n<a class=\"t3\" href=\"#ops-53-making-up-medium-order-matters\" data-id=\"ops-53-making-up-medium-order-matters\">5.3 Making up medium — order matters</a>\n<a class=\"t3\" href=\"#ops-54-reagent-quality\" data-id=\"ops-54-reagent-quality\">5.4 Reagent quality</a>\n<a class=\"t2\" href=\"#ops-6-starting-and-scaling-a-culture\" data-id=\"ops-6-starting-and-scaling-a-culture\">6. Starting and scaling a culture</a>\n<a class=\"t3\" href=\"#ops-61-the-scale-up-train\" data-id=\"ops-61-the-scale-up-train\">6.1 The scale-up train</a>\n<a class=\"t3\" href=\"#ops-62-release-criteria-do-not-skip-these\" data-id=\"ops-62-release-criteria-do-not-skip-these\">6.2 Release criteria — do not skip these</a>\n<a class=\"t3\" href=\"#ops-63-inoculating-a-production-pond\" data-id=\"ops-63-inoculating-a-production-pond\">6.3 Inoculating a production pond</a>\n<a class=\"t2\" href=\"#ops-7-the-daily-routine\" data-id=\"ops-7-the-daily-routine\">7. The daily routine</a>\n<a class=\"t3\" href=\"#ops-71-the-morning-walk-what-to-look-at\" data-id=\"ops-71-the-morning-walk-what-to-look-at\">7.1 The morning walk — what to look at</a>\n<a class=\"t2\" href=\"#ops-8-measurements-how-to-actually-take-them\" data-id=\"ops-8-measurements-how-to-actually-take-them\">8. Measurements — how to actually take them</a>\n<a class=\"t3\" href=\"#ops-81-secchi-depth-the-daily-density-check\" data-id=\"ops-81-secchi-depth-the-daily-density-check\">8.1 Secchi depth — the daily density check</a>\n<a class=\"t3\" href=\"#ops-82-gravimetric-dry-weight-the-reference-method\" data-id=\"ops-82-gravimetric-dry-weight-the-reference-method\">8.2 Gravimetric dry weight — the reference method</a>\n<a class=\"t3\" href=\"#ops-83-ph\" data-id=\"ops-83-ph\">8.3 pH</a>\n<a class=\"t3\" href=\"#ops-84-alkalinity\" data-id=\"ops-84-alkalinity\">8.4 Alkalinity</a>\n<a class=\"t3\" href=\"#ops-85-salinity\" data-id=\"ops-85-salinity\">8.5 Salinity</a>\n<a class=\"t3\" href=\"#ops-86-microscopy-the-most-valuable-ten-minutes-of-the-day\" data-id=\"ops-86-microscopy-the-most-valuable-ten-minutes-of-the-day\">8.6 Microscopy — the most valuable ten minutes of the day</a>\n<a class=\"t2\" href=\"#ops-9-feeding-the-ponds\" data-id=\"ops-9-feeding-the-ponds\">9. Feeding the ponds</a>\n<a class=\"t2\" href=\"#ops-10-records\" data-id=\"ops-10-records\">10. Records</a>\n<a class=\"t2\" href=\"#ops-11-harvesting\" data-id=\"ops-11-harvesting\">11. Harvesting</a>\n<a class=\"t3\" href=\"#ops-111-when\" data-id=\"ops-111-when\">11.1 When</a>\n<a class=\"t3\" href=\"#ops-112-the-steps\" data-id=\"ops-112-the-steps\">11.2 The steps</a>\n<a class=\"t3\" href=\"#ops-113-pumping-handle-it-gently\" data-id=\"ops-113-pumping-handle-it-gently\">11.3 Pumping — handle it gently</a>\n<a class=\"t3\" href=\"#ops-114-screening\" data-id=\"ops-114-screening\">11.4 Screening</a>\n<a class=\"t3\" href=\"#ops-115-washing\" data-id=\"ops-115-washing\">11.5 Washing</a>\n<a class=\"t3\" href=\"#ops-116-dewatering-and-pressing\" data-id=\"ops-116-dewatering-and-pressing\">11.6 Dewatering and pressing</a>\n<a class=\"t3\" href=\"#ops-117-the-wet-cake-is-perishable\" data-id=\"ops-117-the-wet-cake-is-perishable\">11.7 The wet cake is perishable</a>\n<a class=\"t2\" href=\"#ops-12-drying-where-quality-is-won-or-lost\" data-id=\"ops-12-drying-where-quality-is-won-or-lost\">12. Drying — where quality is won or lost</a>\n<a class=\"t3\" href=\"#ops-121-the-rule\" data-id=\"ops-121-the-rule\">12.1 The rule</a>\n<a class=\"t3\" href=\"#ops-122-the-trap-at-the-end-of-the-cycle\" data-id=\"ops-122-the-trap-at-the-end-of-the-cycle\">12.2 The trap at the end of the cycle</a>\n<a class=\"t3\" href=\"#ops-123-methods\" data-id=\"ops-123-methods\">12.3 Methods</a>\n<a class=\"t3\" href=\"#ops-124-hygiene-during-drying\" data-id=\"ops-124-hygiene-during-drying\">12.4 Hygiene during drying</a>\n<a class=\"t2\" href=\"#ops-13-milling-sieving-and-packing\" data-id=\"ops-13-milling-sieving-and-packing\">13. Milling, sieving and packing</a>\n<a class=\"t3\" href=\"#ops-131-milling\" data-id=\"ops-131-milling\">13.1 Milling</a>\n<a class=\"t3\" href=\"#ops-132-humidity\" data-id=\"ops-132-humidity\">13.2 Humidity</a>\n<a class=\"t3\" href=\"#ops-133-blending\" data-id=\"ops-133-blending\">13.3 Blending</a>\n<a class=\"t3\" href=\"#ops-134-packing\" data-id=\"ops-134-packing\">13.4 Packing</a>\n<a class=\"t3\" href=\"#ops-135-storage\" data-id=\"ops-135-storage\">13.5 Storage</a>\n<a class=\"t2\" href=\"#ops-14-product-specification\" data-id=\"ops-14-product-specification\">14. Product specification</a>\n<a class=\"t3\" href=\"#ops-141-microbiological\" data-id=\"ops-141-microbiological\">14.1 Microbiological</a>\n<a class=\"t3\" href=\"#ops-142-contaminants\" data-id=\"ops-142-contaminants\">14.2 Contaminants</a>\n<a class=\"t2\" href=\"#ops-15-microcystins-the-one-that-really-matters\" data-id=\"ops-15-microcystins-the-one-that-really-matters\">15. Microcystins — the one that really matters</a>\n<a class=\"t2\" href=\"#ops-16-batch-traceability\" data-id=\"ops-16-batch-traceability\">16. Batch traceability</a>\n<a class=\"t2\" href=\"#ops-17-contamination\" data-id=\"ops-17-contamination\">17. Contamination</a>\n<a class=\"t3\" href=\"#ops-171-what-can-invade\" data-id=\"ops-171-what-can-invade\">17.1 What can invade</a>\n<a class=\"t3\" href=\"#ops-172-rotifers-the-emergency\" data-id=\"ops-172-rotifers-the-emergency\">17.2 Rotifers — the emergency</a>\n<a class=\"t3\" href=\"#ops-173-competing-algae\" data-id=\"ops-173-competing-algae\">17.3 Competing algae</a>\n<a class=\"t3\" href=\"#ops-174-insect-larvae\" data-id=\"ops-174-insect-larvae\">17.4 Insect larvae</a>\n<a class=\"t2\" href=\"#ops-18-culture-problems-diagnostic-table\" data-id=\"ops-18-culture-problems-diagnostic-table\">18. Culture problems — diagnostic table</a>\n<a class=\"t2\" href=\"#ops-19-deciding-to-dump-a-pond\" data-id=\"ops-19-deciding-to-dump-a-pond\">19. Deciding to dump a pond</a>\n<a class=\"t2\" href=\"#ops-20-quick-reference-target-values\" data-id=\"ops-20-quick-reference-target-values\">20. Quick reference — target values</a>\n<a class=\"t2\" href=\"#ops-21-composition-constants-for-calculation\" data-id=\"ops-21-composition-constants-for-calculation\">21. Composition constants for calculation</a>\n<a class=\"t2\" href=\"#ops-22-worked-calculations\" data-id=\"ops-22-worked-calculations\">22. Worked calculations</a>\n<a class=\"t3\" href=\"#ops-221-daily-production-from-areal-productivity\" data-id=\"ops-221-daily-production-from-areal-productivity\">22.1 Daily production from areal productivity</a>\n<a class=\"t3\" href=\"#ops-222-harvest-volume\" data-id=\"ops-222-harvest-volume\">22.2 Harvest volume</a>\n<a class=\"t3\" href=\"#ops-223-nutrient-dosing-from-harvest\" data-id=\"ops-223-nutrient-dosing-from-harvest\">22.3 Nutrient dosing from harvest</a>\n<a class=\"t3\" href=\"#ops-224-co-demand\" data-id=\"ops-224-co-demand\">22.4 CO₂ demand</a>\n<a class=\"t3\" href=\"#ops-225-wet-cake-and-drying-load\" data-id=\"ops-225-wet-cake-and-drying-load\">22.5 Wet cake and drying load</a>\n<a class=\"t3\" href=\"#ops-226-evaporation-make-up\" data-id=\"ops-226-evaporation-make-up\">22.6 Evaporation make-up</a>\n<a class=\"t2\" href=\"#ops-23-units-and-conversions\" data-id=\"ops-23-units-and-conversions\">23. Units and conversions</a>\n<a class=\"t2\" href=\"#ops-24-glossary\" data-id=\"ops-24-glossary\">24. Glossary</a>\n<a class=\"t2\" href=\"#ops-25-ten-rules\" data-id=\"ops-25-ten-rules\">25. Ten rules</a>"};
-  var tabs = document.getElementById('tabs');
-  var toc = document.getElementById('toc');
-  var find = document.getElementById('find');
+
+(function(){
+  var NAV = {"ops":"<div class=\"navpart\">Introduction</div>\n<a class=\"navsec\" href=\"#ops-about-this-document\" data-sec=\"ops-about-this-document\">About this document</a>\n<a class=\"navsec\" href=\"#ops-spirulina-production-manual\" data-sec=\"ops-spirulina-production-manual\">Spirulina Production Manual</a>\n<a class=\"navsec\" href=\"#ops-how-to-use-this-manual\" data-sec=\"ops-how-to-use-this-manual\">How to use this manual</a>\n<div class=\"navpart\">THE ORGANISM</div>\n<a class=\"navsec\" href=\"#ops-1-what-spirulina-actually-is\" data-sec=\"ops-1-what-spirulina-actually-is\">1. What spirulina actually is</a>\n<a class=\"navsec\" href=\"#ops-2-composition-and-nutrition-stated-honestly\" data-sec=\"ops-2-composition-and-nutrition-stated-honestly\">2. Composition and nutrition — stated honestly</a>\n<div class=\"navpart\">HOW IT GROWS</div>\n<a class=\"navsec\" href=\"#ops-3-the-six-things-spirulina-needs\" data-sec=\"ops-3-the-six-things-spirulina-needs\">3. The six things spirulina needs</a>\n<a class=\"navsec\" href=\"#ops-4-growth-rate-and-what-to-expect\" data-sec=\"ops-4-growth-rate-and-what-to-expect\">4. Growth rate and what to expect</a>\n<div class=\"navpart\">MEDIUM AND STARTING A CULTURE</div>\n<a class=\"navsec\" href=\"#ops-5-the-culture-medium\" data-sec=\"ops-5-the-culture-medium\">5. The culture medium</a>\n<a class=\"navsec\" href=\"#ops-6-starting-and-scaling-a-culture\" data-sec=\"ops-6-starting-and-scaling-a-culture\">6. Starting and scaling a culture</a>\n<div class=\"navpart\">RUNNING THE PONDS</div>\n<a class=\"navsec\" href=\"#ops-7-the-daily-routine\" data-sec=\"ops-7-the-daily-routine\">7. The daily routine</a>\n<a class=\"navsec\" href=\"#ops-8-measurements-how-to-actually-take-them\" data-sec=\"ops-8-measurements-how-to-actually-take-them\">8. Measurements — how to actually take them</a>\n<a class=\"navsec\" href=\"#ops-9-feeding-the-ponds\" data-sec=\"ops-9-feeding-the-ponds\">9. Feeding the ponds</a>\n<a class=\"navsec\" href=\"#ops-10-records\" data-sec=\"ops-10-records\">10. Records</a>\n<div class=\"navpart\">HARVEST AND PROCESSING</div>\n<a class=\"navsec\" href=\"#ops-11-harvesting\" data-sec=\"ops-11-harvesting\">11. Harvesting</a>\n<a class=\"navsec\" href=\"#ops-12-drying-where-quality-is-won-or-lost\" data-sec=\"ops-12-drying-where-quality-is-won-or-lost\">12. Drying — where quality is won or lost</a>\n<a class=\"navsec\" href=\"#ops-13-milling-sieving-and-packing\" data-sec=\"ops-13-milling-sieving-and-packing\">13. Milling, sieving and packing</a>\n<div class=\"navpart\">QUALITY AND SAFETY</div>\n<a class=\"navsec\" href=\"#ops-14-product-specification\" data-sec=\"ops-14-product-specification\">14. Product specification</a>\n<a class=\"navsec\" href=\"#ops-15-microcystins-the-one-that-really-matters\" data-sec=\"ops-15-microcystins-the-one-that-really-matters\">15. Microcystins — the one that really matters</a>\n<a class=\"navsec\" href=\"#ops-16-batch-traceability\" data-sec=\"ops-16-batch-traceability\">16. Batch traceability</a>\n<div class=\"navpart\">WHEN THINGS GO WRONG</div>\n<a class=\"navsec\" href=\"#ops-17-contamination\" data-sec=\"ops-17-contamination\">17. Contamination</a>\n<a class=\"navsec\" href=\"#ops-18-culture-problems-diagnostic-table\" data-sec=\"ops-18-culture-problems-diagnostic-table\">18. Culture problems — diagnostic table</a>\n<a class=\"navsec\" href=\"#ops-19-deciding-to-dump-a-pond\" data-sec=\"ops-19-deciding-to-dump-a-pond\">19. Deciding to dump a pond</a>\n<div class=\"navpart\">REFERENCE</div>\n<a class=\"navsec\" href=\"#ops-20-quick-reference-target-values\" data-sec=\"ops-20-quick-reference-target-values\">20. Quick reference — target values</a>\n<a class=\"navsec\" href=\"#ops-21-composition-constants-for-calculation\" data-sec=\"ops-21-composition-constants-for-calculation\">21. Composition constants for calculation</a>\n<a class=\"navsec\" href=\"#ops-22-worked-calculations\" data-sec=\"ops-22-worked-calculations\">22. Worked calculations</a>\n<a class=\"navsec\" href=\"#ops-23-units-and-conversions\" data-sec=\"ops-23-units-and-conversions\">23. Units and conversions</a>\n<a class=\"navsec\" href=\"#ops-24-glossary\" data-sec=\"ops-24-glossary\">24. Glossary</a>\n<a class=\"navsec\" href=\"#ops-25-ten-rules\" data-sec=\"ops-25-ten-rules\">25. Ten rules</a>"};
+  var ORDER = {"ops":[{"id":"ops-about-this-document","title":"About this document","part":"Introduction"},{"id":"ops-spirulina-production-manual","title":"Spirulina Production Manual","part":"Introduction"},{"id":"ops-how-to-use-this-manual","title":"How to use this manual","part":"Introduction"},{"id":"ops-1-what-spirulina-actually-is","title":"1. What spirulina actually is","part":"THE ORGANISM"},{"id":"ops-2-composition-and-nutrition-stated-honestly","title":"2. Composition and nutrition — stated honestly","part":"THE ORGANISM"},{"id":"ops-3-the-six-things-spirulina-needs","title":"3. The six things spirulina needs","part":"HOW IT GROWS"},{"id":"ops-4-growth-rate-and-what-to-expect","title":"4. Growth rate and what to expect","part":"HOW IT GROWS"},{"id":"ops-5-the-culture-medium","title":"5. The culture medium","part":"MEDIUM AND STARTING A CULTURE"},{"id":"ops-6-starting-and-scaling-a-culture","title":"6. Starting and scaling a culture","part":"MEDIUM AND STARTING A CULTURE"},{"id":"ops-7-the-daily-routine","title":"7. The daily routine","part":"RUNNING THE PONDS"},{"id":"ops-8-measurements-how-to-actually-take-them","title":"8. Measurements — how to actually take them","part":"RUNNING THE PONDS"},{"id":"ops-9-feeding-the-ponds","title":"9. Feeding the ponds","part":"RUNNING THE PONDS"},{"id":"ops-10-records","title":"10. Records","part":"RUNNING THE PONDS"},{"id":"ops-11-harvesting","title":"11. Harvesting","part":"HARVEST AND PROCESSING"},{"id":"ops-12-drying-where-quality-is-won-or-lost","title":"12. Drying — where quality is won or lost","part":"HARVEST AND PROCESSING"},{"id":"ops-13-milling-sieving-and-packing","title":"13. Milling, sieving and packing","part":"HARVEST AND PROCESSING"},{"id":"ops-14-product-specification","title":"14. Product specification","part":"QUALITY AND SAFETY"},{"id":"ops-15-microcystins-the-one-that-really-matters","title":"15. Microcystins — the one that really matters","part":"QUALITY AND SAFETY"},{"id":"ops-16-batch-traceability","title":"16. Batch traceability","part":"QUALITY AND SAFETY"},{"id":"ops-17-contamination","title":"17. Contamination","part":"WHEN THINGS GO WRONG"},{"id":"ops-18-culture-problems-diagnostic-table","title":"18. Culture problems — diagnostic table","part":"WHEN THINGS GO WRONG"},{"id":"ops-19-deciding-to-dump-a-pond","title":"19. Deciding to dump a pond","part":"WHEN THINGS GO WRONG"},{"id":"ops-20-quick-reference-target-values","title":"20. Quick reference — target values","part":"REFERENCE"},{"id":"ops-21-composition-constants-for-calculation","title":"21. Composition constants for calculation","part":"REFERENCE"},{"id":"ops-22-worked-calculations","title":"22. Worked calculations","part":"REFERENCE"},{"id":"ops-23-units-and-conversions","title":"23. Units and conversions","part":"REFERENCE"},{"id":"ops-24-glossary","title":"24. Glossary","part":"REFERENCE"},{"id":"ops-25-ten-rules","title":"25. Ten rules","part":"REFERENCE"}]};
+  var DOCS = ["ops"];
+  var doc = DOCS[0], cur = null;
+
+  var nav = document.getElementById('nav');
   var side = document.getElementById('side');
-  var menu = document.getElementById('menu');
-  var current = 'reg';
-  var spy = null;
+  var menuBtn = document.getElementById('menuBtn');
+  var searchBtn = document.getElementById('searchBtn');
+  var searchWrap = document.getElementById('searchWrap');
+  var searchInput = document.getElementById('searchInput');
+  var results = document.getElementById('results');
+  var docsel = document.getElementById('docsel');
 
-  function closeSide() {
-    side.classList.remove('open');
-    menu.setAttribute('aria-expanded', 'false');
+  function closeSide(){ side.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); }
+
+  function showHome(id){
+    doc = id; cur = null;
+    document.querySelectorAll('.home').forEach(function(h){ h.classList.toggle('on', h.id === 'home-'+id); });
+    document.querySelectorAll('.sec').forEach(function(s){ s.classList.remove('on'); });
+    nav.innerHTML = NAV[id];
+    closeSide(); window.scrollTo(0,0);
+    if (history.replaceState) history.replaceState(null,'','#'+id);
   }
 
-  function watchHeadings() {
-    if (spy) { spy.disconnect(); spy = null; }
-    if (current === 'reg' || !('IntersectionObserver' in window)) return;
-    var links = {};
-    toc.querySelectorAll('a').forEach(function (a) { links[a.dataset.id] = a; });
-    var visible = new Set();
-    spy = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) visible.add(e.target.id); else visible.delete(e.target.id);
-      });
-      var order = Object.keys(links);
-      var top = order.find(function (id) { return visible.has(id); });
-      order.forEach(function (id) { links[id].classList.toggle('on', id === top); });
-    }, { rootMargin: '-70px 0px -75% 0px' });
-    document.querySelectorAll('#doc-' + current + ' h2, #doc-' + current + ' h3')
-      .forEach(function (h) { if (links[h.id]) spy.observe(h); });
-  }
-
-  function show(v, anchor) {
-    current = v;
-    document.querySelectorAll('.doc').forEach(function (d) {
-      d.classList.toggle('on', d.id === 'doc-' + v);
-    });
-    tabs.querySelectorAll('button').forEach(function (b) {
-      var on = b.dataset.v === v;
-      b.setAttribute('aria-current', String(on));
-      // The tab strip scrolls on narrow screens; keep the current volume visible.
-      if (on && b.scrollIntoView) {
-        b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-      }
-    });
-    toc.innerHTML = TOC[v] || '';
-    find.value = '';
-    // Nothing to filter on the register's four-item volume list.
-    find.style.display = v === 'reg' ? 'none' : '';
+  function showSec(secId, anchor){
+    var owner = null;
+    for (var k in ORDER) if (ORDER[k].some(function(s){ return s.id === secId; })) owner = k;
+    if (!owner) return;
+    if (owner !== doc) { doc = owner; nav.innerHTML = NAV[doc]; if (docsel) docsel.value = doc; }
+    cur = secId;
+    document.querySelectorAll('.home').forEach(function(h){ h.classList.remove('on'); });
+    document.querySelectorAll('.sec').forEach(function(s){ s.classList.toggle('on', s.id === 'sec-'+secId); });
+    nav.querySelectorAll('.navsec').forEach(function(a){ a.classList.toggle('on', a.dataset.sec === secId); });
+    var on = nav.querySelector('.navsec.on');
+    if (on && on.scrollIntoView) on.scrollIntoView({block:'nearest'});
     closeSide();
-    watchHeadings();
     if (anchor) {
-      var el = document.getElementById(anchor);
-      if (el) {
-        // The article was display:none until a moment ago; wait for layout
-        // or the scroll target is computed against a stale box.
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () { el.scrollIntoView(); });
-        });
-        return;
-      }
-    }
-    window.scrollTo(0, 0);
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){
+        var el = document.getElementById(anchor); if (el) el.scrollIntoView();
+      });});
+    } else window.scrollTo(0,0);
+    if (history.replaceState) history.replaceState(null,'','#'+secId);
   }
 
-  tabs.addEventListener('click', function (e) {
-    var b = e.target.closest('button[data-v]');
-    if (b) show(b.dataset.v);
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-sec]');
+    if (t) { e.preventDefault(); showSec(t.dataset.sec); return; }
+    var h = e.target.closest('[data-home]');
+    if (h) { e.preventDefault(); showHome(h.dataset.home); return; }
   });
 
-  toc.addEventListener('click', function (e) {
-    if (e.target.closest('a')) closeSide();
-  });
-
-  document.addEventListener('click', function (e) {
-    var j = e.target.closest('[data-goto]');
-    if (!j) return;
-    e.preventDefault();
-    show(j.dataset.goto, j.dataset.anchor);
-  });
-
-  menu.addEventListener('click', function () {
+  document.getElementById('brandBtn').addEventListener('click', function(){ showHome(doc); });
+  menuBtn.addEventListener('click', function(){
     var open = side.classList.toggle('open');
-    menu.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-expanded', String(open));
   });
+  if (docsel) docsel.addEventListener('change', function(){ showHome(docsel.value); });
 
-  find.addEventListener('input', function () {
-    var q = find.value.trim().toLowerCase();
-    var hits = 0;
-    toc.querySelectorAll('a').forEach(function (a) {
-      var hit = !q || a.textContent.toLowerCase().indexOf(q) > -1;
-      a.classList.toggle('hide', !hit);
-      if (hit) hits++;
+  /* ---- search over the rendered sections ---- */
+  var sel = 0, hits = [];
+
+  function openSearch(){
+    searchWrap.classList.add('on'); searchInput.focus(); searchInput.select();
+  }
+  function closeSearch(){ searchWrap.classList.remove('on'); }
+
+  searchBtn.addEventListener('click', openSearch);
+  searchWrap.addEventListener('click', function(e){ if (e.target === searchWrap) closeSearch(); });
+
+  function snippet(text, q){
+    var i = text.toLowerCase().indexOf(q);
+    if (i < 0) return text.slice(0,140) + '…';
+    var s = Math.max(0, i - 60), e = Math.min(text.length, i + q.length + 90);
+    var pre = text.slice(s, i), hit = text.slice(i, i+q.length), post = text.slice(i+q.length, e);
+    var esc = function(x){ return x.replace(/&/g,'&amp;').replace(/</g,'&lt;'); };
+    return (s>0?'…':'') + esc(pre) + '<mark>' + esc(hit) + '</mark>' + esc(post) + (e<text.length?'…':'');
+  }
+
+  function runSearch(){
+    var q = searchInput.value.trim().toLowerCase();
+    hits = []; sel = 0;
+    if (q.length < 2) {
+      results.innerHTML = '<div class="searchfoot">Type at least two characters.</div>';
+      return;
+    }
+    DOCS.forEach(function(d){
+      ORDER[d].forEach(function(s){
+        var el = document.getElementById('sec-' + s.id);
+        if (!el) return;
+        var text = el.querySelector('.body') ? el.querySelector('.body').innerText : '';
+        var inTitle = s.title.toLowerCase().indexOf(q) > -1;
+        var inText = text.toLowerCase().indexOf(q) > -1;
+        if (inTitle || inText) hits.push({ s:s, text:text, title:inTitle });
+      });
     });
-    var empty = toc.querySelector('.toc-empty');
-    if (!hits && !empty) {
-      var p = document.createElement('p');
-      p.className = 'toc-empty';
-      p.textContent = 'No section matches "' + find.value + '".';
-      toc.appendChild(p);
-    } else if (hits && empty) {
-      empty.remove();
+    hits.sort(function(a,b){ return (b.title?1:0) - (a.title?1:0); });
+    if (!hits.length) {
+      results.innerHTML = '<div class="searchfoot">No match for &ldquo;' +
+        searchInput.value.replace(/</g,'&lt;') + '&rdquo;.</div>';
+      return;
+    }
+    results.innerHTML = hits.slice(0,40).map(function(h,i){
+      return '<button class="result' + (i===0?' sel':'') + '" data-i="'+i+'">' +
+        (h.s.part ? '<i>' + h.s.part + '</i>' : '') +
+        '<b>' + h.s.title.replace(/</g,'&lt;') + '</b>' +
+        '<small>' + snippet(h.text, q) + '</small></button>';
+    }).join('');
+  }
+
+  searchInput.addEventListener('input', runSearch);
+  results.addEventListener('click', function(e){
+    var b = e.target.closest('.result');
+    if (b) { closeSearch(); showSec(hits[+b.dataset.i].s.id); }
+  });
+
+  function move(d){
+    var nodes = results.querySelectorAll('.result');
+    if (!nodes.length) return;
+    nodes[sel] && nodes[sel].classList.remove('sel');
+    sel = (sel + d + nodes.length) % nodes.length;
+    nodes[sel].classList.add('sel');
+    nodes[sel].scrollIntoView({block:'nearest'});
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (searchWrap.classList.contains('on')) {
+      if (e.key === 'Escape') { closeSearch(); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); move(1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
+      else if (e.key === 'Enter' && hits.length) { e.preventDefault(); closeSearch(); showSec(hits[sel].s.id); }
+      return;
+    }
+    if (e.key === 'Escape') { closeSide(); return; }
+    var typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+    if (typing) return;
+    if (e.key === '/') { e.preventDefault(); openSearch(); }
+    else if (cur && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+      var list = ORDER[doc], i = list.findIndex(function(s){ return s.id === cur; });
+      var j = i + (e.key === 'ArrowRight' ? 1 : -1);
+      if (j >= 0 && j < list.length) showSec(list[j].id);
     }
   });
 
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeSide();
-    if (e.key === '/' && document.activeElement !== find) {
-      e.preventDefault();
-      side.classList.add('open');
-      find.focus();
-    }
-  });
-
-  show("ops");
+  // Deep link support
+  var h = location.hash.replace(/^#/,'');
+  var known = false;
+  for (var k in ORDER) if (ORDER[k].some(function(s){ return s.id === h; })) known = true;
+  if (known) showSec(h);
+  else if (DOCS.indexOf(h) > -1) showHome(h);
+  else showHome(DOCS[0]);
 })();
+
 </script>
