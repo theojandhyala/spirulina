@@ -32,7 +32,7 @@ quality that the drying process was designed to protect.
 | Parameter | Value |
 | --- | --- |
 | Peak product to pack | 25.3 kg/day |
-| Annual product, Stage 1 | ≈ 4,700 kg |
+| Annual product, Stage 1 | ≈ 4,130 kg |
 | Expansion | Facility is designed to expand to five acres, roughly six times this volume |
 
 At these volumes **throughput is not our constraint — changeover time between

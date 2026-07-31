@@ -338,7 +338,7 @@ html{scroll-behavior:smooth}
         <div class="fig"><dt>Stage 1 site</dt><dd>1 acre</dd><small>4,047 m²</small></div>
         <div class="fig"><dt>Net pond area</dt><dd>1,750 m²</dd><small>Vol 3 § 6.4</small></div>
         <div class="fig"><dt>Annual output</dt><dd>≈ 3.9 t</dd><small>dry biomass</small></div>
-        <div class="fig"><dt>Master plan</dt><dd>5 acres</dd><small>≈ 26.9 t/yr</small></div>
+        <div class="fig"><dt>Master plan</dt><dd>5 acres</dd><small>≈ 24.5 t/yr</small></div>
       </dl>
 
       <h2>Document register</h2>
@@ -348,10 +348,10 @@ html{scroll-behavior:smooth}
         ${vols
           .map(
             (v) =>
-              `<tr><td><code>${esc(v.number)}</code></td><td>${esc(v.title)}</td><td>Rev. 0</td><td>${
-                v.id === "v2"
-                  ? "Initial basis — <strong>open finding</strong>"
-                  : "Initial design basis"
+              `<tr><td><code>${esc(v.number)}</code></td><td>${esc(v.title)}</td><td>${v.id === "v1" ? "Rev. 0" : "Rev. 1"}</td><td>${
+                v.id === "v1"
+                  ? "Initial design basis"
+                  : "Design basis — <strong>finding closed</strong>"
               }</td></tr>`
           )
           .join("\n        ")}
@@ -359,34 +359,35 @@ html{scroll-behavior:smooth}
         </tbody>
       </table></div>
 
-      <h2>Open finding — net pond area</h2>
-      <p>Volumes 2 and 3 disagree on Stage 1 net pond area. The disagreement is
-      recorded deliberately rather than resolved by editing one volume.</p>
-      <p>Volume 2 assumed 2,000 m² (assumption A-01) in order to derive process
-      capacity. The Volume 3 layout study supports 1,750 m² once buildings, roads,
-      setbacks and inter-pond access are budgeted against the acre.</p>
+      <h2>Closed finding — net pond area</h2>
+      <p>Volumes 2 and 3 disagreed on Stage 1 net pond area. Volume 2 Rev. 0
+      assumed 2,000 m² (assumption A-01); the Volume 3 layout study supports
+      1,750 m² once buildings, roads, setbacks and inter-pond access are budgeted
+      against the acre.</p>
 
       <dl class="open">
-        <div><dt>Volume 2, A-01</dt><dd>2,000 m²</dd></div>
-        <div class="lead"><dt>Volume 3, § 6.4</dt><dd>1,750 m²</dd></div>
+        <div><dt>Volume 2, Rev. 0</dt><dd>2,000 m²</dd></div>
+        <div class="lead"><dt>Adopted, Rev. 1</dt><dd>1,750 m²</dd></div>
         <div><dt>Capacity difference</dt><dd>12.5 %</dd></div>
         <div><dt>Annual output</dt><dd>4.48 → 3.92 t</dd></div>
       </dl>
 
       <div class="note">
-        <b>Action required</b>
-        <p>Volume 3 § 6.5 sets out three resolutions and recommends accepting
-        1,750 m². Closing the finding requires revising Volume 2 to Rev. 1 — not
-        editing the figure in one volume alone.</p>
-        <p>Until it is closed, quote Stage 1 capacity as approximately
-        <strong>3.9 t/year</strong>, the more developed position.</p>
+        <b>Closed at Volume 2 Rev. 1</b>
+        <p>Volume 2 was revised in full against 1,750 m² — every derived capacity,
+        balance and equipment duty recalculated, not just the headline figure.
+        Stage 1 output is <strong>≈ 3.9 t/year</strong>.</p>
+        <p>One deliberate divergence remains, recorded at Volume 2 § 4.5: process
+        equipment is enquired against 24 kg/day, the superseded peak, as roughly
+        14% margin against the unconfirmed productivity assumptions A-03 and
+        A-04. Consumables and utilities are planned against the Rev. 1 figures.</p>
       </div>
       <p><a class="jump" href="#" data-goto="v3" data-anchor="${FINDING}">Read Volume 3 § 6.5 →</a></p>
 
       <h2>How to read this set</h2>
       <p>Volume 1 is qualitative and governs everything below it. Volume 2 turns it
       into numbers. Volume 3 fixes the geometry Volume 2 assumed — which is how the
-      open finding above surfaced.</p>
+      finding above surfaced, and was then closed.</p>
       <p>Every assumed value in Volumes 2 and 3 carries a register reference
       (A-01 to A-22) naming the trial, survey or analysis that confirms it and the
       commitment it must precede. See Volume 2 § 24 and Volume 3 § 16.</p>

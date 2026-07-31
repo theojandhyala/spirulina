@@ -36,11 +36,11 @@ have you price something that changes.
 
 | Parameter | Value |
 | --- | --- |
-| Peak process water demand | 24 m³/day |
-| Mean process water demand | 15 m³/day |
+| Peak process water demand | 21.3 m³/day |
+| Mean process water demand | 13.7 m³/day |
 | Domestic and potable | 1 m³/day |
 | **Design raw water supply** | **30 m³/day** |
-| Annual process demand | ≈ 5,200 m³ |
+| Annual process demand | ≈ 4,670 m³ |
 
 Approximately 80 % of demand is make-up for evaporation from open ponds.
 

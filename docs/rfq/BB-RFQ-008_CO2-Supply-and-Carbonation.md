@@ -23,12 +23,12 @@ invite your quotation for gas supply, the injection system, or both.
 | Parameter | Value |
 | --- | --- |
 | Carbon content of dry biomass | 46 % |
-| Peak carbon demand | 11.0 kg C/day |
-| Stoichiometric CO₂ demand | 40.5 kg/day |
+| Peak carbon demand | 9.66 kg C/day |
+| Stoichiometric CO₂ demand | 35.4 kg/day |
 | **Design utilisation efficiency** | **65 % minimum** |
-| Delivered CO₂ requirement, peak | 62 kg/day |
+| Delivered CO₂ requirement, peak | 55 kg/day |
 | **Design basis for supply and storage** | **70 kg/day** |
-| Annual consumption, indicative | ≈ 13 tonnes |
+| Annual consumption, indicative | ≈ 10 tonnes |
 | Consumption pattern | Daylight hours only; no night-time demand |
 
 ## 2. Gas quality — food grade required

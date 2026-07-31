@@ -12,7 +12,7 @@ Facility, Hyderabad Region, Telangana, India.
 | Document number | Title | Revision | Status | File |
 | --- | --- | --- | --- | --- |
 | BB-DBR-002-V1 | Design Criteria Manual – Volume 1, General Design Criteria | Rev. 0 | Initial Design Basis | [docs/BB-DBR-002-V1_Design-Criteria-Manual_Vol1_General-Design-Criteria.md](docs/BB-DBR-002-V1_Design-Criteria-Manual_Vol1_General-Design-Criteria.md) |
-| BB-DBR-002-V2 | Design Criteria Manual – Volume 2, Process Engineering | Rev. 0 | Initial Design Basis — **open finding, see below** | [docs/BB-DBR-002-V2_Design-Criteria-Manual_Vol2_Process-Engineering.md](docs/BB-DBR-002-V2_Design-Criteria-Manual_Vol2_Process-Engineering.md) |
+| BB-DBR-002-V2 | Design Criteria Manual – Volume 2, Process Engineering | Rev. 1 | Design Basis — finding closed | [docs/BB-DBR-002-V2_Design-Criteria-Manual_Vol2_Process-Engineering.md](docs/BB-DBR-002-V2_Design-Criteria-Manual_Vol2_Process-Engineering.md) |
 | BB-DBR-002-V3 | Design Criteria Manual – Volume 3, Civil, Structural and Layout | Rev. 0 | Initial Design Basis | [docs/BB-DBR-002-V3_Design-Criteria-Manual_Vol3_Civil-Structural-Layout.md](docs/BB-DBR-002-V3_Design-Criteria-Manual_Vol3_Civil-Structural-Layout.md) |
 
 ### Planned
@@ -21,23 +21,24 @@ Facility, Hyderabad Region, Telangana, India.
 | --- | --- | --- |
 | BB-DBR-002-V4 | Design Criteria Manual – Volume 4, Mechanical, Electrical, Instrumentation and Control | Not yet issued |
 
-### Open finding — net pond area
+### Closed finding — net pond area
 
-**Volume 2 and Volume 3 currently disagree on Stage 1 net pond area, and the
-disagreement is deliberate and recorded rather than resolved silently.**
+Volumes 2 and 3 disagreed on Stage 1 net pond area. **This is now closed.**
 
-Volume 2 assumed 2,000 m² (A-01) in order to derive process capacity. The
-Volume 3 layout study (§ 6.4) supports 1,750 m² once buildings, roads, setbacks
-and inter-pond access are budgeted against the 4,047 m² acre. That is a 12.5%
-capacity difference: 4.5 t/year against 3.9 t/year.
+Volume 2 Rev. 0 assumed 2,000 m² (A-01). The Volume 3 layout study (§ 6.4)
+supports 1,750 m² once buildings, roads, setbacks and inter-pond access are
+budgeted against the 4,047 m² acre.
 
-Volume 3 § 6.5 sets out the three available resolutions and recommends
-accepting 1,750 m². The finding is to be closed by the project engineering
-authority, and closing it requires **revising Volume 2 to Rev. 1** — not editing
-the figure in one volume alone.
+**Volume 2 was revised to Rev. 1 against 1,750 m²**, with every derived capacity,
+balance and equipment duty recalculated — capacity, harvest volume, nutrient and
+water balances, CO₂ demand, dryer duty, energy and the mass balance. Stage 1
+output is **≈ 3.9 t/year**.
 
-Until it is closed, quote Stage 1 capacity as **approximately 3.9 t/year**, the
-more developed position.
+One deliberate divergence remains and is recorded at Volume 2 § 4.5: process
+equipment is enquired and purchased against **24 kg/day**, the superseded
+2,000 m² peak, as roughly 14% margin against the still-unconfirmed productivity
+assumptions A-03 and A-04. Consumables, water and effluent are planned against
+the Rev. 1 figures, because those are recurring costs.
 
 ### Note on the Volume 2 figures
 

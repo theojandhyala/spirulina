@@ -13,7 +13,7 @@
 | Planned expansion | 2-acre, 3-acre and 5-acre modules |
 | Document status | Design Basis – Master Engineering Standard |
 | Document number | BB-DBR-002-V3 |
-| Revision | Rev. 0 |
+| Revision | Rev. 1 |
 | Prepared for | BlueBloom Spirulina Private Limited |
 
 ---
@@ -26,8 +26,8 @@
 | Document number | BB-DBR-002-V3 |
 | Project | BlueBloom Spirulina Production Facility |
 | Discipline | Civil, Structural, Architectural |
-| Revision | Rev. 0 |
-| Status | Initial Design Basis |
+| Revision | Rev. 1 |
+| Status | Design Basis — finding closed |
 | Issue purpose | Engineering development, budgeting and procurement |
 | Confidentiality | Proprietary project document |
 | Units | SI units, with selected Indian commercial units where appropriate |
@@ -41,6 +41,7 @@
 | Revision | Date | Description | Prepared by | Reviewed by | Approved by |
 | --- | --- | --- | --- | --- | --- |
 | Rev. 0 | 31 July 2026 | Initial civil, structural and layout design basis | Project Engineering Team | — | — |
+| Rev. 1 | 31 July 2026 | Net pond area finding at § 6.5 closed; Volume 2 revised to Rev. 1 against 1,750 m². | Project Engineering Team | — | — |
 
 ---
 
@@ -74,7 +75,8 @@ This volume is subordinate to Volume 1 and is a companion to Volume 2.
 Volume 2 assumed pond geometry in order to derive process capacity. **This
 volume fixes that geometry from a layout study, and where the two disagree, this
 volume is the more developed position.** Section 6.5 records one such
-disagreement and the action required.
+disagreement, now closed: Volume 2 was revised to Rev. 1 against the 1,750 m²
+net pond area derived here.
 
 | Source | Requirement carried into this volume |
 | --- | --- |
@@ -335,9 +337,10 @@ underlies the pond area of Section 7.1.
 
 ### 6.5 Finding — Net Pond Area Against Volume 2 Assumption A-01
 
-**Volume 2 assumed a net pond area of 2,000 m² at Stage 1 (A-01). The layout
-budget of Section 6.4 supports 1,750 m². Volume 2 requires revision, or the
-layout requires optimisation.**
+**CLOSED at BB-DBR-002-V2 Rev. 1.** Volume 2 assumed a net pond area of
+2,000 m² at Stage 1 (A-01). The layout budget of Section 6.4 supports 1,750 m².
+Resolution 1 below was adopted: Volume 2 was revised to Rev. 1 against 1,750 m²
+and a 3.9 t/year Stage 1 output, and assumption A-01 is closed.
 
 | Item | Volume 2, A-01 | This volume |
 | --- | --- | --- |
@@ -370,9 +373,11 @@ buying it back with two-storey construction and minimum setbacks spends real
 capital and permanent circulation space to chase a number that the cultivation
 trial may move further in either direction.
 
-This finding shall be resolved by the project engineering authority and recorded
-before Volume 2 is issued for detailed design. It shall not be closed by
-adjusting the pond area in one volume without revising the other.
+This finding was resolved by revising Volume 2 in full to Rev. 1, not by
+adjusting the pond area in one volume alone. Volume 2 § 4.5 records the one
+deliberate divergence that remains: process equipment is enquired against
+24 kg/day, the superseded basis, as margin against the unconfirmed productivity
+assumptions A-03 and A-04.
 
 ### 6.6 Expansion Reservation
 
@@ -1087,7 +1092,7 @@ Continuing the register of Volume 2 § 24.
 | A-19 | Depth to rock | Not established | Geotechnical investigation | Earthworks, pond formation method, cost | Earthworks design |
 | A-20 | Presence of expansive soil | Not established | Free swell index at every trial pit | Foundations, pond subgrade, fill acceptance | Foundation design |
 | A-21 | Groundwater level and seasonal range | Not established | Geotechnical investigation | Liner uplift, sump buoyancy | Pond and sump design |
-| A-22 | Net pond area at Stage 1 | 1,750 m² | Layout freeze; supersedes Volume 2 A-01 | All process capacity figures | Volume 2 Rev. 1 |
+| A-22 | Net pond area at Stage 1 | **1,750 m² — CLOSED** | Layout study § 6.4; carried into Volume 2 Rev. 1 | All process capacity figures | Closed |
 
 A-19, A-20 and A-21 are all outputs of the single geotechnical investigation
 required by Section 3.2. That investigation is a prerequisite to earthworks

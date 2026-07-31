@@ -13,7 +13,7 @@
 | Planned expansion | 2-acre, 3-acre and 5-acre modules |
 | Document status | Design Basis – Master Engineering Standard |
 | Document number | BB-DBR-002-V2 |
-| Revision | Rev. 0 |
+| Revision | Rev. 1 |
 | Prepared for | BlueBloom Spirulina Private Limited |
 
 ---
@@ -26,8 +26,8 @@
 | Document number | BB-DBR-002-V2 |
 | Project | BlueBloom Spirulina Production Facility |
 | Discipline | Process |
-| Revision | Rev. 0 |
-| Status | Initial Design Basis |
+| Revision | Rev. 1 |
+| Status | Design Basis — Volume 3 finding closed |
 | Issue purpose | Engineering development, budgeting and procurement |
 | Confidentiality | Proprietary project document |
 | Units | SI units, with selected Indian commercial units where appropriate |
@@ -42,6 +42,7 @@
 | Revision | Date | Description | Prepared by | Reviewed by | Approved by |
 | --- | --- | --- | --- | --- | --- |
 | Rev. 0 | 31 July 2026 | Initial process design basis | Project Engineering Team | — | — |
+| Rev. 1 | 31 July 2026 | Net pond area revised to 1,750 m² per BB-DBR-002-V3 § 6.5; all derived capacities, balances and duties recalculated. Volume 3 finding closed. | Project Engineering Team | — | — |
 
 ---
 
@@ -139,16 +140,16 @@ annual output by a factor of approximately 1.7. Both errors shall be avoided.
 | Parameter | Value | Basis |
 | --- | --- | --- |
 | Site area | 4,047 m² (1 acre) | Project definition |
-| Net production pond area | 2,000 m² | Assumed, ≈ 49% site coverage (A-01) |
+| Net production pond area | 1,750 m² | Layout study, BB-DBR-002-V3 § 6.4 (A-01) |
 | Operating culture depth | 200 mm | Assumed within 150–250 mm range (A-02) |
-| Total culture volume | 400 m³ | Derived |
+| Total culture volume | 350 m³ | Derived |
 | Peak areal productivity | 12 g/m²/day | Assumed (A-03) |
 | Annual mean areal productivity | 7 g/m²/day | Assumed (A-04) |
 | Operating days per year | 320 | Assumed (A-05) |
-| Peak dry biomass output | 24 kg/day | Derived |
-| Annual mean dry biomass output | 14 kg/day | Derived |
-| Annual dry biomass output | 4,480 kg (≈ 4.5 t) | Derived |
-| Packed product at 5% moisture | ≈ 4,700 kg/year | Derived |
+| Peak dry biomass output | 21 kg/day | Derived |
+| Annual mean dry biomass output | 12.25 kg/day | Derived |
+| Annual dry biomass output | 3,920 kg (≈ 3.9 t) | Derived |
+| Packed product at 5% moisture | ≈ 4,130 kg/year | Derived |
 
 ### 3.4 Consistency Check
 
@@ -156,7 +157,7 @@ The derived figures shall remain mutually consistent. At Stage 1 peak:
 
 | Check | Value | Comment |
 | --- | --- | --- |
-| Standing biomass in ponds | 260 kg | 400 m³ at 0.65 g/L |
+| Standing biomass in ponds | 227.5 kg | 350 m³ at 0.65 g/L |
 | Daily production as % of standing stock | 9.2 %/day | Within the 5–15%/day range typical of outdoor raceway culture |
 | Daily harvest volume as % of pond volume | 10.0 %/day | Within the 8–20%/day range typical of commercial practice |
 
@@ -172,11 +173,11 @@ indicates an inconsistent basis, not an improved one.
 
 | Stream | Peak day | Annual mean day | Annual |
 | --- | --- | --- | --- |
-| Dry biomass produced | 24.0 kg | 14.0 kg | 4,480 kg |
-| Culture harvested | 40.1 m³ | 23.4 m³ | 7,490 m³ |
-| Wet cake at 20% solids | 120 kg | 70 kg | 22,400 kg |
-| Water evaporated in drying | 95 kg | 55 kg | 17,700 kg |
-| Packed product at 5% moisture | 25.3 kg | 14.7 kg | ≈ 4,700 kg |
+| Dry biomass produced | 21.0 kg | 12.25 kg | 3,920 kg |
+| Culture harvested | 35.1 m³ | 20.5 m³ | 6,550 m³ |
+| Wet cake at 20% solids | 105 kg | 61 kg | 19,600 kg |
+| Water evaporated in drying | 83 kg | 48 kg | 15,500 kg |
+| Packed product at 5% moisture | 22.1 kg | 12.9 kg | ≈ 4,130 kg |
 
 ### 4.2 Expansion Capacities
 
@@ -185,14 +186,22 @@ Capacities for later stages are calculated on the same annual mean basis of
 
 | Stage | Site area | Net pond area | Site coverage | Annual dry biomass |
 | --- | --- | --- | --- | --- |
-| Stage 1 | 1 acre | 2,000 m² | 49% | 4.5 t |
-| Stage 2 | 2 acres | 4,400 m² | 54% | 9.9 t |
-| Stage 3 | 3 acres | 7,000 m² | 58% | 15.7 t |
-| Stage 4 | 5 acres | 12,000 m² | 59% | 26.9 t |
+| Stage 1 | 1 acre | 1,750 m² | 43% | 3.9 t |
+| Stage 2 | 2 acres | 4,050 m² | 50% | 9.1 t |
+| Stage 3 | 3 acres | 6,350 m² | 52% | 14.2 t |
+| Stage 4 | 5 acres | 10,950 m² | 54% | 24.5 t |
 
 Site coverage improves with each stage because the common infrastructure
 required by Volume 1 § 5.2 — roads, laboratory, warehouse, utilities,
-administration — is largely built at Stage 1 and is not repeated.
+administration — is largely built at Stage 1 and is not repeated. Later stages
+are calculated as the Stage 1 pond area plus 2,300 m² of net pond per
+incremental acre (A-23), the balance of each additional acre going to
+inter-pond access, roads and incremental buildings.
+
+The Stage 2 to 4 figures are an extrapolation from a single land budget prepared
+for Stage 1. They shall be confirmed by preparing the same budget for the
+five-acre master layout, and shall not be relied on for investment decisions
+beyond Stage 1 until that is done.
 
 ### 4.3 Seasonality and Turndown
 
@@ -231,6 +240,27 @@ Four ponds rather than one or two is a deliberate risk decision: it caps the
 loss from any single culture failure at 25% of standing stock and permits
 staggered harvesting, at the cost of additional civil works and paddle-wheel
 drives.
+
+---
+
+### 4.5 Basis for Equipment Enquiry — Deliberate Divergence
+
+Enquiries issued in the BB-RFQ series for process equipment are based on a peak
+of **24 kg/day** of dry biomass, which is the superseded 2,000 m² figure, not the
+21 kg/day of Section 4.1.
+
+This divergence is deliberate and shall not be treated as an error:
+
+| Reason | Detail |
+| --- | --- |
+| Margin against A-03 and A-04 | Areal productivity is not yet confirmed by trial. Equipment bought at 21 kg/day would constrain output if the trial returns better than assumed. |
+| Cost of the margin is small | The 14% difference falls below the next standard size for most of the equipment concerned. |
+| Cost of being wrong is large | Re-tendering and replacing a dryer or a harvest screen after commissioning costs far more than the margin. |
+
+Process equipment shall therefore be enquired and purchased against 24 kg/day.
+Consumables, nutrients, water and effluent shall be planned against the
+Section 4.1 figures, because those are recurring costs and over-provisioning them
+wastes money every year rather than once.
 
 ---
 
@@ -391,15 +421,15 @@ give an unpredictable medium.
 The following elemental composition of dry *A. platensis* biomass is the design
 basis for nutrient demand.
 
-| Element | % of dry biomass | Peak demand at 24 kg/day |
+| Element | % of dry biomass | Peak demand at 21 kg/day |
 | --- | --- | --- |
-| Carbon | 46 % | 11.0 kg/day |
-| Nitrogen | 10.5 % | 2.52 kg/day |
-| Phosphorus | 1.1 % | 0.26 kg/day |
-| Potassium | 1.5 % | 0.36 kg/day |
-| Sulphur | 0.8 % | 0.19 kg/day |
-| Magnesium | 0.3 % | 0.07 kg/day |
-| Iron | 0.1 % | 0.024 kg/day |
+| Carbon | 46 % | 9.66 kg/day |
+| Nitrogen | 10.5 % | 2.21 kg/day |
+| Phosphorus | 1.1 % | 0.23 kg/day |
+| Potassium | 1.5 % | 0.32 kg/day |
+| Sulphur | 0.8 % | 0.17 kg/day |
+| Magnesium | 0.3 % | 0.06 kg/day |
+| Iron | 0.1 % | 0.021 kg/day |
 
 The nitrogen figure is consistent with a protein content of approximately 65% on
 a nitrogen-to-protein factor of 6.25. If a higher protein specification is
@@ -410,16 +440,16 @@ nutrient balance shall be recalculated.
 
 | Reagent | Element supplied | Peak consumption | 7-day storage (Vol 1 § 15) | Annual at mean output |
 | --- | --- | --- | --- | --- |
-| Sodium nitrate (16.5% N) | N | 15.3 kg/day | 107 kg | 2,850 kg |
-| *or* Urea (46.6% N) | N | 5.4 kg/day | 38 kg | 1,010 kg |
-| Di-potassium phosphate (17.8% P) | P, K | 1.48 kg/day | 10.4 kg | 276 kg |
+| Sodium nitrate (16.5% N) | N | 13.4 kg/day | 94 kg | 2,495 kg |
+| *or* Urea (46.6% N) | N | 4.7 kg/day | 33 kg | 883 kg |
+| Di-potassium phosphate (17.8% P) | P, K | 1.30 kg/day | 9.1 kg | 242 kg |
 | Potassium sulphate | K, S | As required for balance | — | — |
-| Magnesium sulphate heptahydrate (9.9% Mg) | Mg, S | 0.73 kg/day | 5.1 kg | 136 kg |
-| Ferrous sulphate heptahydrate (20.1% Fe) | Fe | 0.12 kg/day | 0.85 kg | 22 kg |
+| Magnesium sulphate heptahydrate (9.9% Mg) | Mg, S | 0.64 kg/day | 4.5 kg | 119 kg |
+| Ferrous sulphate heptahydrate (20.1% Fe) | Fe | 0.10 kg/day | 0.73 kg | 20 kg |
 | Sodium bicarbonate | C, alkalinity | Make-up only, per Section 7 | — | — |
 
 Di-potassium phosphate dosed to meet phosphorus demand supplies approximately
-0.66 kg/day of potassium against a demand of 0.36 kg/day. Potassium sulphate
+0.58 kg/day of potassium against a demand of 0.32 kg/day. Potassium sulphate
 addition shall therefore be reduced accordingly and shall not be dosed to the
 full Zarrouk figure, or potassium will accumulate.
 
@@ -472,11 +502,11 @@ in the biomass and are subject to the product limits of Section 15.
 | Parameter | Value |
 | --- | --- |
 | Carbon in dry biomass | 46 % |
-| Peak carbon demand | 11.0 kg C/day |
-| Stoichiometric CO₂ demand | 40.5 kg CO₂/day |
+| Peak carbon demand | 9.66 kg C/day |
+| Stoichiometric CO₂ demand | 35.4 kg CO₂/day |
 | Design CO₂ utilisation efficiency | 65 % |
-| Delivered CO₂ requirement, peak | 62 kg/day |
-| Design basis for supply and storage | 70 kg/day |
+| Delivered CO₂ requirement, peak | 55 kg/day |
+| Design basis for supply and storage | 70 kg/day (per § 4.5) |
 
 ### 7.2 Supply Philosophy
 
@@ -487,7 +517,7 @@ biomass growth.
 
 Sodium bicarbonate shall be dosed only as make-up for carbon lost with harvested
 biomass and with blowdown, not as the primary carbon source. Supplying carbon
-entirely as bicarbonate would require approximately 79 kg/day of sodium
+entirely as bicarbonate would require approximately 69 kg/day of sodium
 bicarbonate at peak, with a corresponding sodium load that would drive salinity
 past the limits of Section 5.2 within weeks.
 
@@ -588,18 +618,18 @@ concentration in a single batch — is the governing design case.
 
 | Stream | Peak day | Mean day | Basis |
 | --- | --- | --- | --- |
-| Pond evaporation make-up | 20.0 m³ | 12.0 m³ | 2,000 m² at 10 / 6 mm/day |
-| Water leaving with wet cake | 0.10 m³ | 0.06 m³ | 95 / 55 kg/day |
-| Biomass washing | 0.24 m³ | 0.14 m³ | 2 L per kg wet cake |
-| Blowdown for salinity control | 2.0 m³ | 2.0 m³ | Section 9.5 |
+| Pond evaporation make-up | 17.5 m³ | 10.5 m³ | 1,750 m² at 10 / 6 mm/day |
+| Water leaving with wet cake | 0.08 m³ | 0.05 m³ | 84 / 49 kg/day |
+| Biomass washing | 0.21 m³ | 0.12 m³ | 2 L per kg wet cake |
+| Blowdown for salinity control | 1.8 m³ | 1.8 m³ | Section 9.5 |
 | Equipment and floor cleaning | 1.5 m³ | 1.0 m³ | Assumed (A-07) |
 | Laboratory | 0.2 m³ | 0.2 m³ | Assumed |
-| **Process sub-total** | **24.0 m³** | **15.4 m³** | |
+| **Process sub-total** | **21.3 m³** | **13.7 m³** | |
 | Domestic and potable | 0.9 m³ | 0.9 m³ | 20 persons at 45 L |
-| **Total** | **24.9 m³** | **16.3 m³** | |
+| **Total** | **22.2 m³** | **14.6 m³** | |
 | **Design raw-water supply** | **30 m³/day** | | Includes margin per Vol 1 § 15 |
 
-Annual process water demand is approximately 5,200 m³.
+Annual process water demand is approximately 4,670 m³.
 
 ### 9.3 Evaporation Basis
 
@@ -610,7 +640,7 @@ Annual process water demand is approximately 5,200 m³.
 | Design mean pond evaporation | 6 mm/day |
 | Design peak pond evaporation | 10 mm/day |
 
-Evaporation is the dominant water demand — approximately 80% of peak process
+Evaporation is the dominant water demand — approximately 79% of peak process
 demand — and the pond-evaporation figure therefore governs the sizing of the
 raw-water system, the storage and the abstraction. It shall be confirmed against
 site meteorological records (A-09) before the water supply is committed.
@@ -689,10 +719,10 @@ the biomass is separated, and the clarified medium is returned to the same pond.
 
 | Parameter | Peak design value |
 | --- | --- |
-| Culture harvested | 40.1 m³/day |
+| Culture harvested | 35.1 m³/day |
 | Harvest window | 5 hours |
-| Harvest flow rate | 8.0 m³/h |
-| Design pump capacity | 10 m³/h (per Vol 1 § 15, ≥ 10% above duty) |
+| Harvest flow rate | 7.0 m³/h |
+| Design pump capacity | 10 m³/h (per § 4.5, enquired at the 8.0 m³/h duty) |
 | Harvest concentration | 0.65 g/L |
 | Capture efficiency | 92 % |
 | Fraction of pond volume per day | 10 % |
@@ -716,7 +746,7 @@ suited to unicellular algae.
 | Hydraulic loading | 5 – 15 m³/h per m² of screen |
 | Minimum screen area at design flow | 1.5 m² |
 | Slurry concentration after screening | ≈ 30 g/L (3% solids) |
-| Slurry volume, peak | ≈ 800 L/day |
+| Slurry volume, peak | ≈ 700 L/day |
 | Centrifugation | Not required, and not to be specified without justification |
 
 Screens shall be arranged for cleaning without tools and shall be inspected for
@@ -727,10 +757,10 @@ filtrate and the loss is not immediately visible.
 
 | Stage | Inlet solids | Outlet solids | Peak throughput |
 | --- | --- | --- | --- |
-| Primary screening | 0.065 % | ≈ 3 % | 40.1 m³/day |
-| Dewatering | ≈ 3 % | 10 – 15 % | 800 L/day |
-| Pressing | 10 – 15 % | 18 – 22 % | ≈ 200 kg/day |
-| **Wet cake to drying** | | **20 % (design)** | **120 kg/day** |
+| Primary screening | 0.065 % | ≈ 3 % | 35.1 m³/day |
+| Dewatering | ≈ 3 % | 10 – 15 % | 700 L/day |
+| Pressing | 10 – 15 % | 18 – 22 % | ≈ 175 kg/day |
+| **Wet cake to drying** | | **20 % (design)** | **105 kg/day** |
 
 Pressing pressure and duration shall be limited to that required to reach the
 target solids. Over-pressing ruptures filaments, releases intracellular material
@@ -780,15 +810,15 @@ and the design shall not rely on chilled holding as a routine measure.
 
 | Parameter | Peak design value |
 | --- | --- |
-| Wet cake feed | 120 kg/day at 20% solids |
-| Dry solids | 24 kg/day |
-| Product at 5% moisture | 25.3 kg/day |
-| Water evaporated | 95 kg/day |
+| Wet cake feed | 105 kg/day at 20% solids |
+| Dry solids | 21 kg/day |
+| Product at 5% moisture | 22.1 kg/day |
+| Water evaporated | 83 kg/day |
 | Drying window | 8 hours |
-| Evaporation rate | 11.9 kg water/h |
+| Evaporation rate | 10.4 kg water/h |
 | Specific energy | 4,500 – 6,000 kJ/kg water evaporated |
-| Thermal duty at 5,000 kJ/kg | 16.5 kW |
-| Design thermal duty | 20 kW |
+| Thermal duty at 5,000 kJ/kg | 14.4 kW |
+| Design thermal duty | 20 kW (per § 4.5) |
 
 ### 11.2 Product Temperature
 
@@ -839,7 +869,7 @@ cost, monsoon performance and product quality trial results.
 
 | Parameter | Design basis |
 | --- | --- |
-| Feed | 25.3 kg/day dried biomass, peak |
+| Feed | 22.1 kg/day dried biomass, peak |
 | Mill type | Impact or pin mill, food-grade |
 | Nominal mill capacity | 50 kg/h (well above peak; sized for expansion and turndown) |
 | Target particle size | 95% passing 180 µm (80 mesh) |
@@ -916,8 +946,8 @@ literature or a competitor's label is not a substantiated claim.
 
 | Parameter | Value |
 | --- | --- |
-| Peak product to pack | 25.3 kg/day |
-| Annual product to pack | ≈ 4,700 kg |
+| Peak product to pack | 22.1 kg/day |
+| Annual product to pack | ≈ 4,130 kg |
 | Warehouse allowance | Per Volume 1 § 15, 15% operational allowance |
 
 Packing equipment shall be selected on pack format and changeover time rather
@@ -1129,31 +1159,31 @@ Per Volume 1 § 15, the control panel shall carry 20% spare I/O.
 
 | Load | Rating | Duty | Daily energy |
 | --- | --- | --- | --- |
-| Paddle wheels, 4 off | 6.0 kW total | Continuous | 144 kWh |
+| Paddle wheels, 4 off | 5.25 kW total | Continuous | 126 kWh |
 | CO₂ system and blowers | 2.0 kW | 12 h | 24 kWh |
 | Harvest pumps | 2.2 kW | 5 h | 11 kWh |
 | Dewatering and pressing | 3.0 kW | 5 h | 15 kWh |
-| Drying, electrical equivalent | 20 kW | 8 h | 160 kWh |
+| Drying, electrical equivalent | 14.4 kW | 8 h | 115 kWh |
 | Milling and sieving | 5.5 kW | 1 h | 6 kWh |
 | Packing | 2.0 kW | 4 h | 8 kWh |
 | Water treatment and transfer | 2.5 kW | 4 h | 10 kWh |
 | Laboratory, office, lighting, ancillary | — | — | 40 kWh |
-| **Total** | | | **≈ 420 kWh/day** |
-| Estimated connected load | ≈ 55 kW | | |
-| Estimated maximum demand | ≈ 35 kW | | |
+| **Total** | | | **≈ 355 kWh/day** |
+| Estimated connected load | ≈ 50 kW | | |
+| Estimated maximum demand | ≈ 32 kW | | |
 
 ### 19.2 Specific Energy
 
-At peak output, approximately 420 kWh/day against 24 kg/day of dry biomass gives
-a specific energy of approximately **17.5 kWh per kg of dry biomass**.
+At peak output, approximately 355 kWh/day against 21 kg/day of dry biomass gives
+a specific energy of approximately **16.9 kWh per kg of dry biomass**.
 
 This is high. It is characteristic of a small facility with electrical drying,
 and it is dominated by two loads:
 
 | Load | Share of daily energy | Reduction route |
 | --- | --- | --- |
-| Drying | 38 % | Solar-assisted or biomass-fired heat in place of electrical |
-| Pond circulation | 34 % | Paddle-wheel and channel hydraulic design; bend and baffle geometry |
+| Pond circulation | 36 % | Paddle-wheel and channel hydraulic design; bend and baffle geometry |
+| Drying | 32 % | Solar-assisted or biomass-fired heat in place of electrical |
 
 Volume 1 § 3.5 requires that energy consumption be minimised. Those two items
 are where that requirement is met or missed, and both are decided in detailed
@@ -1172,9 +1202,9 @@ with the exception of continuous night-time circulation.
 | --- | --- |
 | Process water | 30 m³/day design, per Section 9.2 |
 | Compressed air | Instrument and process air, per detailed design |
-| CO₂ | 70 kg/day peak, per Section 7 |
+| CO₂ | 70 kg/day design, 55 kg/day required, per Section 7 |
 | Backup power | Paddle wheels and control systems, per Volume 1 § 11 |
-| Thermal energy for drying | 20 kW design duty, source per Section 11.3 |
+| Thermal energy for drying | 20 kW design duty, 14.4 kW required, per Section 11.3 |
 
 ---
 
@@ -1182,12 +1212,12 @@ with the exception of continuous night-time circulation.
 
 | Stream | Peak quantity | Character | Disposal route |
 | --- | --- | --- | --- |
-| Harvest filtrate | 40 m³/day | Alkaline, saline, nutrient-bearing | Returned to ponds |
-| Blowdown | 2 m³/day | High pH, high TDS, nutrient-bearing | Requires treatment or consented disposal |
-| Wash water | 0.24 m³/day | Saline, low solids | Combined with blowdown |
-| Press liquor | ≈ 0.7 m³/day | Nutrient-bearing, may carry pigment | Assess for return to ponds |
+| Harvest filtrate | 35 m³/day | Alkaline, saline, nutrient-bearing | Returned to ponds |
+| Blowdown | 1.8 m³/day | High pH, high TDS, nutrient-bearing | Requires treatment or consented disposal |
+| Wash water | 0.21 m³/day | Saline, low solids | Combined with blowdown |
+| Press liquor | ≈ 0.6 m³/day | Nutrient-bearing, may carry pigment | Assess for return to ponds |
 | Equipment cleaning water | 1.5 m³/day | Detergent-bearing | Segregated, treated |
-| Rejected culture | Up to 100 m³ per event | Alkaline, high biomass | Controlled disposal, Volume 1 § 13 |
+| Rejected culture | Up to 88 m³ per event | Alkaline, high biomass | Controlled disposal, Volume 1 § 13 |
 | Screen and filter rejects | Minor | Biomass, debris | Solid waste |
 | Stormwater | Per drainage design | — | Segregated from process effluent |
 
@@ -1236,20 +1266,20 @@ an operator would normally stand, not only at the drive.
 
 | Stream | In | Out | Note |
 | --- | --- | --- | --- |
-| Make-up water | 24.0 m³ | | Section 9.2 |
-| CO₂ delivered | 70 kg | | 62 kg required, 70 kg design |
-| Nitrogen as NaNO₃ | 15.3 kg | | Or 5.4 kg as urea |
-| Di-potassium phosphate | 1.48 kg | | |
-| Magnesium sulphate | 0.73 kg | | |
-| Ferrous sulphate | 0.12 kg | | |
+| Make-up water | 21.3 m³ | | Section 9.2 |
+| CO₂ delivered | 70 kg | | 55 kg required, 70 kg design |
+| Nitrogen as NaNO₃ | 13.4 kg | | Or 4.7 kg as urea |
+| Di-potassium phosphate | 1.30 kg | | |
+| Magnesium sulphate | 0.64 kg | | |
+| Ferrous sulphate | 0.10 kg | | |
 | Sodium bicarbonate | Make-up only | | Section 7.2 |
-| Evaporation | | 20.0 m³ | |
-| Blowdown | | 2.0 m³ | |
-| Water evaporated in drying | | 95 kg | |
-| Cleaning and wash effluent | | 1.74 m³ | |
-| **Packed product at 5% moisture** | | **25.3 kg** | |
+| Evaporation | | 17.5 m³ | |
+| Blowdown | | 1.8 m³ | |
+| Water evaporated in drying | | 83 kg | |
+| Cleaning and wash effluent | | 1.71 m³ | |
+| **Packed product at 5% moisture** | | **22.1 kg** | |
 
-Culture harvested (40.1 m³/day) and filtrate returned circulate within the
+Culture harvested (35.1 m³/day) and filtrate returned circulate within the
 system and are not shown as an input or an output.
 
 ---
@@ -1261,12 +1291,12 @@ applications.
 
 | Item | Margin applied | Resulting design figure |
 | --- | --- | --- |
-| Harvest pump flow | 10% above duty | 8.0 → 10 m³/h |
+| Harvest pump flow | Per § 4.5, on the 24 kg/day enquiry basis | 7.0 → 10 m³/h |
 | Harvest screen area | Sized at the conservative end of the loading range | ≥ 1.5 m² |
-| CO₂ supply | 13% above requirement | 62 → 70 kg/day |
-| Raw water supply | 20% above peak demand | 24.9 → 30 m³/day |
+| CO₂ supply | Per § 4.5, on the 24 kg/day enquiry basis | 55 → 70 kg/day |
+| Raw water supply | 35% above peak demand | 22.2 → 30 m³/day |
 | Water storage | Two days rather than one | 60 m³ |
-| Dryer thermal duty | 21% above calculated | 16.5 → 20 kW |
+| Dryer thermal duty | Per § 4.5, on the 24 kg/day enquiry basis | 14.4 → 20 kW |
 | Mill capacity | Sized for expansion, not Stage 1 | 50 kg/h |
 | Process piping | 15% future allowance | Per Volume 1 § 15 |
 | Electrical feeders | 20% spare | Per Volume 1 § 15 |
@@ -1276,7 +1306,8 @@ These margins cover normal engineering uncertainty. They do **not** cover the
 assumptions of Section 24, several of which could move a derived figure by more
 than the margin applied to it. A 20% error in assumed areal productivity moves
 peak biomass, harvest volume, dryer duty and nutrient consumption by 20% each —
-which exceeds every margin in the table above.
+which exceeds every margin in the table above. The 14% equipment margin of
+§ 4.5 covers part of an upward error only, and nothing of a downward one.
 
 ---
 
@@ -1287,7 +1318,7 @@ the corresponding commitment is made.
 
 | Ref | Assumption | Value | Confirmed by | Affects | Confirm before |
 | --- | --- | --- | --- | --- | --- |
-| A-01 | Net pond area at Stage 1 | 2,000 m² | Site master plan and layout | All capacity figures | Civil design |
+| A-01 | Net pond area at Stage 1 | **1,750 m² — CONFIRMED** | Layout study, BB-DBR-002-V3 § 6.4 | All capacity figures | Closed at Rev. 1 |
 | A-02 | Operating culture depth | 200 mm | Cultivation trial | Pond volume, thermal behaviour, productivity | Pond civil design |
 | A-03 | Peak areal productivity | 12 g/m²/day | Cultivation trial, minimum one full seasonal cycle | All equipment sizing | Major equipment purchase |
 | A-04 | Annual mean areal productivity | 7 g/m²/day | Cultivation trial, full seasonal cycle | Production forecast, revenue, nutrient budget | Financial commitment |
@@ -1301,11 +1332,13 @@ the corresponding commitment is made.
 | A-12 | Wet cake solids after pressing | 20 % | Dewatering trial | Dryer duty, drying time, energy | Dryer purchase |
 | A-13 | Specific mixing power | 3 W/m² | Hydraulic design and vendor data | Electrical load, energy cost | Electrical design |
 | A-14 | Drying specific energy | 5,000 kJ/kg water | Vendor data and trial | Energy cost, dryer selection | Dryer purchase |
+| A-23 | Net pond area per incremental acre beyond Stage 1 | 2,300 m² | Land budget prepared for the five-acre master layout | Stage 2 to 4 capacities | Any investment decision beyond Stage 1 |
 
-The three assumptions with the widest consequences are **A-03/A-04**
-(productivity, which sets every capacity figure in this volume), **A-06** (water
-quality, which propagates into treatment, medium, blowdown and effluent) and
-**A-10** (effluent disposal, which can constrain the water balance backwards).
+A-01 is closed at Rev. 1. The three open assumptions with the widest
+consequences are now **A-03/A-04** (productivity, which sets every capacity
+figure in this volume), **A-06** (water quality, which propagates into
+treatment, medium, blowdown and effluent) and **A-10** (effluent disposal, which
+can constrain the water balance backwards).
 A cultivation trial and a water analysis are therefore the two highest-value
 early expenditures on this project, and both should precede any major equipment
 commitment.

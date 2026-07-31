@@ -41,11 +41,11 @@ expand to five acres, at roughly six times these quantities.
 
 | Reagent | Element supplied | Peak daily | **Annual, indicative** |
 | --- | --- | --- | --- |
-| Sodium nitrate | Nitrogen | 15.3 kg | **2,850 kg** |
-| *or* Urea | Nitrogen | 5.4 kg | **1,010 kg** |
-| Di-potassium phosphate | Phosphorus, potassium | 1.48 kg | **276 kg** |
-| Magnesium sulphate heptahydrate | Magnesium, sulphur | 0.73 kg | **136 kg** |
-| Ferrous sulphate heptahydrate | Iron | 0.12 kg | **22 kg** |
+| Sodium nitrate | Nitrogen | 13.4 kg | **2,495 kg** |
+| *or* Urea | Nitrogen | 4.7 kg | **883 kg** |
+| Di-potassium phosphate | Phosphorus, potassium | 1.30 kg | **242 kg** |
+| Magnesium sulphate heptahydrate | Magnesium, sulphur | 0.64 kg | **119 kg** |
+| Ferrous sulphate heptahydrate | Iron | 0.10 kg | **20 kg** |
 | Potassium sulphate | Potassium, sulphur | As required | To advise |
 | Sodium bicarbonate | Carbon, alkalinity | Make-up only | To advise |
 | EDTA | Chelation | Per formulation | To advise |
