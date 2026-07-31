@@ -95,3 +95,21 @@ PM (Project management).
 ## Confidentiality
 
 Proprietary project documentation of BlueBloom Spirulina Private Limited.
+
+## Reading the manual
+
+`tools/build-docs-viewer.mjs` builds a single self-contained HTML reader for
+every volume — contents sidebar, section filter, light and dark themes, and
+print styles for saving a volume as PDF.
+
+```
+npm install        # marked, build-time only
+npm run docs       # writes docs-viewer.html
+```
+
+Open `docs-viewer.html` in a browser. It is generated output and is gitignored;
+rebuild it after editing any volume. Adding a volume means appending one entry
+to the `VOLUMES` array in the script — nothing else changes.
+
+The build fails rather than emitting a dead cross-link if a referenced section
+heading is reworded.

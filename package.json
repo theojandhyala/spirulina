@@ -1,0 +1,13 @@
+{
+  "name": "bluebloom-spirulina-docs",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Engineering documentation and website for the BlueBloom Spirulina Production Facility",
+  "type": "module",
+  "scripts": {
+    "docs": "node tools/build-docs-viewer.mjs"
+  },
+  "devDependencies": {
+    "marked": "^18.0.7"
+  }
+}
