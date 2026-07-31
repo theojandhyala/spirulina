@@ -714,6 +714,56 @@ td:last-child, th:last-child { text-align: right; padding-right: 0; }
 .check h3 { font-size: var(--fs-lg); margin-bottom: .2rem; }
 .check p { color: var(--ink-soft); font-size: var(--fs-md); max-width: 44em; }
 
+/* --- question cards -------------------------------------- */
+
+.qcards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.qcard {
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  background: var(--ground);
+  padding: 1.5rem 1.4rem;
+  text-decoration: none;
+  color: inherit;
+  transition: background .18s;
+}
+
+.qcard:hover { background: var(--paper); }
+
+.qcard h3 {
+  font-size: var(--fs-xl);
+  line-height: 1.25;
+  letter-spacing: -.012em;
+}
+
+.qcard p {
+  font-size: var(--fs-md);
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+.qcard-go {
+  margin-top: auto;
+  padding-top: .6rem;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .06em;
+  color: var(--phyco);
+}
+
+.qcard:hover .qcard-go { text-decoration: underline; }
+
+@media (max-width: 720px) {
+  .qcards { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* --- suppliers ------------------------------------------- */
 
 .packages {
@@ -895,9 +945,8 @@ html { scroll-behavior: smooth; }
   <div class="wrap masthead-inner">
     <a class="wordmark" href="#top"><b>BlueBloom</b> <span>Spirulina</span></a>
     <nav class="nav" aria-label="Sections">
-      <a href="#organism">Organism</a>
+      <a href="#spirulina">Spirulina</a>
       <a href="#products">Products</a>
-      <a href="#process">Production</a>
       <a href="#facility">Facility</a>
       <a href="#quality">Quality</a>
       <a href="#suppliers">Suppliers</a>
@@ -924,7 +973,7 @@ html { scroll-behavior: smooth; }
       </p>
       <div class="hero-actions">
         <a class="btn" href="#suppliers">Supply opportunities</a>
-        <a class="btn btn-ghost" href="#process">How it is produced</a>
+        <a class="btn btn-ghost" href="#spirulina">What is spirulina?</a>
       </div>
 
       <dl class="spec-strip">
@@ -966,57 +1015,73 @@ html { scroll-behavior: smooth; }
     </figure>
   </section>
 
-  <section class="section" id="organism">
+  <section class="section" id="spirulina">
     <div class="wrap section-grid">
       <div class="section-rail">
         <span class="num">01</span>
-        <span class="label">The organism</span>
+        <span class="label">Spirulina</span>
       </div>
       <div>
-        <h2>A cyanobacterium that has been food for centuries.</h2>
-        <p class="prose">
-          <em>Arthrospira platensis</em> is not a plant and not quite an algae —
-          it is a filamentous, photosynthetic cyanobacterium that grows in warm,
-          strongly alkaline water. People have been harvesting and eating it for
-          a very long time: as <em>tecuitlatl</em> from Lake Texcoco in Mexico,
-          and as <em>dihé</em> from the shores of Lake Chad, where it is still
-          dried into cakes today.
+        <h2>Everything we know about growing it.</h2>
+        <p class="lede" style="margin-bottom:.75rem">
+          We wrote a full production manual for our own operators and published
+          it openly. It answers the questions below in detail — the biology, the
+          chemistry, the day-to-day operation and what to do when a culture
+          starts to fail.
         </p>
-        <p class="prose">
-          Its colour is the interesting part. Chlorophyll makes it green;
-          phycocyanin — a blue light-harvesting pigment that gives the company
-          its name — makes it blue. Together they give dried spirulina its
-          dark blue-green cast, and give the extracted pigment its vivid,
-          almost unnatural blue.
-        </p>
-        <p class="prose">
-          The alkalinity matters commercially. Spirulina thrives at a pH that
-          most competing organisms cannot tolerate, so the same water chemistry
-          that grows the crop also does much of the work of keeping the culture
-          clean.
+        <p class="prose" style="margin-bottom:2rem;color:var(--muted);font-size:var(--fs-md)">
+          Most of what is written about spirulina online is either marketing or
+          folklore. This is what we are actually building to.
         </p>
 
-        <dl class="composition">
-          <div><dt>Typical protein, dry weight</dt><dd>55–70 %</dd></div>
-          <div><dt>Essential amino acids</dt><dd>All nine present</dd></div>
-          <div><dt>Characteristic pigment</dt><dd>Phycocyanin</dd></div>
-          <div><dt>Also carries</dt><dd>Iron · B-vitamins · β-carotene</dd></div>
-          <div><dt>Filament length</dt><dd>≈ 100–500 µm</dd></div>
-        </dl>
-        <p class="footnote">
-          Composition figures are typical published ranges for commercial
-          spirulina. Values for BlueBloom material will be stated per batch on
-          the certificate of analysis, not inferred from literature.
-        </p>
+      <!-- QUESTIONS:START — generated by tools/build-site-questions.mjs, do not edit by hand -->
+      <div class="qcards">
+        <a class="qcard" href="manual/#ops-1-what-spirulina-actually-is">
+          <h3>What is spirulina?</h3>
+          <p>A cyanobacterium — not a plant and not an algae — and that distinction shapes everything else in this manual. What the organism actually is, how it is built, why its filament length is worth money, what it contains, and two nutrition claims the trade routinely gets wrong.</p>
+          <span class="qcard-go">Read this chapter →</span>
+        </a>
+        <a class="qcard" href="manual/#ops-3-the-six-things-spirulina-needs">
+          <h3>What does it need to grow?</h3>
+          <p>Six variables: light, temperature, carbon, pH and alkalinity, nutrients and mixing. Keep all six inside their window and the crop largely looks after itself. Why a rising pH is the sign of a healthy culture, why the alkaline medium is really a contamination barrier, and what productivity you can honestly expect.</p>
+          <span class="qcard-go">Read this chapter →</span>
+        </a>
+        <a class="qcard" href="manual/#ops-5-the-culture-medium">
+          <h3>How do I start a culture?</h3>
+          <p>The growth medium and the scale-up train. What Zarrouk's medium is, why we do not use it at full strength, the order salts must be added in to avoid precipitating the whole batch, and how a laboratory flask becomes a working pond without carrying contamination in with it.</p>
+          <span class="qcard-go">Read this chapter →</span>
+        </a>
+        <a class="qcard" href="manual/#ops-7-the-daily-routine">
+          <h3>How do I run the ponds each day?</h3>
+          <p>The daily routine, from the morning walk to the evening check. How to take each measurement properly — Secchi depth, dry weight, pH, and the daily microscopy that is the most valuable ten minutes in the whole operation. How to feed a pond, and what has to be written down.</p>
+          <span class="qcard-go">Read this chapter →</span>
+        </a>
+        <a class="qcard" href="manual/#ops-11-harvesting">
+          <h3>How do I harvest and process it?</h3>
+          <p>From pond to packed powder. When to harvest and how much to take, why the pump must be gentle, how screening works and why it is so much cheaper than centrifuging, washing and pressing, and the drying step where product quality is most easily destroyed.</p>
+          <span class="qcard-go">Read this chapter →</span>
+        </a>
+        <a class="qcard" href="manual/#ops-14-product-specification">
+          <h3>How do I know it is safe to sell?</h3>
+          <p>The product specification and the testing behind it. Microcystins — the one genuine safety hazard associated with commercial spirulina, and why every single batch is tested for them. And the batch records that make a recall bounded rather than catastrophic.</p>
+          <span class="qcard-go">Read this chapter →</span>
+        </a>
+        <a class="qcard" href="manual/#ops-17-contamination">
+          <h3>What do I do when something goes wrong?</h3>
+          <p>Contamination, grazers, and the rotifer emergency that can take a pond in three days. A symptom-to-cause diagnostic table covering colour, smell, foam, density and lost pigment. And how to decide when a pond is no longer worth saving.</p>
+          <span class="qcard-go">Read this chapter →</span>
+        </a>
+        <a class="qcard" href="manual/#ops-20-quick-reference-target-values">
+          <h3>Where do I look things up?</h3>
+          <p>Every target value on one page, composition constants, worked calculations for production, harvest volume, nutrient dosing, CO₂ demand and drying duty, unit conversions, a glossary, and ten rules that summarise the entire manual.</p>
+          <span class="qcard-go">Read this chapter →</span>
+        </a>
+      </div>
+      <!-- QUESTIONS:END -->
 
         <div class="hero-actions" style="margin-top:2rem">
-          <a class="btn" href="manual/">Read the production manual</a>
+          <a class="btn" href="manual/">Open the full manual</a>
         </div>
-        <p class="footnote" style="border-left-color:var(--line);margin-top:1rem">
-          Our full working manual — the organism, cultivation, harvesting,
-          drying, quality control and troubleshooting, in detail. Written for
-          our own operators, published openly.
-        </p>
       </div>
     </div>
   </section>
@@ -1086,113 +1151,10 @@ html { scroll-behavior: smooth; }
     </div>
   </section>
 
-  <section class="section" id="process">
-    <div class="wrap section-grid">
-      <div class="section-rail">
-        <span class="num">03</span>
-        <span class="label">Production</span>
-      </div>
-      <div>
-        <h2>Pond to pack, in six controlled steps.</h2>
-        <p class="lede" style="margin-bottom:2.25rem">
-          Each step below is a real handover point with its own sampling,
-          records and release criteria — which is what makes the batch
-          traceable backwards from a finished pack.
-        </p>
-
-        <div class="stages">
-          <article class="stage">
-            <span class="stage-n">01</span>
-            <div>
-              <h3>Inoculum</h3>
-              <p>
-                Starter cultures are raised in closed tanks and stepped up
-                through nursery ponds before they are ever released into a
-                production raceway. A production pond is never started from an
-                unverified culture.
-              </p>
-            </div>
-            <span class="stage-note">Closed tank → nursery → production</span>
-          </article>
-
-          <article class="stage">
-            <span class="stage-n">02</span>
-            <div>
-              <h3>Cultivation</h3>
-              <p>
-                Open raceway ponds, circulated continuously by paddle wheel so
-                the culture keeps moving, the biomass stays suspended and every
-                filament cycles between light at the surface and shade below.
-                pH, temperature, alkalinity and density are monitored on a
-                schedule.
-              </p>
-            </div>
-            <span class="stage-note">Continuous circulation · monitored daily</span>
-          </article>
-
-          <article class="stage">
-            <span class="stage-n">03</span>
-            <div>
-              <h3>Harvest</h3>
-              <p>
-                Spirulina's filaments are long enough to be caught on fine
-                screens, so harvesting is filtration rather than centrifugation.
-                That is gentler on the cell and considerably cheaper in energy
-                than harvesting single-celled microalgae.
-              </p>
-            </div>
-            <span class="stage-note">Screen filtration · no centrifuge</span>
-          </article>
-
-          <article class="stage">
-            <span class="stage-n">04</span>
-            <div>
-              <h3>Wash and dewater</h3>
-              <p>
-                Harvested biomass is washed to remove residual culture medium,
-                then pressed down to a stable wet cake and held only briefly
-                before it goes to the dryer.
-              </p>
-            </div>
-            <span class="stage-note">Medium removed before drying</span>
-          </article>
-
-          <article class="stage">
-            <span class="stage-n">05</span>
-            <div>
-              <h3>Dry and mill</h3>
-              <p>
-                Controlled drying, then milling and sieving to the specified
-                particle size. Drying is the step where colour, pigment and
-                flavour are won or lost, so it is treated as a controlled
-                process rather than a matter of weather.
-              </p>
-            </div>
-            <span class="stage-note">Controlled drying · milled · sieved</span>
-          </article>
-
-          <article class="stage">
-            <span class="stage-n">06</span>
-            <div>
-              <h3>Test, release and pack</h3>
-              <p>
-                Every batch is sampled and tested against its specification
-                before it is released. Only released material is packed,
-                labelled and dispatched, and the batch number ties the pack back
-                to the pond it came from.
-              </p>
-            </div>
-            <span class="stage-note">Released against spec before packing</span>
-          </article>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="section" id="facility">
     <div class="wrap section-grid">
       <div class="section-rail">
-        <span class="num">04</span>
+        <span class="num">03</span>
         <span class="label">Facility</span>
       </div>
       <div>
@@ -1263,7 +1225,7 @@ html { scroll-behavior: smooth; }
   <section class="section" id="quality">
     <div class="wrap section-grid">
       <div class="section-rail">
-        <span class="num">05</span>
+        <span class="num">04</span>
         <span class="label">Quality</span>
       </div>
       <div>
@@ -1350,7 +1312,7 @@ html { scroll-behavior: smooth; }
   <section class="section" id="suppliers">
     <div class="wrap section-grid">
       <div class="section-rail">
-        <span class="num">06</span>
+        <span class="num">05</span>
         <span class="label">Suppliers</span>
       </div>
       <div>
@@ -1470,7 +1432,7 @@ html { scroll-behavior: smooth; }
     <div class="wrap">
       <div class="enquiry">
         <div>
-          <span class="label">07 — Buyers</span>
+          <span class="label">06 — Buyers</span>
           <h2>Early conversations, ahead of Stage 1.</h2>
           <p>
             We are talking now with bulk buyers, supplement brands, contract

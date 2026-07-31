@@ -516,6 +516,132 @@
     if (over) label(g, X(7.4), Y(88), "⚠ PIGMENT LOST", C.warn, 10, "right");
   };
 
+  /* ---------- 7. growth curve, held in the linear phase ---------- */
+
+  D.growthcurve = function (g, W, H, t, C) {
+    var pad = { l: 44, r: 14, t: 18, b: 30 };
+    var iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
+    var head = (t / 18) % 1;                 // 18 s per 20 simulated days
+    var X = function (day) { return pad.l + (day / 20) * iw; };
+    var Y = function (v) { return pad.t + (1 - v / 1.05) * ih; };
+
+    // unharvested: lag, exponential, linear, then stationary
+    var free = function (day) {
+      if (day < 2) return 0.12 + day * 0.01;
+      var v = 0.14 * Math.exp(0.42 * (day - 2));
+      return v > 0.95 ? 0.95 - 0.35 * Math.exp(-(v - 0.95)) + 0.33 : Math.min(v, 0.98);
+    };
+    // harvested: the same, then held inside the operating band
+    var held = function (day) {
+      if (day < 7) return free(day);
+      var since = (day - 7) % 2.4;
+      return 0.65 - since * 0.045 + (since > 2.2 ? 0 : 0);
+    };
+
+    // operating band
+    g.fillStyle = C.accent; g.globalAlpha = 0.08;
+    g.fillRect(pad.l, Y(0.9), iw, Y(0.5) - Y(0.9)); g.globalAlpha = 1;
+    label(g, W - pad.r - 4, Y(0.9) + 10, "HARVEST BAND 0.5–0.9 g/L", C.muted, 10, "right");
+
+    axes(g, W, H, pad, C);
+
+    // phase dividers
+    [[2, "LAG"], [8, "EXPONENTIAL"], [14, "LINEAR"]].forEach(function (p) {
+      g.strokeStyle = C.line; g.lineWidth = 1; g.setLineDash([2, 4]);
+      g.beginPath(); g.moveTo(X(p[0]), pad.t); g.lineTo(X(p[0]), H - pad.b); g.stroke();
+      g.setLineDash([]);
+    });
+    label(g, X(1), H - pad.b + 12, "LAG", C.muted, 9, "center");
+    label(g, X(5), H - pad.b + 12, "EXPONENTIAL", C.muted, 9, "center");
+    label(g, X(11), H - pad.b + 12, "LINEAR", C.muted, 9, "center");
+    label(g, X(17), H - pad.b + 12, "STATIONARY", C.muted, 9, "center");
+
+    // unharvested trace
+    g.strokeStyle = C.muted; g.lineWidth = 1.5; g.setLineDash([4, 3]);
+    g.beginPath();
+    for (var a = 0; a <= 20 * head; a += 0.1) {
+      var y = Y(Math.min(free(a), 1.0));
+      if (a === 0) g.moveTo(X(a), y); else g.lineTo(X(a), y);
+    }
+    g.stroke(); g.setLineDash([]);
+
+    // harvested trace
+    g.strokeStyle = C.accent; g.lineWidth = 2.4;
+    g.beginPath();
+    var lastv = null;
+    for (var b = 0; b <= 20 * head; b += 0.06) {
+      var v = Math.min(held(b), 1.0);
+      if (lastv !== null && v > lastv + 0.06) { g.stroke(); g.beginPath(); }
+      if (lastv === null) g.moveTo(X(b), Y(v)); else g.lineTo(X(b), Y(v));
+      lastv = v;
+    }
+    g.stroke();
+
+    label(g, pad.l - 6, Y(1.0), "1.0", C.muted, 10, "right");
+    label(g, pad.l - 6, Y(0.5), "0.5", C.muted, 10, "right");
+    label(g, pad.l - 6, Y(0), "0", C.muted, 10, "right");
+    label(g, pad.l - 6, pad.t - 8, "g/L", C.muted, 10, "right");
+    if (head > 0.5) label(g, X(16), Y(0.98) - 8, "LEFT UNHARVESTED", C.muted, 10, "center");
+    if (head > 0.45) label(g, X(12), Y(0.45), "HARVESTED — HELD IN LINEAR PHASE", C.accent, 10, "center");
+  };
+
+  /* ---------- 8. a rotifer crash, and the window to act ---------- */
+
+  D.rotifercrash = function (g, W, H, t, C) {
+    var pad = { l: 44, r: 46, t: 20, b: 30 };
+    var iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
+    var head = (t / 16) % 1;                 // 16 s per 96 simulated hours
+    var X = function (h) { return pad.l + (h / 96) * iw; };
+    var Y = function (v) { return pad.t + (1 - v) * ih; };
+
+    var rot = function (h) { return Math.min(1, 0.004 * Math.exp(h / 13.5)); };
+    var spir = function (h) {
+      var pressure = rot(h);
+      return Math.max(0.04, 0.78 - pressure * 0.85);
+    };
+
+    // window between detectable and visible
+    g.fillStyle = C.accent; g.globalAlpha = 0.09;
+    g.fillRect(X(10), pad.t, X(46) - X(10), ih); g.globalAlpha = 1;
+
+    axes(g, W, H, pad, C);
+
+    // spirulina density
+    g.strokeStyle = C.accent; g.lineWidth = 2.4;
+    g.beginPath();
+    for (var h = 0; h <= 96 * head; h += 0.4) {
+      if (h === 0) g.moveTo(X(h), Y(spir(h))); else g.lineTo(X(h), Y(spir(h)));
+    }
+    g.stroke();
+
+    // rotifer population
+    g.strokeStyle = C.warn; g.lineWidth = 2;
+    g.beginPath();
+    for (var h2 = 0; h2 <= 96 * head; h2 += 0.4) {
+      if (h2 === 0) g.moveTo(X(h2), Y(rot(h2))); else g.lineTo(X(h2), Y(rot(h2)));
+    }
+    g.stroke();
+
+    // markers
+    [[10, "DETECTABLE UNDER\nMICROSCOPE", C.accent], [46, "VISIBLE TO\nTHE EYE", C.warn]].forEach(function (m) {
+      if (96 * head < m[0]) return;
+      g.strokeStyle = m[2]; g.lineWidth = 1.2; g.setLineDash([3, 3]);
+      g.beginPath(); g.moveTo(X(m[0]), pad.t); g.lineTo(X(m[0]), H - pad.b); g.stroke();
+      g.setLineDash([]);
+      m[1].split("\n").forEach(function (ln, i) {
+        label(g, X(m[0]) + 4, pad.t + 10 + i * 11, ln, m[2], 9);
+      });
+    });
+
+    if (96 * head > 46) label(g, X(28), H - pad.b - 12, "◀ WINDOW TO ACT ▶", C.accent, 10, "center");
+
+    label(g, pad.l + 4, Y(0.82), "SPIRULINA", C.accent, 10);
+    label(g, W - 6, Y(0.92), "ROTIFERS", C.warn, 10, "right");
+    ["0", "24", "48", "72", "96"].forEach(function (hh, i) {
+      label(g, X(i * 24), H - pad.b + 12, hh + " h", C.muted, 10, "center");
+    });
+  };
+
   /* ---------- engine ---------- */
 
   var live = [];

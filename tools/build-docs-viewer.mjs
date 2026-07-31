@@ -737,7 +737,19 @@ function SCRIPT() {
     }
   });
 
-  // Deep link support
+  // Deep link support, including in-page hash changes and browser back/forward.
+  // Without a hashchange listener a link to #another-section does nothing,
+  // because changing only the hash is a same-document navigation.
+  function fromHash(){
+    var h = location.hash.replace(/^#/,'');
+    var known = false;
+    for (var k in ORDER) if (ORDER[k].some(function(s){ return s.id === h; })) known = true;
+    if (known) { if (h !== cur) showSec(h); }
+    else if (DOCS.indexOf(h) > -1) { if (cur !== null || doc !== h) showHome(h); }
+    else if (!h) showHome(DOCS[0]);
+  }
+  window.addEventListener('hashchange', fromHash);
+
   var h = location.hash.replace(/^#/,'');
   var known = false;
   for (var k in ORDER) if (ORDER[k].some(function(s){ return s.id === h; })) known = true;

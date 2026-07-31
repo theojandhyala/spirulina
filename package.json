@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "docs": "node tools/build-docs-viewer.mjs",
-    "rfq": "node tools/build-rfq-letters.mjs"
+    "rfq": "node tools/build-rfq-letters.mjs",
+    "site": "node tools/build-site-questions.mjs",
+    "build": "npm run docs && node tools/build-docs-viewer.mjs site/manual/index.html ops && npm run site"
   },
   "devDependencies": {
     "html-to-docx": "^1.8.0",

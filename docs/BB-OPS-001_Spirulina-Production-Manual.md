@@ -547,6 +547,10 @@ shear begins to fragment filaments — which then screen poorly at harvest.
 days to keep density in the band where growth per unit area is highest, and you
 never let it reach stationary.
 
+<figure class="diagram" data-diagram="growthcurve">
+<figcaption>Live: two ponds. The dashed one is left alone and runs away to stationary, where growth stops. The solid one is harvested back into the 0.5–0.9 g/L band and stays in the linear phase, where output per square metre is highest.</figcaption>
+</figure>
+
 ### 4.2 Realistic productivity
 
 | Measure | Realistic outdoor commercial | Note |
@@ -1227,6 +1231,10 @@ from healthy to unrecoverable in three days.**
 6. Collapse
 
 **Response — act on step 1, not step 5:**
+
+<figure class="diagram" data-diagram="rotifercrash">
+<figcaption>Live: a rotifer population against spirulina density over four days. Rotifers are detectable under a microscope from about hour 10 — the shaded window. By the time the culture is visibly clearing, around hour 46, the pond is usually already lost.</figcaption>
+</figure>
 
 | Option | Method | Note |
 | --- | --- | --- |
