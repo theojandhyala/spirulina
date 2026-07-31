@@ -69,6 +69,17 @@ if (ONLY.length && DOCS.length !== ONLY.length) {
 }
 const PUBLIC = ONLY.length > 0;
 
+/**
+ * Enquiry contact. Set ENQUIRY_EMAIL to the real address and every enquiry
+ * button across the reader becomes live. Left empty, the panel states that
+ * details are being finalised rather than linking somewhere that bounces.
+ */
+const ENQUIRY_EMAIL = "jandhyalaspirulina@outlook.com";
+const ENQUIRY_LINES = [
+  "BlueBloom Spirulina Private Limited",
+  "Hyderabad Region, Telangana, India",
+];
+
 const esc = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
@@ -216,9 +227,59 @@ const homeFor = (d) => {
       '<p class="hint">Pick a chapter below, use the contents list, or press ' +
         "<kbd>/</kbd> to search the whole document.</p>" +
       '<div class="cards">' + cards.join("\n") + "</div>" +
+      (PUBLIC ? enquiryPanel() : "") +
     "</div>"
   );
 };
+
+const mailto = (subject) =>
+  ENQUIRY_EMAIL
+    ? 'mailto:' + ENQUIRY_EMAIL + '?subject=' + encodeURIComponent(subject)
+    : "";
+
+const enquiryRow = (title, body, subject) =>
+  '<div class="enq-item">' +
+    "<h3>" + esc(title) + "</h3>" +
+    "<p>" + esc(body) + "</p>" +
+    (ENQUIRY_EMAIL
+      ? '<a class="enq-btn" href="' + mailto(subject) + '">Enquire →</a>'
+      : "") +
+  "</div>";
+
+const enquiryPanel = () =>
+  '<section class="enq" id="enquiries">' +
+    '<p class="kicker">Enquiries</p>' +
+    "<h2>Talk to us</h2>" +
+    '<p class="enq-lede">We are in engineering on our first acre near Hyderabad, ' +
+      "and we are having early conversations now — with buyers, with suppliers, " +
+      "and with people who simply want to grow spirulina themselves.</p>" +
+    '<div class="enq-grid">' +
+      enquiryRow(
+        "Buying spirulina",
+        "Bulk food-grade powder, retail and private-label packing, tablets, or material for your own formulation. Tell us volume, form, specification and when you would want first delivery.",
+        "Purchase enquiry — BlueBloom Spirulina") +
+      enquiryRow(
+        "Samples",
+        "Once Stage 1 is producing we will send samples with a certificate of analysis against the specification in this manual. Register your interest now and we will come to you.",
+        "Sample request — BlueBloom Spirulina") +
+      enquiryRow(
+        "Supplying us",
+        "Equipment, materials, nutrients, laboratory services and construction. Thirteen packages are out to enquiry; tell us which you supply and we will send the documents.",
+        "Supplier enquiry — BlueBloom Spirulina") +
+      enquiryRow(
+        "Growing it yourself",
+        "This manual is published openly because the knowledge is worth sharing. If you are setting up your own cultivation and something here is unclear or wrong, we would genuinely like to hear.",
+        "Question about the production manual") +
+    "</div>" +
+    '<div class="enq-foot">' +
+      (ENQUIRY_EMAIL
+        ? '<a class="enq-mail" href="' + mailto("Enquiry — BlueBloom Spirulina") + '">' +
+          esc(ENQUIRY_EMAIL) + "</a>"
+        : '<b>Contact details are being finalised.</b>' +
+          "<span>Our enquiry address will be published here shortly.</span>") +
+      ENQUIRY_LINES.map((l) => "<span>" + esc(l) + "</span>").join("") +
+    "</div>" +
+  "</section>";
 
 const sectionsFor = (d) =>
   d.flat
@@ -341,6 +402,29 @@ main{min-width:0;padding-top:2rem}
   border-top:1px solid var(--line-soft);width:100%}
 .card-go{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--phyco);
   margin-top:auto;padding-top:.5rem}
+
+/* ---- enquiries ---- */
+.enq{margin-top:4rem;padding-top:2.5rem;border-top:1px solid var(--line)}
+.enq h2{font-family:var(--serif);font-size:1.9rem;line-height:1.15;margin:0 0 .6rem;
+  letter-spacing:-.018em}
+.enq-lede{font-size:1.05rem;color:var(--ink-soft);max-width:42em;margin:0 0 2rem}
+/* fixed two columns: auto-fit leaves an empty cell when the item count is
+   not a multiple of the column count, and the grid gap shows through it */
+.enq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+@media (max-width:640px){.enq-grid{grid-template-columns:minmax(0,1fr)}}
+.enq-item{background:var(--ground);padding:1.4rem 1.3rem;display:flex;flex-direction:column;
+  gap:.55rem}
+.enq-item h3{font-family:var(--serif);font-size:1.18rem;font-weight:600;margin:0;line-height:1.25}
+.enq-item p{margin:0;font-size:.92rem;color:var(--ink-soft);line-height:1.55}
+.enq-btn{margin-top:auto;padding-top:.5rem;font-family:var(--mono);font-size:.75rem;
+  letter-spacing:.06em;color:var(--phyco);text-decoration:none}
+.enq-btn:hover{text-decoration:underline}
+.enq-foot{margin-top:1.75rem;font-family:var(--mono);font-size:.8rem;color:var(--muted);
+  line-height:1.9;display:flex;flex-direction:column}
+.enq-foot b{color:var(--ink);font-weight:500}
+.enq-mail{color:var(--phyco);text-decoration:none;font-size:.9rem}
+.enq-mail:hover{text-decoration:underline}
 
 /* ---- section ---- */
 .sec{display:none}
