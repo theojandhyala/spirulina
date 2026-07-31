@@ -24,6 +24,11 @@ concurrency:
 
 jobs:
   deploy:
+    # Pages only accepts deployments from the default branch, so a run on any
+    # other branch is rejected by the github-pages environment and shows red.
+    # Skipping keeps the history clean, and this needs no edit when the default
+    # branch changes: it reads the repository default rather than a hard-coded name.
+    if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     environment:
       name: github-pages
