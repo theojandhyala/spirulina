@@ -441,6 +441,8 @@ a { color: inherit; }
 .section {
   border-top: 1px solid var(--line);
   padding-block: 4.5rem;
+  /* clears the sticky masthead when arriving via an anchor link */
+  scroll-margin-top: 5rem;
 }
 
 .section-grid {
@@ -712,6 +714,49 @@ td:last-child, th:last-child { text-align: right; padding-right: 0; }
 .check h3 { font-size: var(--fs-lg); margin-bottom: .2rem; }
 .check p { color: var(--ink-soft); font-size: var(--fs-md); max-width: 44em; }
 
+/* --- suppliers ------------------------------------------- */
+
+.packages {
+  margin-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+
+.pkg {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr) 9.5rem;
+  gap: 1rem;
+  align-items: baseline;
+  padding: .85rem 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.pkg-ref {
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  letter-spacing: .02em;
+}
+
+.pkg-name { font-size: var(--fs-md); color: var(--ink-soft); }
+
+.pkg-state {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: right;
+}
+
+.pkg.is-open .pkg-ref { color: var(--phyco); }
+.pkg.is-open .pkg-name { color: var(--ink); font-weight: 500; }
+.pkg.is-open .pkg-state { color: var(--phyco); }
+
+@media (max-width: 720px) {
+  .pkg { grid-template-columns: 7rem minmax(0, 1fr); gap: .5rem 1rem; }
+  .pkg-state { grid-column: 2; text-align: left; }
+}
+
 /* --- enquiries ------------------------------------------- */
 
 .enquiry {
@@ -834,6 +879,7 @@ html { scroll-behavior: smooth; }
       <a href="#process">Production</a>
       <a href="#facility">Facility</a>
       <a href="#quality">Quality</a>
+      <a href="#suppliers">Suppliers</a>
     </nav>
     <a class="btn" href="#enquiries">Bulk enquiries</a>
   </div>
@@ -1270,11 +1316,127 @@ html { scroll-behavior: smooth; }
     </div>
   </section>
 
+  <section class="section" id="suppliers">
+    <div class="wrap section-grid">
+      <div class="section-rail">
+        <span class="num">06</span>
+        <span class="label">Suppliers</span>
+      </div>
+      <div>
+        <h2>We are putting work out to quote.</h2>
+        <p class="lede" style="margin-bottom:2rem">
+          Stage 1 is being engineered now, and we are approaching suppliers
+          package by package. If you supply into any of the areas below, we would
+          like to hear from you.
+        </p>
+
+        <div class="packages">
+          <div class="pkg is-open">
+            <span class="pkg-ref">BB-RFQ-001</span>
+            <span class="pkg-name">Site investigation — topographical survey, geotechnical investigation, water analysis</span>
+            <span class="pkg-state">Open now</span>
+          </div>
+          <div class="pkg">
+            <span class="pkg-ref">BB-RFQ-002</span>
+            <span class="pkg-name">Raceway pond civil works and geomembrane lining</span>
+            <span class="pkg-state">Budgetary</span>
+          </div>
+          <div class="pkg">
+            <span class="pkg-ref">BB-RFQ-003</span>
+            <span class="pkg-name">Paddle wheel units and drives</span>
+            <span class="pkg-state">Budgetary</span>
+          </div>
+          <div class="pkg">
+            <span class="pkg-ref">BB-RFQ-004</span>
+            <span class="pkg-name">Harvesting, dewatering and washing equipment</span>
+            <span class="pkg-state">Budgetary</span>
+          </div>
+          <div class="pkg">
+            <span class="pkg-ref">BB-RFQ-005</span>
+            <span class="pkg-name">Drying, milling and sieving</span>
+            <span class="pkg-state">Budgetary</span>
+          </div>
+          <div class="pkg">
+            <span class="pkg-ref">BB-RFQ-006</span>
+            <span class="pkg-name">Packing equipment and packaging materials</span>
+            <span class="pkg-state">Budgetary</span>
+          </div>
+          <div class="pkg">
+            <span class="pkg-ref">BB-RFQ-007</span>
+            <span class="pkg-name">Process water treatment and storage</span>
+            <span class="pkg-state">Budgetary</span>
+          </div>
+          <div class="pkg">
+            <span class="pkg-ref">BB-RFQ-008</span>
+            <span class="pkg-name">Food-grade carbon dioxide supply and carbonation</span>
+            <span class="pkg-state">Budgetary</span>
+          </div>
+          <div class="pkg">
+            <span class="pkg-ref">BB-RFQ-009</span>
+            <span class="pkg-name">Culture nutrients and chemicals, annual supply</span>
+            <span class="pkg-state">Budgetary</span>
+          </div>
+          <div class="pkg">
+            <span class="pkg-ref">BB-RFQ-010</span>
+            <span class="pkg-name">Electrical installation, solar photovoltaic and backup power</span>
+            <span class="pkg-state">Budgetary</span>
+          </div>
+          <div class="pkg">
+            <span class="pkg-ref">BB-RFQ-011</span>
+            <span class="pkg-name">Process instrumentation and control</span>
+            <span class="pkg-state">Budgetary</span>
+          </div>
+          <div class="pkg">
+            <span class="pkg-ref">BB-RFQ-012</span>
+            <span class="pkg-name">Laboratory equipment and testing services</span>
+            <span class="pkg-state">Budgetary</span>
+          </div>
+          <div class="pkg">
+            <span class="pkg-ref">BB-RFQ-013</span>
+            <span class="pkg-name">Buildings, site development and roads</span>
+            <span class="pkg-state">Budgetary</span>
+          </div>
+        </div>
+
+        <p class="footnote">
+          <strong>Open now</strong> means the scope is settled and we intend to
+          place an order. <strong>Budgetary</strong> means we are seeking budget
+          pricing and technical guidance while the design is confirmed — we will
+          say so plainly rather than have you price an order that may not follow.
+          Budgetary packages are re-issued as firm enquiries once site
+          investigation and cultivation trials are complete.
+        </p>
+
+        <p class="prose" style="margin-top:2rem">
+          Enquiry documents are issued on request. Each one states the duty,
+          the service conditions and what the quotation should cover, so you can
+          price against real numbers rather than a guess at what we need. Tell us
+          which package you supply into and we will send it.
+        </p>
+
+        <div class="hero-actions" style="margin-top:1.5rem">
+          <a class="btn" href="mailto:suppliers@bluebloomspirulina.in?subject=Supplier%20enquiry%20%E2%80%94%20BlueBloom%20Spirulina&amp;body=Package%20of%20interest%3A%0ACompany%3A%0AWhat%20you%20supply%3A%0A">
+            Request an enquiry document
+          </a>
+        </div>
+
+        <p class="footnote" style="margin-top:2rem">
+          A note on what we value: quotations are assessed on whole-life cost,
+          not purchase price. Energy consumption in operation, spare-part
+          availability in India, service life and ease of cleaning all carry
+          weight. Product-contact items must be food-grade and documented as
+          such. If your standard offering does not meet that, please tell us
+          rather than assume.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="enquiries">
     <div class="wrap">
       <div class="enquiry">
         <div>
-          <span class="label">06 — Enquiries</span>
+          <span class="label">07 — Buyers</span>
           <h2>Early conversations, ahead of Stage 1.</h2>
           <p>
             We are talking now with bulk buyers, supplement brands, contract

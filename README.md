@@ -66,6 +66,11 @@ deploy succeeds: Settings → Pages → Build and deployment → Source →
 itself. Once enabled, the site is served at
 `https://theojandhyala.github.io/spirulina/`.
 
+The site carries a Suppliers section listing the BB-RFQ packages open for
+enquiry. It lists package titles and status only — the enquiry letters
+themselves are issued on request, because BB-RFQ-000 section 9 issues them in
+confidence and they contain the full technical design basis.
+
 Site copy deliberately claims only what is true today: the facility is
 described as in engineering, no certifications are asserted, and no capacity
 or health claims are made. Update it as Stage 1 is commissioned.
